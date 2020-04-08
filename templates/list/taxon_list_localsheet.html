@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Spreadsheet</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/font-awesome-4.7.0/css/font-awesome.min.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="loader"> <img src="../static/image/tree-spinner.gif"></div>
+        {% extends "fragments/navbar.html" %}
+        {% block content %}
+
+        <h1 style="margin-top: 10px" class="TextForm cardHeader text-center">Comparison of data between spreadsheets</h1>
+        <hr style="background-color: white;">        
+        <h4 style="color: #fff; text-align: center;">To receive suggestions, click on the flagged values.</h4>
+        <hr style="background-color: white;">     
+
+        <!--______________________________________PLANILHA______________________________________________________-->
+        <div class="container">
+          <div id="spreadsheet" style="justify-content: center;">
+            <div class="card" style="margin-bottom: 15px;">
+              <div class="card-header cardHeader text-center">Your Spreadsheet</div>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label style="cursor: pointer;" class="btn btn-secondary active rounded-0"  onclick="ShowAllValues()">
+                    <input type="radio" name="options" id="option1" autocomplete="on" checked> View all
+                  </label>
+                  <label style="cursor: pointer;" class="btn btn-secondary rounded-0" onclick="ShowOnlyWrong()">
+                    <input type="radio" name="options" id="option2" autocomplete="on">Suggestions only
+                  </label>
+              </div>
+              <div class="card-body">
+                <div class="row" style="margin-bottom: 10px;">
+                  <div class="col-md-6">
+                    <i class="fa fa-square" aria-hidden="true" style="font-size:20px;color:#FFD700"></i>&nbsp;
+                    <span>Incorrect spelling.</span>&nbsp;&nbsp;&nbsp;
+                    <i aria-hidden="true" class="fa fa-square" style="font-size:20px;color:#DA3530"></i>&nbsp;
+                    <span>No solutions found.</span>&nbsp;&nbsp;&nbsp;
+                  </div>
+                </div>
+                <div class="table-responsive">
+                <table class="table" id="spreadsheet_table">
+                  <thead id="thead_table">
+                    <tr id="tr_thead">
+                    </tr>
+                  </thead>
+                  <tbody id="tbody_table">
+                  </tbody>
+                </table>
+              </div>
+              <div  class="spreadsheetFooter">
+                <form action="taxon_validation" method = "POST" enctype = "multipart/form-data">
+                  <input type="text" name = "data" value="" hidden="hidden" id="data"/>
+                  <input id="submit" type="submit" value="Save Changes" class="btn btn-success rounded-0" disabled/>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change value</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_x">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="modal_body">
+                <label id="modal_text"></label>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="Cancel_Buttom">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="SaveChange()" data-dismiss="modal" id="Confirm_Buttom" >Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          document.cookie = "cookie_consent=false";
+          var verified_hierarchy = "{{verification}}"
+          const TOTAL_ROWS = ("{{total_rows}}") -1
+          verified_hierarchy = verified_hierarchy.replace(/&#34;/g,`"`);
+          verified_hierarchy = JSON.parse(verified_hierarchy)
+
+          var table = document.getElementById("spreadsheet_table");
+          var thead = document.getElementById("thead_table")
+          var tbody = document.getElementById("tbody_table")
+
+          const Cancel_Buttom = document.getElementById("Cancel_Buttom")
+          const Close_Buttom = document.getElementById("close_x")
+          const Confirm_Buttom = document.getElementById("Confirm_Buttom")
+
+          var changed_data = {}
+          var more_one = false
+          var only_wrong = false;
+          var selected = -1;
+          var selected_amount = -1;
+          var wrong_cell;
+          var count;
+          var count2;
+          var super_row;
+        </script>
+        <script type="text/javascript" src="../static/js/events/loading.js"></script>
+        <script type="text/javascript" src="../../static/js/prototypes/table.js"></script>
+        <script type="text/javascript" src="../../static/js/events/changeDataTable.js"></script>
+        <script type="text/javascript" src="../../static/js/implementation/createTableLocalsheet.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        {% endblock %}
+      </body>
+</html>
+

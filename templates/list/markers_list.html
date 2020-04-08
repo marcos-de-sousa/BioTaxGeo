@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Map</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading.css') }}"/>
+    <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+</head>
+<body>
+    <div class="loader"> <img src="../static/image/tree-spinner.gif"></div>
+    {% extends "fragments/navbar.html" %}
+    {% block content %}
+    <h1 style="margin-top: 10px" class="TextForm cardHeader text-center">Instructions</h1>
+    <hr style="background-color: white;">        
+    <h4 style="color: #fff; text-align: center;">Your coordinate data is represented below, the markers within the delimited area represents that your coordinate is correct, the other markers might need correction.</h4>
+    <br>
+    <h5 style="color: #fff; text-align: center;">To receive suggestions, click on the flagged values.</h5>
+    <hr style="background-color: white;">
+    <div class="container">
+      
+      <!-- Div referente ao checkbox que verifica se a pessoa quer visualizar os markers todos juntos ou não-->
+
+      <!-- Div referente ao mapa criado pelo JS -->
+      <div id="second_map" class="border border-secondary" style="margin-top: 0px;"></div>
+      <div class="input-group" id="box_checkbox"  style="height: 40px;">
+        <div class="input-group-prepend" >
+          <div class="input-group-text" style="background-color: white; border-width: 0px 1px 0px 0px; height: 40px;">
+            <input type="checkbox" class="border-right" aria-label="Checkbox for following text input" id="checkbox" active="active" >
+          </div>
+        </div>
+        <input type="text" class="form-control" aria-label="Text input with checkbox" disabled value="Group markers" style="background-color: white; border-width: 0px 0px 0px 1px;">
+      </div> 
+
+      <!-- Div de instruções para utilização da tabela-->
+      <div style="margin-bottom: 0;">
+            <br clear="all">
+            <i class="fa fa-square" aria-hidden="true" style="font-size:20px;color:#FFD700"></i>&nbsp;
+            <span style="color: #fff;">Orthographic error</span>&nbsp;&nbsp;&nbsp;
+            <i aria-hidden="true" class="fa fa-square" style="font-size:20px;color:#DA3530"></i>&nbsp;
+            <span style="color: #fff;">Region outside the given coordinate</span>&nbsp;&nbsp;&nbsp;
+      </div>
+      
+      <!-- Div referente a tabela que contém informações dos markers-->
+      <div id="div_table">
+        <table style="background-color: rgba(255,255,255,.90);" class="table" id="table">
+        </table>
+        <form style="margin-bottom: 50px;" action = "markers_confirm" method = "POST" enctype = "multipart/form-data">
+          <button id="submit" type="submit" class="btn btn-success btn-lg btn-block rounded-0" disabled>Save Changes</button>
+          <input type="text" name = "data" value="" id="data" hidden>
+        </form>
+      </div>
+    </div>
+      
+      <!--Modal que faz aparecer o pop-up para alterar os dados da tabela-->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Change Value</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_x">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="modal_body">
+              <label id="modal_text"></label>  
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="Cancel_Buttom">Cancel</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="Confirm_Buttom" >Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script>
+        var list_region = '{{list_region}}'
+        var polygons = '{{polygons}}'
+        var latitudes = "{{latitude}}"
+        var longitudes = "{{longitude}}"
+        var row_coord_lat = "{{row_coord_lat}}"
+        var row_coord_lng = "{{row_coord_lng}}"
+        var country = '{{country}}'
+        var state = '{{state}}'
+        var county = '{{county}}'
+        var genus = '{{genus}}'
+        var specie = '{{specie}}'
+        var list_checked_regions = '{{list_checked_regions}}'
+        var spreadsheet_titles = '{{spreadsheet_titles}}'
+
+        polygons = polygons.replace(/&#39;/g, '"')
+        list_region = list_region.replace(/&#39;/g, '"')
+        country = country.replace(/&#39;/g, '"')
+        state = state.replace(/&#39;/g, '"')
+        county =  county.replace(/&#39;/g, '"')
+        genus = genus.replace(/&#39;/g, '"')
+        specie =  specie.replace(/&#39;/g, '"')
+        list_checked_regions = list_checked_regions.replace(/&#39;/g, '"')
+        spreadsheet_titles = spreadsheet_titles.replace(/&#39;/g, '"')
+        
+        polygons = JSON.parse(polygons)
+        latitudes = JSON.parse(latitudes)
+        longitudes = JSON.parse(longitudes)
+        row_coord_lat = JSON.parse(row_coord_lat)
+        row_coord_lng = JSON.parse(row_coord_lng)
+        list_region = JSON.parse(list_region)
+        country = JSON.parse(country)
+        state = JSON.parse(state)
+        county = JSON.parse(county)
+        genus = JSON.parse(genus)
+        specie = JSON.parse(specie)
+        spreadsheet_titles = JSON.parse(spreadsheet_titles)
+        list_checked_regions = JSON.parse(list_checked_regions)
+        
+      </script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNEzVQus5NRrbNeVKppxbEy7nKre_0Djc&libraries=geometry"></script>
+      <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+      <script type="text/javascript" src="../../static/js/prototypes/coordinate.js"></script>
+      <script type="text/javascript" src="../../static/js/prototypes/point_marker.js"></script>
+      <script type="text/javascript" src="../../static/js/prototypes/polygon.js"></script>
+      <script type="text/javascript" src="../../static/js/prototypes/componentHTML.js"></script>
+      <script type="text/javascript" src="../../static/js/implementation/plotPolygon.js"></script>
+      <script type="text/javascript" src="../../static/js/events/loading.js"></script>
+      <script>
+        google_key = "{{google_key}}"
+        let scriptCallAPIGoogleMap = document.createElement('script');
+        url = "https://maps.googleapis.com/maps/api/js?key="+google_key+"&callback=plotPolygon"
+        scriptCallAPIGoogleMap.setAttribute("async", "")
+        scriptCallAPIGoogleMap.setAttribute("defer", "")
+        scriptCallAPIGoogleMap.src = url;
+        document.body.appendChild(scriptCallAPIGoogleMap);
+      </script>
+    {% endblock %}
+</body>
+</html>

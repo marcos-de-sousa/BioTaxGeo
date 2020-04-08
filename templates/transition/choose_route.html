@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Index</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading.css') }}"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="loader"> <img src="../static/image/tree-spinner.gif"></div>
+        <div id=background_home></div>
+        {% extends "fragments/navbar.html" %}
+        {% block content %}
+        <div class="container">
+            <div class="row" style="margin-top: 30px;">
+                <div class="col routesColDiv" style=" margin-bottom: 15px;">
+                    <div class="routesCard card">
+                        <div class="card-header text-center routeCardHeader">Occurrence map</div>
+                        <div class="card-body">
+                            <p style="text-align: justify;" class="card-text">Define the species occurrence areas of your worksheet by drawing polygons on the map, and check if there are any occurrences outside the region of your search.<br>Check if there is a region with the incorrect coordinates or if there is a coordinate with an incorrect region.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="markers_form" class="btn btn-primary">Go to Map</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col routesColDiv" style=" margin-bottom: 15px;">
+                    <div class="routesCard card">
+                        <div class="card-header text-center routeCardHeader">Check hierarchy in GBIF</div>
+                        <div class="card-body">
+                            <p style="text-align: justify;" class="card-text">An analysis is made of the taxonomic hierarchy of your spreadsheet, and you can check the possibly wrong values, in addition to obtaining suggestions for correction (if there is) for the incorrect value.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="taxon_form" class="btn btn-primary">Go to Verification</a>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+            <div class="row">
+                <div class="col routesColDiv" style="margin-bottom: 15px;">
+                    <div class="routesCard card">
+                        <div class="card-header text-center routeCardHeader">Compare taxonomic hierarchy data between spreadsheets</div>
+                        <div class="card-body">
+                            <p style="text-align: justify;" class="card-text">An analysis will be made of all values ​​referring to the taxonomic hierarchy between the spreadsheet that may be modified and the reference spreadsheet, the incorrect will be alerted and suggestions for corrections will be offered.</p>
+                            <input class="form-control" id="uploadFile2" placeholder="Choose reference spreadsheet" disabled="disabled" />
+                        </div>
+                        <div class="card-footer">
+                            <form action = "taxon_form2" method = "POST" enctype = "multipart/form-data">
+                                <div class="spreadsheetFooter">
+                                    <div class="fileUpload btn btn-primary">
+                                        <span>Choose File</span>
+                                        <input id="uploadBtn2" type="file" name="file" class="upload" />
+                                    </div>
+                                    <div class="text-left text-muted">
+                                        <input id="submit" type="submit" value="Go to Verification" class="btn btn-success" disabled />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+                <div class="col routesColDiv" style="margin-bottom: 15px;">
+                    <div class="routesCard card">
+                        <div class="card-header text-center routeCardHeader">Send New File</div>
+                        <div class="card-body">
+                            <p style="text-align: justify;" class="card-text">If you want to send a new spreadsheet for verification, select it from the buttons below.</p>
+                            <input class="form-control" id="uploadFile" placeholder="Choose File" disabled="disabled" />
+                        </div>
+                        <div class="card-footer">
+                            <form action = "/" method = "POST" enctype = "multipart/form-data">
+                                <div class="spreadsheetFooter">
+                                    <div class="fileUpload btn btn-primary">
+                                        <span>Select File</span>
+                                        <input id="uploadBtn" type="file" name="file" class="upload" />
+                                    </div>
+                                    <div class="text-left text-muted">
+                                        <input id="submit_home" type="submit" value="Send File" class="btn btn-success" disabled />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <script>
+           document.getElementById("uploadBtn").onchange = function () {
+                document.getElementById("uploadFile").value = this.value;
+                if(document.getElementById("uploadFile").value != "" || document.getElementById("uploadFile").value != null){
+                    document.getElementById("submit_home").removeAttribute("disabled");
+                }
+
+           };
+           document.getElementById("uploadBtn2").onchange = function () {
+                document.getElementById("uploadFile2").value = this.value;
+                if(document.getElementById("uploadFile2").value != "" || document.getElementById("uploadFile2").value != null){
+                    document.getElementById("submit").removeAttribute("disabled");
+                }
+
+           };
+        </script>
+        <script type="text/javascript" src="../static/js/events/loading.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        {% endblock %}    
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Spreadsheet</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading.css') }}"/>
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="loader"> <img src="../static/image/tree-spinner.gif"></div>
+        {% extends "fragments/navbar.html" %}
+        {% block content %}
+        <div class="container" style="justify-content: center; display: grid;">
+         <div class="formCard card">
+            <div class="card-header text-center cardHeader">Form</div>
+            <div style="background-color: rgba(255,255,255,0)" class="card-body">
+               <table class="table table-striped">
+                  <tbody>
+                     <tr align="center">
+                        <td>
+                           <form class="well form-horizontal">
+                              <fieldset>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the genus column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><select class="custom-select" id="genus"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the species column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="specie"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the latitude column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="latitude"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the longitude column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="longitude"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the country column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="country"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the State column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="state"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                   <label class="col-md-4 control-label">Select the county column</label>
+                                   <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="county"><option>Select...</option></select></div>
+                                   </div>
+                                 </div>
+                              </fieldset>
+                           </form>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div class="card-footer">
+               <form action="markers_validation" method = "POST" enctype = "multipart/form-data">
+                  <div align="center" class="container">
+                    <input type="text" name = "selection_coordinate" value="" hidden="hidden" id="selection_coordinate"/>
+                    <input type="text" name = "selection_region" value="" hidden="hidden" id="selection_region"/>
+                    <input type="text" name = "selection_taxon" value="" hidden="hidden" id="selection_taxon"/>
+                    <input type="submit" id="submit" value="Start Verification" class="btn btn-success btn-lg btn-block" disabled/>
+                  </div>
+               </form>
+            </div>
+         </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="../static/js/events/loading.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script>
+            var titles = "{{titles}}";
+            titles = titles.replace(/&#39;/g,'"');
+            titles = JSON.parse(titles)
+
+            var cookies = "{{cookies}}"
+            cookies = cookies.replace(/&#34;/g,'"');
+            cookies != "None" ? cookies = JSON.parse(cookies) : cookies = null
+            var coordinates = {"latitude": null, "longitude": null}
+            var region = {"country": null, "state": null, "county": null}
+            var taxon = {"genus": null, "specie": null}
+
+            var select_genus = document.getElementById("genus");
+            var select_specie = document.getElementById("specie");
+            var select_latitude = document.getElementById("latitude");
+            var select_longitude = document.getElementById("longitude");
+            var select_country = document.getElementById("country");
+            var select_state = document.getElementById("state")
+            var select_county = document.getElementById("county")
+            var submit_button = document.getElementById("submit")
+
+            AssigningTitles()
+            if(cookies != null){
+               Auto_Selected_Using_Cookie()
+               ActiveSubmit()
+            }
+            function AssigningTitles(){
+                for (title of titles){
+                    new_option1 = document.createElement("option");
+                    new_option1.innerHTML = title;
+
+                    new_option2 = document.createElement("option");
+                    new_option2.innerHTML = title;
+
+                    new_option3 = document.createElement("option");
+                    new_option3.innerHTML = title;
+
+                    new_option4 = document.createElement("option");
+                    new_option4.innerHTML = title;
+
+                    new_option5 = document.createElement("option");
+                    new_option5.innerHTML = title;
+
+                    new_option6 = document.createElement("option");
+                    new_option6.innerHTML = title;
+
+                    new_option7 = document.createElement("option");
+                    new_option7.innerHTML = title;
+
+                    select_genus.appendChild(new_option1);
+                    select_specie.appendChild(new_option2);
+                    select_latitude.appendChild(new_option3);
+                    select_longitude.appendChild(new_option4);
+                    select_country.appendChild(new_option5);
+                    select_state.appendChild(new_option6);
+                    select_county.appendChild(new_option7);
+                    
+                }
+            }
+            function Selected(){
+               if(this.id in coordinates){
+                  coordinates[this.id] = this.value;
+                  var formated_coordinate = JSON.stringify(coordinates);
+                  var input_text1 = document.getElementById("selection_coordinate");
+                  input_text1.value = formated_coordinate;
+               }
+               if(this.id in region){
+                  region[this.id] = this.value;
+                  var formated_region = JSON.stringify(region);
+                  var input_text2 = document.getElementById("selection_region");
+                  input_text2.value = formated_region;
+               }
+               if(this.id in taxon){
+                  taxon[this.id] = this.value;
+                  var formated_taxon = JSON.stringify(taxon);
+                  var input_text3 = document.getElementById("selection_taxon");
+                  input_text3.value = formated_taxon;
+               }
+               ActiveSubmit()
+            }
+            function Auto_Selected_Using_Cookie(){
+               for (value=1; value < select_genus.options.length; value++){
+                  if(select_genus[value].label == cookies[2].genus){
+                     select_genus.selectedIndex = value
+                     taxon.genus = cookies[2].genus;
+                     var formated_taxon = JSON.stringify(taxon);
+                     var input_text3 = document.getElementById("selection_taxon");
+                     input_text3.value = formated_taxon;
+                  }
+                  if(select_specie[value].label == cookies[2].specie){
+                     select_specie.selectedIndex = value
+                     taxon.specie = cookies[2].specie;
+                     var formated_taxon = JSON.stringify(taxon);
+                     var input_text3 = document.getElementById("selection_taxon");
+                     input_text3.value = formated_taxon;
+                  }
+
+                  if(select_latitude[value].label == cookies[0].latitude){
+                     select_latitude.selectedIndex = value
+                     coordinates.latitude = cookies[0].latitude
+                     var formated_coordinate = JSON.stringify(coordinates)
+                     var input_text1 = document.getElementById("selection_coordinate")
+                     input_text1.value = formated_coordinate;
+                  }
+                  if(select_longitude[value].label == cookies[0].longitude){
+                     select_longitude.selectedIndex = value
+                     coordinates.longitude = cookies[0].longitude
+                     var formated_coordinate = JSON.stringify(coordinates)
+                     var input_text1 = document.getElementById("selection_coordinate")
+                     input_text1.value = formated_coordinate;
+                  }
+
+                  if(select_country[value].label == cookies[1].country){
+                     select_country.selectedIndex = value
+                     region.country = cookies[1].country
+                     var formated_region = JSON.stringify(region)
+                     var input_text2 = document.getElementById("selection_region")
+                     input_text2.value = formated_region
+                  }
+                  if(select_state[value].label == cookies[1].state){
+                     select_state.selectedIndex = value
+                     region.state = cookies[1].state
+                     var formated_region = JSON.stringify(region)
+                     var input_text2 = document.getElementById("selection_region")
+                     input_text2.value = formated_region
+                  }                  
+                  if(select_county[value].label == cookies[1].county){
+                     select_county.selectedIndex = value
+                     region.county = cookies[1].county
+                     var formated_region = JSON.stringify(region)
+                     var input_text2 = document.getElementById("selection_region")
+                     input_text2.value = formated_region
+                  }
+                  
+               }
+            }
+            
+            function isAllSelected(){
+               let t = true
+               let r = true
+               let c = true
+               for (value in taxon){
+                  if (taxon[value] === null){
+                     t = false
+                  }
+               }
+               for (value in region){
+                  if (region[value] === null){
+                     r = false
+                  }
+               }
+               for (value in coordinates){
+                  if (coordinates[value] === null){
+                     c = false
+                  }
+               }
+               if (t && r && c){
+                  return true
+               }
+               else {
+                  return false
+               }
+            }
+            function ActiveSubmit(){
+               if(isAllSelected()){
+                  submit_button.removeAttribute("disabled")
+               }
+            }
+            select_genus.addEventListener("change", Selected);
+            select_specie.addEventListener("change", Selected);
+            select_latitude.addEventListener("change", Selected);
+            select_longitude.addEventListener("change", Selected);
+            select_country.addEventListener("change", Selected);
+            select_state.addEventListener("change", Selected);
+            select_county.addEventListener("change", Selected);
+        </script>
+        {% endblock %}
+    </body>
+</html>

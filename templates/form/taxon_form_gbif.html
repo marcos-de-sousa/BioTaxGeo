@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Spreadsheet</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading.css') }}"/>
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="loader"> <img src="../static/image/tree-spinner.gif"></div>
+        {% extends "fragments/navbar.html" %}
+        {% block content %}
+        <div class="container" style="justify-content: center; display: grid;">
+         <div class="formCard card">
+            <div class="card-header text-center cardHeader">Form</div>
+            <div style="background-color: rgba(255,255,255,0)" class="card-body">
+               <table class="table table-striped">
+                  <tbody>
+                     <tr align="center">
+                        <td>
+                           <form class="well form-horizontal">
+                              <fieldset>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the kingdom column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><select class="custom-select" id="kingdom"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Selec the phylum column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="phylum"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the class column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="class"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the order column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="order"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the family column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="family"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the genus column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="genus"><option>Select...</option></select></div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                   <label class="col-md-4 control-label">Select the species column</label>
+                                   <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="specie"><option>Select...</option></select></div>
+                                   </div>
+                                 </div>
+                              </fieldset>
+                           </form>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div class="card-footer">
+               <form action="taxon_list" method = "POST" enctype = "multipart/form-data">
+                  <div align="center" class="container">
+                     <input type="text" name="selection" value="" hidden="hidden" id="selection_titles"/>
+                     <input id="submit" type="submit" value="Start Verification" class="col-md-4 btn btn-success btn-lg btn-block" disabled/>
+                  </div>
+               </form>
+            </div>
+         </div>
+        </div>
+        <script>
+            var titles = "{{titles}}";
+            titles = titles.replace(/&#39;/g,'"');
+            titles = JSON.parse(titles)
+            var cookies = "{{cookies}}"
+            cookies = cookies.replace(/&#34;/g,'"');
+            cookies != "None" ? cookies = JSON.parse(cookies) : cookies = null
+            selected_titles = {"kingdom": null, "phylum": null, "class": null, "order": null, "family": null, "genus": null, "specie": null}
+
+            var select_kingdom = document.getElementById("kingdom");
+            var select_phylum = document.getElementById("phylum");
+            var select_class = document.getElementById("class");
+            var select_order = document.getElementById("order");
+            var select_family = document.getElementById("family");
+            var select_genus = document.getElementById("genus");
+            var select_specie = document.getElementById("specie");
+            var submit_button = document.getElementById("submit")
+            Assign_Titles()
+
+            if(cookies != null){
+               Auto_Selected_Using_Cookie()
+               ActiveSubmit()
+            }
+
+            function Assign_Titles(){
+                for (title of titles){
+                    new_option1 = document.createElement("option");
+                    new_option1.innerHTML = title;
+
+                    new_option2 = document.createElement("option");
+                    new_option2.innerHTML = title;
+
+                    new_option3 = document.createElement("option");
+                    new_option3.innerHTML = title;
+
+                    new_option4 = document.createElement("option");
+                    new_option4.innerHTML = title;
+
+                    new_option5 = document.createElement("option");
+                    new_option5.innerHTML = title;
+
+                    new_option6 = document.createElement("option");
+                    new_option6.innerHTML = title;
+
+                    new_option7 = document.createElement("option");
+                    new_option7.innerHTML = title;
+
+                    select_kingdom.appendChild(new_option1);
+                    select_phylum.appendChild(new_option2);
+                    select_class.appendChild(new_option3);
+                    select_order.appendChild(new_option4);
+                    select_family.appendChild(new_option5);
+                    select_genus.appendChild(new_option6);
+                    select_specie.appendChild(new_option7);
+                }
+            }
+            function Selected(){
+                selected_titles[this.id] = this.value;
+                var formated_titles = JSON.stringify(selected_titles);
+                var input_text = document.getElementById("selection_titles");
+                input_text.value = formated_titles;
+                ActiveSubmit()
+            }
+            function Auto_Selected_Using_Cookie(){
+               for (value=1; value < select_kingdom.options.length; value++){
+                  if(select_kingdom[value].label == cookies.kingdom){
+                     select_kingdom.selectedIndex = value
+                     selected_titles.kingdom = cookies.kingdom
+                  }
+                  if(select_phylum[value].label == cookies.phylum){
+                     select_phylum.selectedIndex = value
+                     selected_titles.phylum = cookies.phylum
+                  }
+                  if(select_class[value].label == cookies.class){
+                     select_class.selectedIndex = value
+                     selected_titles.class = cookies.class
+                  }
+                  if(select_order[value].label == cookies.order){
+                     select_order.selectedIndex = value
+                     selected_titles.order = cookies.order
+                  }
+                  if(select_family[value].label == cookies.family){
+                     select_family.selectedIndex = value
+                     selected_titles.family = cookies.family
+                  }
+                  if(select_genus[value].label == cookies.genus){
+                     select_genus.selectedIndex = value
+                     selected_titles.genus = cookies.genus
+                  }
+                  if(select_specie[value].label == cookies.specie){
+                     select_specie.selectedIndex = value
+                     selected_titles.specie = cookies.specie
+                  }
+               }
+                var formated_titles = JSON.stringify(selected_titles);
+                var input_text = document.getElementById("selection_titles");
+                input_text.value = formated_titles;
+            }
+            function isAllSelected(){
+               let t = true
+               for (value in selected_titles){
+
+                  if (selected_titles[value] === null){
+                     t = false
+                  }
+               }
+               return t
+            }
+            function ActiveSubmit(){
+               if(isAllSelected()){
+                  submit_button.removeAttribute("disabled")
+               }
+            }
+            select_kingdom.addEventListener("change", Selected);
+            select_phylum.addEventListener("change",Selected);
+            select_class.addEventListener("change",Selected);
+            select_order.addEventListener("change",Selected);
+            select_family.addEventListener("change",Selected);
+            select_genus.addEventListener("change",Selected);
+            select_specie.addEventListener("change",Selected);
+
+        </script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="../static/js/events/loading.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        {% endblock %}
+    </body>
+</html>

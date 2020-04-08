@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Spreadsheet</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading.css') }}"/>
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="loader"> <img src="../static/image/tree-spinner.gif"></div>
+        {% extends "fragments/navbar.html" %}
+        {% block content %}
+        <div class="container" style="justify-content: center; display: grid;">
+         <div class="formCard card">
+            <div class="card-header text-center cardHeader" id="sheet_number">Spreadsheet to be analyzed</div>
+            <div style="background-color: rgba(255,255,255,0)" class="card-body">
+            <table class="table table-striped">
+               <tbody>
+                  <tr align="center">
+                     <td>
+                        <form class="well form-horizontal">
+                           <fieldset>
+                              <div class="form-group">
+                                 <label class="col-md-4 control-label">Select the kingdom colunm</label>
+                                 <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><select class="custom-select" id="kingdom"><option>Select...</option></select></div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label class="col-md-4 control-label">Select the phylum column</label>
+                                 <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="phylum"><option>Select...</option></select></div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label class="col-md-4 control-label">Selecione the class column</label>
+                                 <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="class"><option>Select...</option></select></div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label class="col-md-4 control-label">Select the order column</label>
+                                 <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="order"><option>Select...</option></select></div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label class="col-md-4 control-label">Select the family column</label>
+                                 <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="family"><option>Select...</option></select></div>
+                                 </div>
+                              </div>
+
+                              <div class="form-group">
+                                 <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group mb-3">
+                                       <div class="input-group-prepend">
+                                          <div class="input-group-text">
+                                             <input type="checkbox" id="cb_family" aria-label="Checkbox for following text input" data-toggle="collapse" href=".subfamily">
+                                          </div>
+                                       </div>
+                                       <input type="text" value="Do you want to analyze subfamily?" class="form-control" aria-label="Text input with checkbox" disabled>
+                                    </div>
+                                    <label class="col-md-8 control-label collapse subfamily">Select the subfamily column</label>
+                                    <div class="input-group collapse subfamily"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="subfamily"><option>Select...</option></select></div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label class="col-md-4 control-label">Select the genus column <b style="color: red;">*</b></label>
+                                 <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="genus"><option>Select...</option></select></div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group mb-3">
+                                       <div class="input-group-prepend">
+                                          <div class="input-group-text">
+                                             <input type="checkbox" id="cb_genus" aria-label="Checkbox for following text input" data-toggle="collapse" href=".subgenus">
+                                          </div>
+                                       </div>
+                                       <input type="text" value="Do you want to analyze subgenus?" class="form-control" aria-label="Text input with checkbox" disabled>
+                                    </div>
+                                    <label class="col-md-8 control-label collapse subgenus">Select the subgenus column</label>
+                                    <div class="input-group collapse subgenus"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="subgenus"><option>Select...</option></select></div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="col-md-4 control-label">Select the species column <b style="color: red;">*</b></label>
+                                <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="specie"><option>Select...</option></select></div>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                 <div class="col-md-8 inputGroupContainer">
+                                    <div class="input-group mb-3">
+                                       <div class="input-group-prepend">
+                                          <div class="input-group-text">
+                                             <input type="checkbox" id="cb_specie" aria-label="Checkbox for following text input" data-toggle="collapse" href=".subspecie">
+                                          </div>
+                                       </div>
+                                       <input type="text" value="Do you want to analyze subspecie?" class="form-control" aria-label="Text input with checkbox" disabled>
+                                    </div>
+                                    <label class="col-md-8 control-label collapse subspecie">Select the subspecies column</label>
+                                    <div class="input-group collapse subspecie"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="subspecie"><option>Select...</option></select></div>
+                                 </div>
+                              </div>
+                           </fieldset>
+                        </form>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="card-footer">
+            <button id="continue" type="button" class="btn btn-primary btn-lg btn-block" disabled>Continue</button>
+            <form id="form" action="taxon_list2" method = "POST" enctype = "multipart/form-data" hidden>
+               <input type="text" name="selection_check" value="" hidden="hidden" id="selection_titles1"/>
+               <input type="text" name="selection_base" value="" hidden="hidden" id="selection_titles2"/>
+               <input type="text" name="subs" value="" hidden="hidden" id="subs"/>
+               <input id="submit" type="submit" value="Start Verification" class="btn btn-success btn-lg btn-block" disabled/>
+             </form>
+            </div>
+         </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="../../static/js/events/loading.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script>
+            document.cookie = "cookie_consent=false";
+            var titles_check     = "{{titles_check}}";
+            var titles_base      = "{{titles_base}}";
+            var cookies          = "{{cookies}}";
+            titles_check         = titles_check.replace(/&#39;/g,'"');
+            titles_base          = titles_base.replace(/&#39;/g,'"');
+            cookies              = cookies.replace(/&#34;/g,'"');
+
+            titles_check         = JSON.parse(titles_check)           
+            titles_base          = JSON.parse(titles_base)  
+            cookies             != "None" ? cookies = JSON.parse(cookies) : cookies = null
+
+            var selected_titles  = {"kingdom": null, "phylum": null, "class": null, "order": null, "family": null, "subfamily": null, "genus": null, "subgenus": null, "specie": null, "subspecie": null}
+            var subs_cookie = {"subfamily": "False", "subgenus": "False", "subspecie": "False"}
+            var page             = 1
+            var sub_values       = ["subfamily", "subgenus", "subspecie", "kingdom", "phylum", "class", "order", "family"]
+            var select_kingdom   = document.getElementById("kingdom");
+            var select_phylum    = document.getElementById("phylum");
+            var select_class     = document.getElementById("class");
+            var select_order     = document.getElementById("order");
+            var select_family    = document.getElementById("family");
+            var select_subfamily = document.getElementById("subfamily");
+            var select_genus     = document.getElementById("genus");
+            var select_subgenus  = document.getElementById("subgenus");
+            var select_specie    = document.getElementById("specie");
+            var select_subspecie = document.getElementById("subspecie");
+            var buttom_continue  = document.getElementById("continue");
+            var button_submit    = document.getElementById("submit");
+            var form             = document.getElementById("form");
+            var cb_family        = document.getElementById("cb_family");
+            var cb_genus         = document.getElementById("cb_genus");
+            var cb_specie        = document.getElementById("cb_specie");
+            var subs             = document.getElementById("subs");
+            Assign_Titles();
+
+            if(cookies != null){
+               Auto_Selected_Using_Cookie()
+               ActiveSubmit()
+            }
+            
+            function Assign_Titles(){
+                for (title of page==1 ? titles_check : titles_base){
+                    new_option1 = document.createElement("option");
+                    new_option1.innerHTML = title;
+                  
+                    new_option2 = document.createElement("option");
+                    new_option2.innerHTML = title;
+              
+                    new_option3 = document.createElement("option");
+                    new_option3.innerHTML = title;
+                
+                    new_option4 = document.createElement("option");
+                    new_option4.innerHTML = title;
+                    
+                    new_option5 = document.createElement("option");
+                    new_option5.innerHTML = title;
+                   
+                    new_option6 = document.createElement("option");
+                    new_option6.innerHTML = title;
+                        
+                    new_option7 = document.createElement("option");
+                    new_option7.innerHTML = title;
+
+                    new_option8 = document.createElement("option");
+                    new_option8.innerHTML = title;
+
+                    new_option9 = document.createElement("option");
+                    new_option9.innerHTML = title;
+
+                    new_option10 = document.createElement("option");
+                    new_option10.innerHTML = title;
+                                 
+                    select_kingdom.appendChild(new_option1);
+                    select_phylum.appendChild(new_option2);
+                    select_class.appendChild(new_option3);
+                    select_order.appendChild(new_option4);
+                    select_family.appendChild(new_option5);
+                    select_genus.appendChild(new_option6);
+                    select_specie.appendChild(new_option7);
+                    select_subfamily.appendChild(new_option8);
+                    select_subgenus.appendChild(new_option9);
+                    select_subspecie.appendChild(new_option10);
+                }
+            }
+            function ResetSelection(){
+               selected_titles = {"kingdom": null, "phylum": null, "class": null, "order": null, "family": null, "subfamily": null, "genus": null, "subgenus": null, "specie": null, "subspecie": null}
+               select_kingdom.selectedIndex = 0
+               select_phylum.selectedIndex = 0
+               select_class.selectedIndex = 0
+               select_order.selectedIndex = 0
+               select_family.selectedIndex = 0
+               select_subfamily.selectedIndex = 0
+               select_genus.selectedIndex = 0
+               select_subgenus.selectedIndex = 0
+               select_specie.selectedIndex = 0
+               select_subspecie.selectedIndex = 0
+               while(select_kingdom.childElementCount > 1){
+                  select_kingdom.removeChild(select_kingdom.lastChild)
+                  select_phylum.removeChild(select_phylum.lastChild)
+                  select_class.removeChild(select_class.lastChild)
+                  select_order.removeChild(select_order.lastChild)
+                  select_family.removeChild(select_family.lastChild)
+                  select_subfamily.removeChild(select_subfamily.lastChild)
+                  select_genus.removeChild(select_genus.lastChild)
+                  select_subgenus.removeChild(select_subgenus.lastChild)
+                  select_specie.removeChild(select_specie.lastChild)
+                  select_subspecie.removeChild(select_subspecie.lastChild)
+               }
+               window.scrollTo(0, 0);
+               document.getElementById('sheet_number').innerHTML = "Spreadsheet to be used as reference"
+            }
+            function Selected(){
+               selected_titles[this.id] = this.value;
+               let formated_titles = JSON.stringify(selected_titles);
+               let formated_subs = JSON.stringify(subs_cookie)
+               if(page==1){
+                  let input_text = document.getElementById("selection_titles1");
+                  input_text.value = formated_titles;
+               }
+               if(page==2){
+                  let input_text = document.getElementById("selection_titles2");
+                  input_text.value = formated_titles;
+               }
+               subs.value = formated_subs;
+               ActiveSubmit()
+            }
+            function NextPage(){
+               page = 2
+               cb_family.setAttribute("disabled","disabled")
+               cb_genus.setAttribute("disabled","disabled")
+               cb_specie.setAttribute("disabled","disabled")
+               arr_keys = Object.keys(selected_titles)
+               for (key of arr_keys){
+                  componentHTML = document.getElementById(key)
+                 
+                  if(selected_titles[key] == null){
+                     componentHTML.setAttribute("disabled", "")
+                  }
+               }
+               ResetSelection()
+               Assign_Titles()
+               form.removeAttribute("hidden")
+               buttom_continue.setAttribute("hidden", "hidden")
+               Auto_Selected_Using_Cookie()
+               ActiveSubmit()
+            }
+            function Auto_Selected_Using_Cookie(){
+               let form = page==1 ? "check":"base"
+               let input_text = page==1 ? document.getElementById("selection_titles1"):document.getElementById("selection_titles2")
+               for (value=1; value < select_kingdom.options.length; value++){
+                  if(select_kingdom[value].label == cookies[form].kingdom){
+                     select_kingdom.selectedIndex = value
+                     selected_titles.kingdom = cookies[form].kingdom
+                  }
+                  if(select_phylum[value].label == cookies[form].phylum){
+                     select_phylum.selectedIndex = value
+                     selected_titles.phylum = cookies[form].phylum
+                  }
+                  if(select_class[value].label == cookies[form].class){
+                     select_class.selectedIndex = value
+                     selected_titles.class = cookies[form].class
+                  }
+                  if(select_order[value].label == cookies[form].order){
+                     select_order.selectedIndex = value
+                     selected_titles.order = cookies[form].order
+                  }
+                  if(select_family[value].label == cookies[form].family){
+                     select_family.selectedIndex = value
+                     selected_titles.family = cookies[form].family
+                  }
+                  if(select_genus[value].label == cookies[form].genus){
+                     select_genus.selectedIndex = value
+                     selected_titles.genus = cookies[form].genus
+                  }
+                  if(select_specie[value].label == cookies[form].specie){
+                     select_specie.selectedIndex = value
+                     selected_titles.specie = cookies[form].specie
+                  }
+                  if(cookies["subs"].subfamily == "True"){
+                     if(select_subfamily[value].label == cookies[form].subfamily){
+                        cb_family.checked = true;
+                        div_subfamily = document.getElementsByClassName("subfamily")
+                        div_subfamily[0].className += " show"
+                        div_subfamily[1].className += " show"
+                        select_subfamily.selectedIndex = value
+                        selected_titles.subfamily = cookies[form].subfamily
+                     }
+                  }
+                  if(cookies["subs"].subgenus == "True"){
+                     if(select_subgenus[value].label == cookies[form].subgenus){
+                        cb_genus.checked = true;
+                        div_subgenus = document.getElementsByClassName("subgenus")
+                        div_subgenus[0].className += " show"
+                        div_subgenus[1].className += " show"
+                        select_subgenus.selectedIndex = value
+                        selected_titles.subgenus = cookies[form].subgenus
+                     }
+                  }
+                  if(cookies["subs"].subspecie == "True"){
+                     if(select_subspecie[value].label == cookies[form].subspecie){
+                        cb_specie.checked = true;
+                        div_subspecie = document.getElementsByClassName("subspecie")
+                        div_subspecie[0].className += " show"
+                        div_subspecie[1].className += " show"
+                        select_subspecie.selectedIndex = value
+                        selected_titles.subspecie = cookies[form].subspecie
+                     }
+                  }
+               }
+               let formated_subs = JSON.stringify(subs_cookie)
+               selected_titles[this.id] = this.value;
+               var formated_titles = JSON.stringify(selected_titles);
+               input_text.value = formated_titles;
+               subs.value = formated_subs;
+            }            
+            function isAllSelected(){
+               let t = true
+               SubValuesCheck()
+               for (value in selected_titles){
+                  not_is = parseInt(sub_values.indexOf(value));
+                  if (selected_titles[value] === null && not_is == -1){
+                     t = false
+                  }
+               }
+               return t
+            }
+            function ActiveSubmit(){
+               if(isAllSelected() && page==1){
+                  buttom_continue.removeAttribute("disabled")
+               }
+               else if(isAllSelected() == false){
+                  buttom_continue.setAttribute("disabled", "disabled")
+               }
+               if(isAllSelected() && page==2){
+                  button_submit.removeAttribute("disabled")
+               }
+            }
+            function SubValuesCheck(){
+               let index_f = parseInt(sub_values.indexOf("subfamily"))
+               let index_g = parseInt(sub_values.indexOf("subgenus"))
+               let index_s = parseInt(sub_values.indexOf("subspecie"))
+
+               if(cb_family.checked){
+                  if(index_f != -1){
+                     sub_values.splice(index_f, 1)
+                     subs_cookie["subfamily"] = "True"
+                  }
+               }
+               else if(index_f == -1){
+                  sub_values.push("subfamily")
+                  subs_cookie["subfamily"] = "False"
+               }
+
+               if(cb_genus.checked){
+                  if(index_g != -1){
+                     sub_values.splice(index_g,1)
+                     subs_cookie["subgenus"] = "True"
+                  }
+               }
+               else if(index_g == -1){
+                  sub_values.push("subgenus")
+                  subs_cookie["subgenus"] = "False"
+               }
+
+               if(cb_specie.checked){
+                  if(index_s != -1){
+                     sub_values.splice(index_s,1)
+                     subs_cookie["subspecie"] = "True"
+                  }
+               }
+               else if(index_s == -1){
+                  sub_values.push("subspecie")
+                  subs_cookie["subspecie"] = "False"
+               }
+            }
+            select_kingdom.addEventListener("change", Selected);
+            select_phylum.addEventListener("change",Selected);
+            select_class.addEventListener("change",Selected);
+            select_order.addEventListener("change",Selected);
+            select_family.addEventListener("change",Selected);
+            select_subfamily.addEventListener("change",Selected);
+            select_genus.addEventListener("change",Selected);
+            select_subgenus.addEventListener("change",Selected);
+            select_specie.addEventListener("change",Selected);
+            select_subspecie.addEventListener("change",Selected);
+            buttom_continue.addEventListener("click", NextPage);
+            cb_family.addEventListener("change", ActiveSubmit)
+            cb_genus.addEventListener("change", ActiveSubmit)
+            cb_specie.addEventListener("change", ActiveSubmit)
+        </script>
+        {% endblock %}
+    </body>
+</html>

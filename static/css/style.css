@@ -1,0 +1,153 @@
+
+
+/* Tela inicial | index.html */
+body{
+     background-image: url("../image/fundo2.jpg");
+     position: relative;
+     width: 100%;
+     height: 100%;
+     background-size:cover;
+     /* background-repeat:no-repeat; */
+     overflow : auto;
+
+}
+#NavBar{
+    background-color: rgba(3,38,4,0);
+}
+#TextoNav{
+    font-family: 'Tomorrow', sans-serif;
+    color: #ffff;
+    font-size: 30px;
+    letter-spacing:5px
+}
+#card{
+     position: relative;
+     left: 30%;
+     width: 40%;
+     margin-top: 5px; 
+}
+.fileUpload {
+     position: relative;
+     overflow: hidden;
+     margin: 10px;
+ }
+ .fileUpload input.upload {
+     position: absolute;
+     top: 0;
+     right: 0;
+     margin: 0;
+     padding: 0;
+     font-size: 20px;
+     cursor: pointer;
+     opacity: 0;
+     filter: alpha(opacity=0);
+ }
+ /*_________________________________________________________*/
+
+/* Mapa 1 | criar_poligono_no_mapa.html*/
+#body{
+     width: 100%;
+     height: 100%;
+     margin: 0px;
+     padding: 0px;
+}
+#first_map{
+     /* position: absolute; */
+     width: 100%;
+     height: 581px;
+     /* float: left; */
+}
+/* #column_right{
+     margin-left: 66%;
+     position: absolute;
+     width: 34%;
+     height: 100%;
+     background-color: #696969;
+     float: right;
+} */
+#insert_inputs{
+     overflow: auto; 
+     height: 250px;
+}
+#dropdown_poligonos{
+     margin-bottom: 2%;
+}
+ /*_________________________________________________________*/
+
+/* Mapa 2 | plotar_poligono_no_mapa.html*/
+ #second_map {
+     /* position: absolute; */
+     width: 100%;
+     height: 500px; 
+}
+#box_checkbox{
+     position: absolute;
+     right: 250px;
+     top: 326.15px;
+     height: 50px;
+     width: 230px;
+     padding: 0px;
+     z-index: 5;
+     border: 0px solid #ffffff;
+     background: #fff;
+}
+#div_table{
+     /* margin-top: 50px; */
+     /* position: absolute; */
+     width: 100%;
+     height: 50%;
+     /* float: right; */
+     overflow: auto; 
+}
+ /*_________________________________________________________*/
+
+ /* Planilha com hierarquia taxonômica | planilha.html*/
+ #spreadsheet{
+      margin-left: 10%;
+      margin-right: 10%;
+      overflow: auto;
+      align-items: center;
+      display: flex;
+      flex: 1;
+ }
+
+ .spreadsheetFooter{
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+     align-items: center;
+     flex: 1;
+ }
+
+ /* Formulários */
+ .TextForm{
+      color: white;
+ }
+
+ .cardHeader {
+     font-size: 45px;
+     letter-spacing: 5px ;
+     font-family: 'Tomorrow',
+     sans-serif; font-weight: bol;
+ }
+
+ .formCard {
+     background-color: rgba(255,255,255,.85);
+     width: 50rem;
+ }
+
+ .routesColDiv {
+     justify-content: center;
+     display: flex;
+ }
+
+ .routesCard {
+     background-color: rgba(255,255,255,.85) !important;
+     width: 25rem;
+ }
+
+ .routeCardHeader{
+     font-size: 20px;
+     font-family: 'Tomorrow', sans-serif;
+ }
+ 

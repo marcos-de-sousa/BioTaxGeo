@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Home</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading.css') }}"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+        
+    </head>
+    <body>
+        
+        <div class="loader"> <img src="../static/image/tree-spinner.gif"></div>
+        <div style="display: flex; flex: 1;">
+            <div style="margin-top: 185px; margin-left: 100px; margin-right: -131px;color: #fff; text-align: justify;"  class="col text-center"> 
+                <h5 class="card-title" style="font-family: 'Tomorrow', sans-serif; font-size: 60px; text-shadow: 2px 2px black;">BioTaxGeo</h5>
+                <p style="text-align: justify;" class="card-text">A quality software for taxonomic, geospatial data and occurrences of biodiversity species, which aims to help biologists and other researchers to identify and correct errors in field collection spreadsheets.</p>
+            </div>
+            <div style="margin-right: 30px;" class="col">
+                <div style="margin-top: 185px; margin-left: -30px;width: 60%; background-color: rgba(255,255,255,.8); box-shadow: 5px 10px #888888;" class="card shadow rounded text-center" id="card">
+                    <h5 style="font-family: 'Tomorrow', sans-serif; margin-top: 15px; margin-bottom: 30px;">To start, insert the file to be analised</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form action = "http://localhost:8080/" method = "POST" enctype = "multipart/form-data">
+                                    <input style="width: 100%;" class="input-group-text" id="uploadFile" placeholder="Choose the file" disabled="disabled" />
+                                    <div style="display: flex; flex-direction: row; justify-content: center;">
+                                        <div class="fileUpload btn btn-primary">
+                                            <span style="font-size: 15px;">Choose file</span>
+                                            <input id="uploadBtn" type="file" name="file" class="upload" />
+                                        </div>
+                                        <div style="margin-top: 10px;">
+                                            <input id="submit_home" type="submit" value="Send file" class="btn btn-success" disabled />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-success">
+                        <h5 style="font-family: 'Tomorrow'; color: #fff;text-shadow: 2px 2px black;"class="modal-title">BioTaxGeo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="text_modal"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="refuse">Refuse</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" id="accept">Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="../static/js/events/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript">
+        document.cookie = "isCookie=true"
+        coka = "{{isUseCookie}}"
+            if(coka == "None" || coka=="refuse"){
+                document.getElementById("text_modal").innerHTML = `To enhance your experience using <strong style="font-family: 'Tomorrow'">BioTaxGeo</strong>, please allow cookies.` 
+                $(document).ready( function() {
+                    $('#myModal').modal('show');
+                });
+            }
+            if (document.cookie.indexOf("isCookie") < 0){
+                document.getElementById("text_modal").innerHTML = `We have detected that your cookies are disabled.<br>To enhance your experience using <strong style="font-family: 'Tomorrow'">BioTaxGeo</strong>, please enable.<br>This site explains how to enable in your browser: <a target="_blank" href="https://www.nap.edu/content/enabling-cookies-in-your-browser">Enabling Cookies in Your Browser</a> and reload the page.`
+                $(document).ready( function() {
+                    $('#myModal').modal('show');
+                });
+                document.getElementById("refuse").innerHTML = "Close"
+                document.getElementById("accept").style = "display: none;"
+            }
+            document.getElementById("refuse").addEventListener("click", recuse)
+            document.getElementById("accept").addEventListener("click", accept)
+            function recuse(){
+                document.cookie = "isUseCookie=recuse"
+            }
+            function accept(){
+                document.cookie = "isUseCookie=accept"
+            }
+        </script>
+        <script>
+           document.getElementById("uploadBtn").onchange = function () {
+                document.getElementById("uploadFile").value = this.value;
+                if(document.getElementById("uploadFile").value != "" || document.getElementById("uploadFile").value != null){
+                    document.getElementById("submit_home").removeAttribute("disabled");
+                }
+           };
+           
+        </script>
+        <script type="text/javascript" src="../static/js/events/loading.js"></script>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</html>
