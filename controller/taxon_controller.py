@@ -16,7 +16,7 @@ def taxon_list():
         try:
             if(request.cookies.get("isUseCookie") == "accept"):
                 titles_gbif = request.cookies.get("titles_gbif")
-                if(titles_gbif == ""):
+                if(titles_gbif == "" or titles_gbif=="None"):
                     titles_gbif = None
                 if(titles_gbif == None):
                     titles = request.form["selection"]

@@ -12,7 +12,7 @@ form_blueprint = Blueprint('form', __name__, template_folder='templates')
 def taxon_form():
     if request.method == 'GET':
         titles_cookie = request.cookies.get("titles_gbif")
-        if titles_cookie == "":
+        if titles_cookie == "" or titles_cookie == "None":
             titles_cookie = None
         if(request.cookies.get("isUseCookie") == "accept"):
             if(titles_cookie != None):
@@ -22,9 +22,9 @@ def taxon_form():
         else:
             return render_template("form/taxon_form_gbif.html", titles=used_sheet.get_Sheet_Header(), cookies = titles_cookie)
     else:
-        res = make_response(render_template("form/taxon_form_gbif.html", titles=used_sheet.get_Sheet_Header()))
+        res = make_response(redirect(url_for("form.taxon_form")))
         res.set_cookie("titles_gbif", "None")
-        return redirect(url_for("form.taxon_form"))
+        return res
 @form_blueprint.route("/taxon_form2", methods=["GET", "POST"])
 def taxon_form2():
     if request.method == 'POST':
