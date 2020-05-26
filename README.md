@@ -92,4 +92,4 @@ This section will ask for you to fill the fields correctly to identify the colum
 
 ### License
 
-- MIT License. See [LICENSE](https://github.com/marcosp-sousa/BioTaxGeo/blob/master/LICENSE)for more information
+- MIT License. See [LICENSE](https://github.com/marcosp-sousa/BioTaxGeo/blob/master/LICENSE) for more information
