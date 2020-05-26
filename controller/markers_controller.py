@@ -6,7 +6,9 @@ import json
 
 hrch_taxon = Hierarchy_Taxon()
 spreadsheet_titles = {}
-google_key = "YOUR_API_KEY"
+file_api = open('googlemaps_api_key.txt', 'r')
+google_key = file_api.read()
+file_api.close()
 gmaps = googlemaps.Client(key=google_key)
 used_sheet = home_controller.used_sheet
 
