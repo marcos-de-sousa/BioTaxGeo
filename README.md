@@ -1,6 +1,6 @@
 # BioTaxGeo
 
-A quality software for taxonomic, geospatial data and occurrences of biodiversity species, which aims to help biologists and other researchers to identify and correct errors in field collection spreadsheets.
+BioTaxGeo is a quality software for taxonomic, geospatial data and occurrences of biodiversity species, which aims to help biologists and other researchers to identify and correct errors in field collection spreadsheets.
 
 ![index](files/images/index.jpeg)
 
