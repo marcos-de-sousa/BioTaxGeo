@@ -13,25 +13,25 @@ BioTaxGeo is a quality software for taxonomic, geospatial data and occurrences o
    - [Authors](#authors)
    - [License](#license)
 ## Guide to downloading and running
-####Requirement
+#### Requirement
 - API KEY GoogleMaps
 - python 3.6^
 - virtualenv
 
-####API GoogleMaps
+#### API GoogleMaps
 How to get API: https://developers.google.com/maps/documentation/javascript/get-api-key
 
 Active API for Geocoding API  and Maps JavaScript API.
 
 At the root of the project open the file googlemaps_api_key.txt, paste your API KEY save and close the file.
-####Virtualenv
+#### Virtualenv
 how to install and run virtualenv: https://raturi.in/blog/installing-python-virtual-environment-ubuntu-mac-and-windows/
 
-####Step 1: Download project
+#### Step 1: Download project
 Download the project or clone it into a folder on your PC.
-####Step 2: Init virtualenv
+#### Step 2: Init virtualenv
 Inside the folder create a virtualenv with a version of Python 3.6^. Open the terminal (if you are using Windows you will need to use the terminal as an administrator), start your virtualenv.
-####Step 3: Install packages
+#### Step 3: Install packages
 Use this command to install:
 > pip install (name package)==(version number)
 
