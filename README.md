@@ -121,7 +121,7 @@ This section will ask for you to fill the fields correctly to identify the colum
 
 ### Authors
 
-- Marcos Paulo Alves de Sousa
+- Marcos Paulo Alves de Sousa (Project leader)
   - email: marcosp.belem@gmail.com
   - github: <a href="https://github.com/marcosp-sousa" target="_blank">marcosp-sousa</a>
 - Elielson Fernando dos Santos Barbosa
