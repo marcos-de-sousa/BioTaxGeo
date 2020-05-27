@@ -13,6 +13,7 @@ BioTaxGeo is a quality software for taxonomic, geospatial data and occurrences o
    - [Authors](#authors)
    - [License](#license)
 ## Guide to downloading and running
+
 ### Requirement
 - API KEY GoogleMaps
 - python 3.6^
@@ -46,7 +47,7 @@ Install the packages below.
 - xlwt (version 1.3.0)
 - googlemaps (version 4.2.0)
 
-####Step 4: Starting the software
+### Step 4: Starting the software
 Now execute the code:
 
 > python run.py
