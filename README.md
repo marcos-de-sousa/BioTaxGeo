@@ -12,49 +12,7 @@ BioTaxGeo is a quality software for taxonomic, geospatial data and occurrences o
     - [Comparison between Spreadsheets](#comparison-between-spreadsheets)
    - [Authors](#authors)
    - [License](#license)
-## Guide to downloading and running
-
-### Requirement
-- API KEY GoogleMaps
-- python 3.6^
-- virtualenv
-
-### API GoogleMaps
-How to get API: https://developers.google.com/maps/documentation/javascript/get-api-key
-
-Active API for Geocoding API  and Maps JavaScript API.
-
-At the root of the project open the file googlemaps_api_key.txt, paste your API KEY save and close the file.
-### Virtualenv
-how to install and run virtualenv: https://raturi.in/blog/installing-python-virtual-environment-ubuntu-mac-and-windows/
-
-### Step 1: Download project
-Download the project or clone it into a folder on your PC.
-### Step 2: Init virtualenv
-Inside the folder create a virtualenv with a version of Python 3.6^. Open the terminal (if you are using Windows you will need to use the terminal as an administrator), start your virtualenv.
-### Step 3: Install packages
-Use this command to install:
-> pip install (name package)==(version number)
-
-Install the packages below.
-
-- flask (version 1.1.1)
-- fuzzywuzzy (version 0.18.0)
-- python-Levenshtein-wheels (version 0.13.1)
-- requests (version 2.23.0)
-- xlrd (version 1.2.0)
-- xlutils (version 2.0.0)
-- xlwt (version 1.3.0)
-- googlemaps (version 4.2.0)
-
-### Step 4: Starting the software
-Now execute the code:
-
-> python run.py
-
-The server will start at http: // localhost: 8080.
-
-Make sure that you are using virtualenv and that all packages are installed correctly, make sure you paste the google maps API code into the googlemaps_api_key.txt file before starting the program.
+   
 ## Functionalities
 
 - Database Validadion
@@ -119,7 +77,49 @@ This section will ask for you to fill the fields correctly to identify the colum
 
 <p align="center"><img src="files/images/localsheet-pt3.gif" width="740" height="460"></p>
 
+## Installation Guide
 
+### Requirement
+- API KEY GoogleMaps
+- python 3.6^
+- virtualenv
+
+### API GoogleMaps
+How to get API: https://developers.google.com/maps/documentation/javascript/get-api-key
+
+Active API for Geocoding API  and Maps JavaScript API.
+
+At the root of the project open the file googlemaps_api_key.txt, paste your API KEY save and close the file.
+### Virtualenv
+how to install and run virtualenv: https://raturi.in/blog/installing-python-virtual-environment-ubuntu-mac-and-windows/
+
+### Step 1: Download project
+Download the project or clone it into a folder on your PC.
+### Step 2: Init virtualenv
+Inside the folder create a virtualenv with a version of Python 3.6^. Open the terminal (if you are using Windows you will need to use the terminal as an administrator), start your virtualenv.
+### Step 3: Install packages
+Use this command to install:
+> pip install (name package)==(version number)
+
+Install the packages below.
+
+- flask (version 1.1.1)
+- fuzzywuzzy (version 0.18.0)
+- python-Levenshtein-wheels (version 0.13.1)
+- requests (version 2.23.0)
+- xlrd (version 1.2.0)
+- xlutils (version 2.0.0)
+- xlwt (version 1.3.0)
+- googlemaps (version 4.2.0)
+
+### Step 4: Starting the software
+Now execute the code:
+
+> python run.py
+
+The server will start at http: // localhost: 8080.
+
+Make sure that you are using virtualenv and that all packages are installed correctly, make sure you paste the google maps API code into the googlemaps_api_key.txt file before starting the program.
 ### Authors
 
 - Marcos Paulo Alves de Sousa (Project leader)
