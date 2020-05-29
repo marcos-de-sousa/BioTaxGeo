@@ -25,7 +25,7 @@ BioTaxGeo is a quality software for taxonomic, geospatial data and occurrences o
 
 ### Database Validation
 
-To have your data checked by a global system of information about biodiversity ( <a href="https://www.gbif.org/" target="_blank">GBIF</a> ), start the verification by selecting the correct card.
+GBIF base information is compared with that of your spreadsheet to match whether your data matches GBIF data ( <a href="https://www.gbif.org/" target="_blank">GBIF</a> ), start the verification by selecting the correct card.
 
 <p align="center"><img src="files/images/pt1.gif" width="740" height="460"></p>
 
@@ -39,7 +39,7 @@ To have your data checked by a global system of information about biodiversity (
 
 ### Geographical Validation
 
-To validate your data for `latitude` and `longitude`, this section lets you check if you typed the right coordinates by showing in the map every entry.
+To identify whether your `latitude` and `longitude` correspond to the region where your search was conducted.
 
 > The first step is to select the correct card.
 
