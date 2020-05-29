@@ -1,7 +1,7 @@
 from flask import render_template, request, Blueprint, make_response
 from model.sheet_treatment import Sheet
 from werkzeug.utils import secure_filename
-
+import pandas as pd
 used_sheet = Sheet()
 base_sheet = Sheet()
 
@@ -18,9 +18,18 @@ def home():
             return  render_template("transition/choose_route.html")
     if request.method == "POST":
         f = request.files['file']
+        name_file = f.filename
+
         try:
-            f.save("files/"+secure_filename(f.filename))
-            used_sheet.set_Path_configure_all(secure_filename(f.filename))
+            f.save("files/"+secure_filename(name_file))
+            if ".csv" in name_file:
+                print("Erroe")
+                file_csv = pd.read_csv("files/"+name_file, encoding="utf-8")
+
+                name_file = name_file.replace(".csv", ".xls")
+                file_csv.to_excel("files/"+name_file, encoding='utf-8')
+                used_sheet.set_isCSV(True)
+            used_sheet.set_Path_configure_all(secure_filename(name_file))
             res = make_response(render_template("transition/choose_route.html"))
             return res
         except:

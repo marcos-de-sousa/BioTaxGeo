@@ -5,7 +5,7 @@ from model.coordinate import Coordinate
 from model.data_treatment import Data_Treatment
 from model.locality import Locality
 import xlwt
-
+import pandas as pd
 
 class Sheet:
 
@@ -26,6 +26,7 @@ class Sheet:
         self.values_column = []
         self.values_row = []
         self.index_sheet = 0
+        self.isCSV = False
 
     def set_Path_configure_all(self, path):
         self.path = str(
@@ -56,6 +57,9 @@ class Sheet:
 
     def set_File(self, file):
         self.file = file
+
+    def set_isCSV(self, value):
+        self.isCSV = value
 
     def get_Sheet(self):
         return self.sheet_list[self.index_sheet]
@@ -151,4 +155,8 @@ class Sheet:
                 self.formated_sheet.write(change_row, column_index, data_to_change[row][column], style)
 
     def Save_Formatted_Spreadsheet(self):
+        if(self.isCSV):
+            self.write_file.save("files/Planilha_Formatada.xls")
+            data_xls = pd.read_excel("files/Planilha_Formatada.xls")
+            return data_xls.to_csv("files/Planilha_Formatada.csv")
         return self.write_file.save("files/Planilha_Formatada.xls")
