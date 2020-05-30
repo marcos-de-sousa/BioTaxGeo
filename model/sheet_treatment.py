@@ -158,5 +158,5 @@ class Sheet:
         if(self.isCSV):
             self.write_file.save("files/Planilha_Formatada.xls")
             data_xls = pd.read_excel("files/Planilha_Formatada.xls")
-            return data_xls.to_csv("files/Planilha_Formatada.csv")
+            return data_xls.to_csv("files/Planilha_Formatada.csv", encoding="utf-8", index=False)
         return self.write_file.save("files/Planilha_Formatada.xls")

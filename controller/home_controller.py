@@ -27,7 +27,7 @@ def home():
                 file_csv = pd.read_csv("files/"+name_file, encoding="utf-8")
 
                 name_file = name_file.replace(".csv", ".xls")
-                file_csv.to_excel("files/"+name_file, encoding='utf-8')
+                file_csv.to_excel("files/"+name_file, encoding='utf-8', index=False)
                 used_sheet.set_isCSV(True)
             used_sheet.set_Path_configure_all(secure_filename(name_file))
             res = make_response(render_template("transition/choose_route.html"))
