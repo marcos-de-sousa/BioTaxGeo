@@ -5,11 +5,11 @@ BioTaxGeo is a quality software for taxonomic, geospatial data and occurrences o
 <p align="center"><img src="files/images/index.jpeg" width="740" height="460"></p>
 
 ## Sumary
-  - [Installation Guide](#installation-Guide)
-  - [Functionalities](#functionalities)
+   - [Functionalities](#functionalities)
     - [Database Validation](#database-validation)
     - [Geographical Validation](#geographical-validation)
     - [Comparison between Spreadsheets](#comparison-between-spreadsheets)
+   - [Installation Guide](#installation-Guide)
    - [Authors](#authors)
    - [License](#license)
    
