@@ -92,6 +92,7 @@ Active API for Geocoding API  and Maps JavaScript API.
 At the root of the project open the file googlemaps_api_key.txt, paste your API KEY save and close the file.
 ### Virtualenv
 How to install and run virtualenv: https://virtualenv.pypa.io/en/latest/installation.html
+
 How to use : https://virtualenv.pypa.io/en/latest/user_guide.html
 
 ### Step 1: Download project
