@@ -91,7 +91,8 @@ Active API for Geocoding API  and Maps JavaScript API.
 
 At the root of the project open the file googlemaps_api_key.txt, paste your API KEY save and close the file.
 ### Virtualenv
-how to install and run virtualenv: https://raturi.in/blog/installing-python-virtual-environment-ubuntu-mac-and-windows/
+How to install and run virtualenv: https://virtualenv.pypa.io/en/latest/installation.html
+How to use : https://virtualenv.pypa.io/en/latest/user_guide.html
 
 ### Step 1: Download project
 Download the project or clone it into a folder on your PC.
@@ -99,7 +100,7 @@ Download the project or clone it into a folder on your PC.
 Inside the folder create a virtualenv with a version of Python 3.6^. Open the terminal (if you are using Windows you will need to use the terminal as an administrator), start your virtualenv.
 ### Step 3: Install packages
 Use this command to install:
-> pip install (name package)==(version number)
+> pip install (package name)==(version number)
 
 Install the packages below.
 
@@ -117,9 +118,9 @@ Now execute the code:
 
 > python run.py
 
-The server will start at http: // localhost: 8080.
+The server will be started at http: // localhost: 8080.
 
-Make sure that you are using virtualenv and that all packages are installed correctly, make sure you paste the google maps API code into the googlemaps_api_key.txt file before starting the program.
+Make sure that you are using virtualenv and that all packages are installed correctly, also make sure you paste the google maps API code into googlemaps_api_key.txt file before running the program.
 ### Authors
 
 - Marcos Paulo Alves de Sousa (Project leader)
