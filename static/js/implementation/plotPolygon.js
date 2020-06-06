@@ -10,7 +10,7 @@ function plotPolygon() {
     var Modal/*..............................*/= document.getElementById("modal_body");
     var BUTTOM_CANCEL/*......................*/= document.getElementById("Cancel_Buttom");
     var BUTTOM_CONFIRM/*.....................*/= document.getElementById("Confirm_Buttom");
-    var BUTTOM_SAVE/*........................*/= document.getElementById("submit");
+    var BUTTOM_SAVE/*........................*/= document.getElementById("save_change");
     var BUTTOM_CLOSE/*.......................*/= document.getElementById("close_x");
     var INPUT_DATA/*.........................*/= document.getElementById("data");
     var Geo/*................................*/= new google.maps.Geocoder;
@@ -257,6 +257,8 @@ function plotPolygon() {
     }
     function SaveChange(){
         BUTTOM_SAVE.removeAttribute('disabled')
+        BUTTOM_SAVE.setAttribute("data-target", "#typeModal")
+        BUTTOM_SAVE.setAttribute("data-toggle", "modal")
         var coord = ["latitude", "longitude"]
         var region = ["country", "state", "county"]
         var component = new ComponentHTML()

@@ -23,10 +23,9 @@
     <hr style="background-color: white;">
     <div class="container">
       
-      <!-- Div referente ao checkbox que verifica se a pessoa quer visualizar os markers todos juntos ou não-->
-
       <!-- Div referente ao mapa criado pelo JS -->
       <div id="second_map" class="border border-secondary" style="margin-top: 0px;"></div>
+      
       <div class="input-group" id="box_checkbox"  style="height: 40px;">
         <div class="input-group-prepend" >
           <div class="input-group-text" style="background-color: white; border-width: 0px 1px 0px 0px; height: 40px;">
@@ -49,11 +48,9 @@
       <div id="div_table">
         <table style="background-color: rgba(255,255,255,.90);" class="table" id="table">
         </table>
-        <form style="margin-bottom: 50px;" action = "markers_confirm" method = "POST" enctype = "multipart/form-data">
-          <button id="submit" type="submit" class="btn btn-success btn-lg btn-block rounded-0" disabled>Save Changes</button>
-          <input type="text" name = "data" value="" id="data" hidden>
-        </form>
+        <button id="save_change" type="button" class="btn btn-success btn-lg btn-block rounded-0" disabled>Save Changes</button>
       </div>
+
     </div>
       
       <!--Modal que faz aparecer o pop-up para alterar os dados da tabela-->
@@ -77,6 +74,48 @@
         </div>
       </div>
       
+       <!-- Modal Select Type File Values-->
+        <div class="modal fade" id="typeModal" tabindex="-1" role="dialog" aria-labelledby="typeModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="typeModalLabel">Select type file to save</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="type_modal_body">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" value="option1" onchange="SelectedExtension('.xls')" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Save in <b>.xls</b> format extension
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" onchange="SelectedExtension('.xlsx')" value="option2">
+                  <label class="form-check-label" for="exampleRadios2">
+                    Save in <b>.xlsx</b> format extension
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" onchange="SelectedExtension('.csv')" value="option2">
+                  <label class="form-check-label" for="exampleRadios2">
+                    Save in <b>.csv</b> format extension
+                  </label>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="markers_confirm" method = "POST" enctype = "multipart/form-data">
+                  <input type="text" name = "data" value="" hidden="hidden" id="data"/>
+                  <input type="text" name="type_file" value=".xls" hidden="hidden" id="type_file"/>
+                  <button type="submit" class="btn btn-primary">Confirm</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
       <script>
         var list_region = '{{list_region}}'
         var polygons = '{{polygons}}'

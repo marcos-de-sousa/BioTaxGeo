@@ -138,8 +138,9 @@ def markers_confirm():
     if request.method == "POST":
         data = request.form["data"]
         data = eval(data)
+        type = request.form["type_file"]
         used_sheet.Change_Data_Spreadsheet2(data)
-        used_sheet.Save_Formatted_Spreadsheet()
+        used_sheet.Save_Formatted_Spreadsheet(type)
         return redirect(url_for("home.home"))
     else:
         return redirect(url_for("home.home"))
