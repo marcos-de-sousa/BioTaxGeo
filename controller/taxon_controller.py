@@ -61,8 +61,9 @@ def taxon_validation():
     if request.method == "POST":
         data = request.form["data"]
         data = eval(data)
+        type = request.form["type_file"]
         used_sheet.Change_Data_Spreadsheet(data)
-        used_sheet.Save_Formatted_Spreadsheet()
+        used_sheet.Save_Formatted_Spreadsheet(type)
         return redirect(url_for("home.home"))
 
 

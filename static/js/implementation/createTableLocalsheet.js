@@ -2,6 +2,7 @@ var table = new Table();
 
 Cancel_Buttom.addEventListener("click", InputsRemove)
 Close_Buttom.addEventListener("click", InputsRemove)
+
 table.setTable(table);
 table.setHeader(thead);
 table.setBody(tbody);

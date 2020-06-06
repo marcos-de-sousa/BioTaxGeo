@@ -31,7 +31,6 @@ class Sheet:
     def set_Path_configure_all(self, path):
         self.path = str(
             os.getcwd()) + "/files/" + path if path != None else None  # O comando os.getcwd pega o diretório atual de onde o arquivo python está.
-
         try:
             self.file = xlrd.open_workbook(self.path,
                                            formatting_info=True)  # Abre o arquivo com o nome enviado no parâmetro diretorio
@@ -154,9 +153,9 @@ class Sheet:
                     'pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
                 self.formated_sheet.write(change_row, column_index, data_to_change[row][column], style)
 
-    def Save_Formatted_Spreadsheet(self):
-        if(self.isCSV):
+    def Save_Formatted_Spreadsheet(self, type):
+        if(type == ".csv"):
             self.write_file.save("files/Planilha_Formatada.xls")
             data_xls = pd.read_excel("files/Planilha_Formatada.xls")
             return data_xls.to_csv("files/Planilha_Formatada.csv", encoding="utf-8", index=False)
-        return self.write_file.save("files/Planilha_Formatada.xls")
+        return self.write_file.save("files/Planilha_Formatada{}".format(type))

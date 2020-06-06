@@ -52,27 +52,27 @@ function ChangingDataLocalSheet(){
         }
         modal.appendChild(text2)
         for (key=init; key<keys.length-1; key++){
-        let div = document.createElement("div")
-        let input = document.createElement("input")
-        let label = document.createElement("label")
-    
-        div.className = "form-check"
-        div.id = "inputs_quant"+count2
+            let div = document.createElement("div")
+            let input = document.createElement("input")
+            let label = document.createElement("label")
         
-        input.className = "form-check-input"
-        input.type = "radio"
-        input.name = "Radio2"
-        input.id = keys[key]
-        input.value = "option2"
-        input.addEventListener("click", SelectedValueAmount)
-        
-        label.className = "form-check-label"
-        label.for = count
-        label.innerHTML = "Do you want to change <b>"+verified_hierarchy[key1][keys[key]]["amount"]+"</b> values in your spreadsheet at the level of "+keys[key]+"?"
-        div.appendChild(input)
-        div.appendChild(label)
-        modal.appendChild(div)
-        count2++
+            div.className = "form-check"
+            div.id = "inputs_quant"+count2
+            
+            input.className = "form-check-input"
+            input.type = "radio"
+            input.name = "Radio2"
+            input.id = keys[key]
+            input.value = "option2"
+            input.addEventListener("click", SelectedValueAmount)
+            
+            label.className = "form-check-label"
+            label.for = count
+            label.innerHTML = "Do you want to change <b>"+verified_hierarchy[key1][keys[key]]["amount"]+"</b> values in your spreadsheet at the level of "+keys[key]+"?"
+            div.appendChild(input)
+            div.appendChild(label)
+            modal.appendChild(div)
+            count2++
         }
     }
     else{
@@ -211,12 +211,15 @@ function InputsRemove(){
 }
 function SaveChange(){
     //LOCAL
-    let submit_buttom = document.getElementById("submit")
+    let save_change_buttom = document.getElementById("save_change")
+    save_change_buttom.removeAttribute("disabled")
+    save_change_buttom.setAttribute("data-target", "#typeModal")
+    save_change_buttom.setAttribute("data-toggle", "modal")
     let key1 = wrong_cell.id.replace(wrong_cell.className, "")
     let key2 = wrong_cell.className
     let data = document.getElementById("data")
     //GLOBAL
-    submit_buttom.removeAttribute("disabled")
+
     wrong_cell.setAttribute("data-toggle","");
     wrong_cell.setAttribute("data-target",""); 
     wrong_cell.setAttribute("wrong","false");
@@ -258,6 +261,11 @@ function SelectedValue(){
 function SelectedValueAmount(){
     selected_amount = this.id;
     BothSelected()
+}
+function SelectedExtension(type){
+    selected_extension = document.getElementById("type_file");
+    selected_extension.value = type;
+    console.log(selected_extension.value)
 }
 function BothSelected(){
     if (selected != -1 && selected_amount!= -1){

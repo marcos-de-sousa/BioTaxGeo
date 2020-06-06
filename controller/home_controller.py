@@ -23,9 +23,7 @@ def home():
         try:
             f.save("files/"+secure_filename(name_file))
             if ".csv" in name_file:
-                print("Erroe")
                 file_csv = pd.read_csv("files/"+name_file, encoding="utf-8")
-
                 name_file = name_file.replace(".csv", ".xls")
                 file_csv.to_excel("files/"+name_file, encoding='utf-8', index=False)
                 used_sheet.set_isCSV(True)
