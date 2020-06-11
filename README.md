@@ -22,7 +22,7 @@ BioTaxGeo is a web-based application to assess the geospatial and taxonomic qual
 
 ### Taxonomy Check
 
-GBIF base information is compared with that of your spreadsheet to match whether your data matches GBIF data ( <a href="https://www.gbif.org/" target="_blank">GBIF</a> ), start the verification by selecting the correct card.
+The user will submit a spreadsheet to check the taxonomy fields of all records of the species collected. The checking process is done via Species API in Global Biodiversity Information Facility (GBIF) ( <a href="https://www.gbif.org/" target="_blank">GBIF</a> ) database. BioTaxGeo will check if the taxonomy is valid, if there are problems in the taxonomic data the system will suggest corrections according to the screens below.
 
 <p align="center"><img src="files/images/pt1.gif" width="740" height="460"></p>
 
