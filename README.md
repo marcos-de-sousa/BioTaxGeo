@@ -16,7 +16,7 @@ BioTaxGeo is a web-based application to assess the geospatial and taxonomic qual
 ## Functionalities
 
 
-<p align="center"><img src="files/images/ScreenshotIndex.png" width="740" height="460"></p>
+<p align="center"><img src="files/images/ScreenshotIndex.jpg" width="740" height="460"></p>
 
 
 
@@ -78,7 +78,7 @@ This section will ask for you to fill the fields correctly to identify the colum
 
 ### Requirement
 - API KEY GoogleMaps
-- python 3.6^
+- python ^3.6
 - virtualenv
 
 ### API GoogleMaps

@@ -158,7 +158,6 @@ class Coordinate:
                         self.coordinate[coord_name]["second"] = float(self.coordinate[coord_name]["second"])
                         if emisf_neg:
                             self.coordinate[coord_name]["second"] = self.coordinate[coord_name]["second"] * -1
-
                 # Caso a coordinate esteja em formato degree por minute.
                 if spaces == 2:
 

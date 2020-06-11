@@ -47,7 +47,7 @@ class Data_Treatment:
                                                          sn=Scientific_Name
                                                         )
 
-                if Scientific_Name in self.verified_hierarchy:
+                if Scientific_Name in self.get_Verified_Hierarchy():
                     continue
                 else:
                     gbif_values = requests.get(
