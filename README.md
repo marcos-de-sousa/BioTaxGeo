@@ -6,7 +6,7 @@ BioTaxGeo is a web-based application to assess the geospatial and taxonomic qual
 
 ## Sumary
    - [Functionalities](#functionalities)
-      - [Database Validation](#database-validation)
+      - [Taxonomy Check](#taxonomy-check)
       - [Geographical Validation](#geographical-validation)
       - [Comparison between Spreadsheets](#comparison-between-spreadsheets)
    - [Installation Guide](#installation-Guide)
@@ -20,7 +20,7 @@ BioTaxGeo is a web-based application to assess the geospatial and taxonomic qual
 
 
 
-### Database Validation
+### Taxonomy Check
 
 GBIF base information is compared with that of your spreadsheet to match whether your data matches GBIF data ( <a href="https://www.gbif.org/" target="_blank">GBIF</a> ), start the verification by selecting the correct card.
 
