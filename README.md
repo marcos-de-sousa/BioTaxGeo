@@ -30,7 +30,7 @@ The user will submit a spreadsheet to check the taxonomy fields of all records o
 
 <p align="center"><img src="files/images/pt2.gif" width="740" height="460"></p>
 
-> Then your spreadsheet will be available, now you can check the suggestions and save the changes if you like
+> Then the taxonomic data of the spreadsheet will be checked. If there is any problem in filling it out, the application will point out the flaws and suggest corrections. The user can save the changes in the spreadsheet itself, if desired.
 
 <p align="center"><img src="files/images/pt3&#32;2.gif" width="740" height="460"></p>
 
