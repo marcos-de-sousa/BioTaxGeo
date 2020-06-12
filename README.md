@@ -26,7 +26,7 @@ The user will submit a spreadsheet to check the taxonomy fields of all records o
 
 <p align="center"><img src="files/images/pt1.gif" width="740" height="460"></p>
 
-> In this section, will be asked for you to fill the fields correctly to identify the columns in your spreadsheet file.
+> In this screen, the user must correctly select the fields referring to the taxonomy present in his spreadsheet, so that the application can validate it.
 
 <p align="center"><img src="files/images/pt2.gif" width="740" height="460"></p>
 
