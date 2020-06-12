@@ -1,6 +1,6 @@
 # BioTaxGeo
 
-BioTaxGeo is a web-based application to assess the geospatial and taxonomic quality of primary biodiversity data, and helps to identify and correct errors in the field collection worksheets. With a light and intuitive web interface, BioTaxGeo aims to provide good user experiences to biologists and researchers who seek the quality of biodiversity data.
+BioTaxGeo is a web-based application to assess the geospatial and taxonomic quality of primary biodiversity data, and helps to identify and correct errors in the field collection worksheets (.xls or .csv). With a light and intuitive web interface, BioTaxGeo aims to provide good user experiences to biologists and researchers who seek the quality of biodiversity data.
 
 <p align="center"><img src="files/images/index.jpeg" width="740" height="460"></p>
 
@@ -22,7 +22,7 @@ BioTaxGeo is a web-based application to assess the geospatial and taxonomic qual
 
 ### Taxonomy Check
 
-The user will submit a spreadsheet (.xls or .csv) to check the taxonomy fields of all records of the species collected. The checking process is done via Species API in Global Biodiversity Information Facility ( <a href="https://www.gbif.org/" target="_blank">GBIF</a> ) database. BioTaxGeo will check if the taxonomy is valid, if there are problems in the taxonomic data the application will suggest corrections according to the screens below.
+The user will submit a spreadsheet to check the taxonomy fields of all records of the species collected. The checking process is done via Species API in Global Biodiversity Information Facility ( <a href="https://www.gbif.org/" target="_blank">GBIF</a> ) database. BioTaxGeo will check if the taxonomy is valid, if there are problems in the taxonomic data the application will suggest corrections according to the screens below.
 
 <p align="center"><img src="files/images/pt1.gif" width="740" height="460"></p>
 
