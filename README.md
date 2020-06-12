@@ -7,7 +7,7 @@ BioTaxGeo is a web-based application to assess the geospatial and taxonomic qual
 ## Sumary
    - [Functionalities](#functionalities)
       - [Taxonomy Check](#taxonomy-check)
-      - [Geographical Validation](#geographical-validation)
+      - [Occurrence Check](#occurrence-check)
       - [Comparison between Spreadsheets](#comparison-between-spreadsheets)
    - [Installation Guide](#installation-Guide)
    - [Authors](#authors)
@@ -34,7 +34,7 @@ The user will submit a spreadsheet to check the taxonomy fields of all records o
 
 <p align="center"><img src="files/images/pt3&#32;2.gif" width="740" height="460"></p>
 
-### Geographical Validation
+### Occurrence Check
 
 To identify whether your `latitude` and `longitude` correspond to the region where your search was conducted.
 
