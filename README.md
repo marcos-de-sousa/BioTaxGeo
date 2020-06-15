@@ -50,7 +50,7 @@ The user will inform the longitude and latitude fields present in the spreadshee
 
 <p align="center"><img src="files/images/map-pt3.gif" width="740" height="460"></p>
 
-> After saving your coordinates, the map will show which entries have the correct `latitude` and `longitude` according to your spreadsheet file and the polygon you drew.
+> The user will be able to inform the geographical coordinates of the plotting markers by clicking directly on the map or entering data in the longitude and latitude fields.
 
 > Together with a list containing suggestions for possible incorrect entries.
 
