@@ -50,9 +50,7 @@ The user will inform the longitude and latitude fields present in the spreadshee
 
 <p align="center"><img src="files/images/map-pt3.gif" width="740" height="460"></p>
 
-> Together with a list containing suggestions for possible incorrect entries.
-
-> Validations will be availible at this point for modify the data in your spreadsheet file and save changes if you like.
+> After the user saves the coordinates and clicks on check areas, BioTaxGeo will check if there are formatting errors in the fields referring to geographic coordinates, if the coordinates correspond to the informed location (city, state and country), and also if all records of occurrence of species are within the defined area, if there are records outside the area, the user can correct them.
 
 <p align="center"><img src="files/images/map-pt4.gif" width="740" height="460"></p>
 
