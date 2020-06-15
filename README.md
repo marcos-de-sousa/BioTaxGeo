@@ -38,15 +38,13 @@ The user will submit a spreadsheet to check the taxonomy fields of all records o
 
 The user will inform the longitude and latitude fields present in the spreadsheet and must also inform the location of the species collection site, inserting markers on a map that will delimit the area forming a polygon. BioTaxGeo will check if there are inconsistencies in the data of the filled geographic coordinates, or if the data of the coordinates of the collected species are within the mapped area. The coordinate verification process is done via Google's Geocoding API.
 
-> The first step is to select the correct card.
-
 <p align="center"><img src="files/images/map-pt1.gif" width="740" height="460"></p>
 
 > Select the corresponding columns in your spreadsheet file.
 
 <p align="center"><img src="files/images/map-pt2.gif" width="740" height="460"></p>
 
-> Then you will be redirected to plot markers and identify the area you collected the data. The user will be able to inform the geographical coordinates of the plot markers by clicking directly on the map or entering data in the longitude and latitude fields
+> Then you will be redirected to plot markers and identify the area you collected the data. The user will be able to inform the geographical coordinates of the plot markers by clicking directly on the map or entering data in the longitude and latitude fields.
 
 <p align="center"><img src="files/images/map-pt3.gif" width="740" height="460"></p>
 
