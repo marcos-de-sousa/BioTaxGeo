@@ -52,9 +52,8 @@ function plotPolygon() {
                 List_Marker[i].setIcon("../static/image/blue_marker2.png")
                 List_Marker[i].setInsidePolygon(true)
                 List_Marker[i].setTitle(`\tSpreadsheet info \nCountry: ${country[i]}\nState: ${state[i]}\nCounty: ${county[i]}\nLatitude: ${latitudes[i]}\nLongitude: ${longitudes[i]}`)
-                name = genus[i]+" "+specie[i]
                 
-                List_Components_HTML[p].createBodyTable(name, country[i], state[i], county[i], List_Marker[i].getLatitude(), List_Marker[i].getLongitude(), row_coord_lat[i], i, List_Poly[p].getTitle())
+                List_Components_HTML[p].createBodyTable(country[i], state[i], county[i], List_Marker[i].getLatitude(), List_Marker[i].getLongitude(), row_coord_lat[i], i, List_Poly[p].getTitle())
 
 
                 if(list_checked_regions[i]['country']['score']<60 && list_checked_regions[i]['country']['name2'] != "null"){
@@ -93,9 +92,8 @@ function plotPolygon() {
     MarkersOutPolygon.createTitleTable()
     for(i=0;i<List_Marker.length;i++){
             if(!List_Marker[i].isInsidePolygon()){
-                name = genus[i]+" "+specie[i]
                 List_Marker[i].setTitle(`\tSpreadsheet info \nCountry: ${country[i]}\nState: ${state[i]}\nCounty: ${county[i]}\nLatitude: ${latitudes[i]}\nLongitude: ${longitudes[i]}`)
-                MarkersOutPolygon.createBodyTable(name, country[i], state[i], county[i], List_Marker[i].getLatitude(), List_Marker[i].getLongitude(), row_coord_lat[i], i, "without")
+                MarkersOutPolygon.createBodyTable(country[i], state[i], county[i], List_Marker[i].getLatitude(), List_Marker[i].getLongitude(), row_coord_lat[i], i, "without")
                 if(list_checked_regions[i]['country']['score']<60 && list_checked_regions[i]['country']['name2'] != "null"){
                     MarkersOutPolygon.setWrongRow(MarkersOutPolygon.getRowCountry(), list_checked_regions[i]['country']['name1'], ActiveModal)
                     MarkersOutPolygon.setWrongRow(MarkersOutPolygon.getRowLatitude(),  List_Marker[i].getLatitude(), ActiveModal)
@@ -195,11 +193,6 @@ function plotPolygon() {
         }
         else if(coordinates.indexOf(column) > -1){
             BUTTOM_CONFIRM.setAttribute("disabled","");
-
-            
-            let CompRest = {
-                   
-                }
             let address = {"address": `${country[index]}, ${state[index]}, ${county[index]}`, "componentRestrictions": { 
                 country: country[index],                                                
                 administrativeArea: county[index],                                      

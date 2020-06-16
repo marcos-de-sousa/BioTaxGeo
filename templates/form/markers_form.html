@@ -24,18 +24,6 @@
                            <form class="well form-horizontal">
                               <fieldset>
                                  <div class="form-group">
-                                    <label class="col-md-4 control-label">Select the genus column</label>
-                                    <div class="col-md-8 inputGroupContainer">
-                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span><select class="custom-select" id="genus"><option>Select...</option></select></div>
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Select the species column</label>
-                                    <div class="col-md-8 inputGroupContainer">
-                                       <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="specie"><option>Select...</option></select></div>
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Select the latitude column</label>
                                     <div class="col-md-8 inputGroupContainer">
                                        <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="latitude"><option>Select...</option></select></div>
@@ -77,7 +65,6 @@
                   <div align="center" class="container">
                     <input type="text" name = "selection_coordinate" value="" hidden="hidden" id="selection_coordinate"/>
                     <input type="text" name = "selection_region" value="" hidden="hidden" id="selection_region"/>
-                    <input type="text" name = "selection_taxon" value="" hidden="hidden" id="selection_taxon"/>
                     <input type="submit" id="submit" value="Start Verification" class="btn btn-success btn-lg btn-block" disabled/>
                   </div>
                </form>
@@ -98,10 +85,7 @@
             cookies != "None" ? cookies = JSON.parse(cookies) : cookies = null
             var coordinates = {"latitude": null, "longitude": null}
             var region = {"country": null, "state": null, "county": null}
-            var taxon = {"genus": null, "specie": null}
 
-            var select_genus = document.getElementById("genus");
-            var select_specie = document.getElementById("specie");
             var select_latitude = document.getElementById("latitude");
             var select_longitude = document.getElementById("longitude");
             var select_country = document.getElementById("country");
@@ -116,11 +100,6 @@
             }
             function AssigningTitles(){
                 for (title of titles){
-                    new_option1 = document.createElement("option");
-                    new_option1.innerHTML = title;
-
-                    new_option2 = document.createElement("option");
-                    new_option2.innerHTML = title;
 
                     new_option3 = document.createElement("option");
                     new_option3.innerHTML = title;
@@ -137,8 +116,6 @@
                     new_option7 = document.createElement("option");
                     new_option7.innerHTML = title;
 
-                    select_genus.appendChild(new_option1);
-                    select_specie.appendChild(new_option2);
                     select_latitude.appendChild(new_option3);
                     select_longitude.appendChild(new_option4);
                     select_country.appendChild(new_option5);
@@ -160,30 +137,10 @@
                   var input_text2 = document.getElementById("selection_region");
                   input_text2.value = formated_region;
                }
-               if(this.id in taxon){
-                  taxon[this.id] = this.value;
-                  var formated_taxon = JSON.stringify(taxon);
-                  var input_text3 = document.getElementById("selection_taxon");
-                  input_text3.value = formated_taxon;
-               }
                ActiveSubmit()
             }
             function Auto_Selected_Using_Cookie(){
-               for (value=1; value < select_genus.options.length; value++){
-                  if(select_genus[value].label == cookies[2].genus){
-                     select_genus.selectedIndex = value
-                     taxon.genus = cookies[2].genus;
-                     var formated_taxon = JSON.stringify(taxon);
-                     var input_text3 = document.getElementById("selection_taxon");
-                     input_text3.value = formated_taxon;
-                  }
-                  if(select_specie[value].label == cookies[2].specie){
-                     select_specie.selectedIndex = value
-                     taxon.specie = cookies[2].specie;
-                     var formated_taxon = JSON.stringify(taxon);
-                     var input_text3 = document.getElementById("selection_taxon");
-                     input_text3.value = formated_taxon;
-                  }
+               for (value=1; value < select_country.options.length; value++){
 
                   if(select_latitude[value].label == cookies[0].latitude){
                      select_latitude.selectedIndex = value
@@ -226,14 +183,8 @@
             }
             
             function isAllSelected(){
-               let t = true
                let r = true
                let c = true
-               for (value in taxon){
-                  if (taxon[value] === null){
-                     t = false
-                  }
-               }
                for (value in region){
                   if (region[value] === null){
                      r = false
@@ -244,7 +195,7 @@
                      c = false
                   }
                }
-               if (t && r && c){
+               if (r && c){
                   return true
                }
                else {
@@ -256,8 +207,6 @@
                   submit_button.removeAttribute("disabled")
                }
             }
-            select_genus.addEventListener("change", Selected);
-            select_specie.addEventListener("change", Selected);
             select_latitude.addEventListener("change", Selected);
             select_longitude.addEventListener("change", Selected);
             select_country.addEventListener("change", Selected);

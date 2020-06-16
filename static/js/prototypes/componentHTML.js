@@ -145,12 +145,12 @@ ComponentHTML.prototype.createHeaderTable = function (title, index, color){
     this.table.appendChild(this.thead)
     this.table.appendChild(this.tbody)
 }
-ComponentHTML.prototype.createBodyTable = function (name, country, state, county, latitude, longitude, index_row, index_marker, index_poly){
+ComponentHTML.prototype.createBodyTable = function (country, state, county, latitude, longitude, index_row, index_marker, index_poly){
     this.count++
     this.index = index_marker
     this.row = document.createElement("tr")
     this.column_index = document.createElement("th")
-    this.column_name = document.createElement("td")
+    
     this.column_country = document.createElement("td")
     this.column_state = document.createElement("td")
     this.column_county = document.createElement("td")
@@ -159,7 +159,7 @@ ComponentHTML.prototype.createBodyTable = function (name, country, state, county
     this.column_index_row = document.createElement("td")
 
     this.row.appendChild(this.column_index)
-    this.row.appendChild(this.column_name)
+    
     this.row.appendChild(this.column_country)
     this.row.appendChild(this.column_state)
     this.row.appendChild(this.column_county)
@@ -169,7 +169,7 @@ ComponentHTML.prototype.createBodyTable = function (name, country, state, county
     this.tbody.appendChild(this.row)
 
     this.column_index.innerHTML = this.count
-    this.column_name.innerHTML = name
+    
     this.column_country.innerHTML = country
     this.column_state.innerHTML = state
     this.column_county.innerHTML = county
@@ -200,7 +200,7 @@ ComponentHTML.prototype.createTitleTable = function (){
     //Criando os dados de cada table referente aos polygons
     this.tr_titles = document.createElement("tr")
     this.th_index = document.createElement("th")
-    this.th_name = document.createElement("th")
+    
     this.th_country = document.createElement("th")
     this.th_state = document.createElement("th")
     this.th_county = document.createElement("th")
@@ -211,8 +211,7 @@ ComponentHTML.prototype.createTitleTable = function (){
     //Títulos de cada coluna
     this.th_index.setAttribute("scope","col")
     this.th_index.innerHTML = "#"
-    this.th_name.setAttribute("scope","col")
-    this.th_name.innerHTML = "Scientific Name"
+    
     this.th_country.setAttribute("scope","col")
     this.th_country.innerHTML = "Country"
     this.th_state.setAttribute("scope","col")
@@ -228,7 +227,7 @@ ComponentHTML.prototype.createTitleTable = function (){
 
     //Anexando todos eles a coluna principal
     this.tr_titles.appendChild(this.th_index)
-    this.tr_titles.appendChild(this.th_name)
+    
     this.tr_titles.appendChild(this.th_country)
     this.tr_titles.appendChild(this.th_state)
     this.tr_titles.appendChild(this.th_county)

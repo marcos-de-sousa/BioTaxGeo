@@ -4,7 +4,6 @@ from model.hierarchy_taxon import Hierarchy_Taxon
 import googlemaps
 import json
 
-hrch_taxon = Hierarchy_Taxon()
 spreadsheet_titles = {}
 file_api = open('googlemaps_api_key.txt', 'r')
 google_key = file_api.read()
@@ -24,18 +23,12 @@ def markers_validation():
         region = request.form["selection_region"]
         region = eval(region)
         titles_cookie.append(region)
-        taxon = request.form["selection_taxon"]
-        taxon = eval(taxon)
-        titles_cookie.append(taxon)
         used_sheet.coordinate.set_Latitude_Column_values(coord["latitude"])
         used_sheet.coordinate.set_Longitude_Column_values(coord["longitude"])
 
         used_sheet.locality.set_Country_Column_values(region["country"])
         used_sheet.locality.set_State_Column_values(region["state"])
         used_sheet.locality.set_County_Column_values(region["county"])
-
-        hrch_taxon.set_Genus(used_sheet.Value_in_Column(taxon['genus']))
-        hrch_taxon.set_Specie(used_sheet.Value_in_Column(taxon['specie']))
 
         spreadsheet_titles['country'] = region["country"]
         spreadsheet_titles['state'] = region["state"]
@@ -72,9 +65,6 @@ def markers_list_map():
             spreadsheet_state = used_sheet.locality.get_State_Column_values()
             spreadsheet_county = used_sheet.locality.get_County_Column_values()
 
-            genus = hrch_taxon.get_Genus()
-            specie = hrch_taxon.get_Specie()
-
             list_empty_values = [i for i, item in enumerate(coord_lat) if item == '']
             count = 0
             list_region = []
@@ -86,8 +76,6 @@ def markers_list_map():
                 del(spreadsheet_country[delete])
                 del(spreadsheet_state[delete])
                 del(spreadsheet_county[delete])
-                del (genus[delete])
-                del (specie[delete])
                 count+=1
             try:
                 for x in range(len(coord_lat)):
@@ -130,7 +118,7 @@ def markers_list_map():
                 print("erro: "+NameError)
             row_coord_lat = used_sheet.coordinate.get_Index_Row_Lat()
             row_coord_lng = used_sheet.coordinate.get_Index_Row_Lng()
-            return render_template("list/markers_list.html", google_key=google_key, polygons=polygons, latitude=coord_lat, longitude=coord_lng, row_coord_lat=row_coord_lat, row_coord_lng=row_coord_lng, list_region=list_region, country=spreadsheet_country, state=spreadsheet_state, county=spreadsheet_county, genus=genus, specie=specie, list_checked_regions=list_treatment_region, spreadsheet_titles=spreadsheet_titles)
+            return render_template("list/markers_list.html", google_key=google_key, polygons=polygons, latitude=coord_lat, longitude=coord_lng, row_coord_lat=row_coord_lat, row_coord_lng=row_coord_lng, list_region=list_region, country=spreadsheet_country, state=spreadsheet_state, county=spreadsheet_county, list_checked_regions=list_treatment_region, spreadsheet_titles=spreadsheet_titles)
         except:
             return render_template("errorscreen/InvalidValue.html")
 @markers_blueprint .route("/markers_confirm", methods=["GET", "POST"])
