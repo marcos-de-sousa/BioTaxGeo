@@ -42,10 +42,6 @@ To identify whether your `latitude` and `longitude` correspond to the region whe
 
 <p align="center"><img src="files/images/map-pt1.gif" width="740" height="460"></p>
 
-> Select the corresponding columns in your spreadsheet file.
-
-<p align="center"><img src="files/images/map-pt2.gif" width="740" height="460"></p>
-
 > Then you will be redirected to plot markers and identify the area you collected the data.
 
 <p align="center"><img src="files/images/map-pt3.gif" width="740" height="460"></p>
