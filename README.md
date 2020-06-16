@@ -1,13 +1,13 @@
 # BioTaxGeo
 
-BioTaxGeo is a web-based application to assess the geospatial and taxonomic quality of primary biodiversity data, and helps to identify and correct errors in the field collection worksheets. With a light and intuitive web interface, BioTaxGeo aims to provide good user experiences to biologists and researchers who seek the quality of biodiversity data.
+BioTaxGeo is a web-based application to assess the geospatial and taxonomic quality of primary biodiversity data, and helps to identify and correct errors in the field collection worksheets (.xls or .csv). With a light and intuitive web interface, BioTaxGeo aims to provide good user experiences to biologists and researchers who seek the quality of biodiversity data.
 
 <p align="center"><img src="files/images/index.jpeg" width="740" height="460"></p>
 
 ## Sumary
    - [Functionalities](#functionalities)
       - [Taxonomy Check](#taxonomy-check)
-      - [Geographical Validation](#geographical-validation)
+      - [Occurrence Check](#occurrence-check)
       - [Comparison between Spreadsheets](#comparison-between-spreadsheets)
    - [Installation Guide](#installation-Guide)
    - [Authors](#authors)
@@ -22,35 +22,33 @@ BioTaxGeo is a web-based application to assess the geospatial and taxonomic qual
 
 ### Taxonomy Check
 
-The user will submit a spreadsheet to check the taxonomy fields of all records of the species collected. The checking process is done via Species API in Global Biodiversity Information Facility ( <a href="https://www.gbif.org/" target="_blank">GBIF</a> ) database. BioTaxGeo will check if the taxonomy is valid, if there are problems in the taxonomic data the application will suggest corrections according to the screens below.
+The user will submit a spreadsheet to check the taxonomy fields of all records of the species collected. BioTaxGeo will check if the taxonomy is valid, if there are problems in the taxonomic data the system will suggest corrections according to the screens below. The taxonomic checking process is done via Species API in Global Biodiversity Information Facility ( <a href="https://www.gbif.org/" target="_blank">GBIF</a> ) database. 
 
 <p align="center"><img src="files/images/pt1.gif" width="740" height="460"></p>
 
-> In this section, will be asked for you to fill the fields correctly to identify the columns in your spreadsheet file.
+> In this screen, the user must correctly select the fields referring to the taxonomy present in his spreadsheet, so that the application can validate it.
 
 <p align="center"><img src="files/images/pt2.gif" width="740" height="460"></p>
 
-> Then your spreadsheet will be available, now you can check the suggestions and save the changes if you like
+> Then the taxonomic data of the spreadsheet will be checked. If there is any problem in filling it out, the application will point out the flaws and suggest corrections. The user can save the changes in the spreadsheet itself, if desired.
 
 <p align="center"><img src="files/images/pt3&#32;2.gif" width="740" height="460"></p>
 
-### Geographical Validation
+### Occurrence Check
 
-To identify whether your `latitude` and `longitude` correspond to the region where your search was conducted.
-
-> The first step is to select the correct card.
+The user will inform the longitude and latitude fields present in the spreadsheet and must also inform the location of the species collection site, inserting markers on a map that will delimit the area forming a polygon. BioTaxGeo will check if there are inconsistencies in the data of the filled geographic coordinates, or if the data of the coordinates of the collected species are within the mapped area. The coordinate verification process is done via Google's Geocoding API.
 
 <p align="center"><img src="files/images/map-pt1.gif" width="740" height="460"></p>
 
-> Then you will be redirected to plot markers and identify the area you collected the data.
+> Select the corresponding columns in your spreadsheet file.
+
+<p align="center"><img src="files/images/map-pt2.gif" width="740" height="460"></p>
+
+> Then you will be redirected to plot markers and identify the area you collected the data. The user will be able to inform the geographical coordinates of the plot markers by clicking directly on the map or entering data in the longitude and latitude fields.
 
 <p align="center"><img src="files/images/map-pt3.gif" width="740" height="460"></p>
 
-> After saving your coordinates, the map will show which entries have the correct `latitude` and `longitude` according to your spreadsheet file and the polygon you drew.
-
-> Together with a list containing suggestions for possible incorrect entries.
-
-> Validations will be availible at this point for modify the data in your spreadsheet file and save changes if you like.
+> After the user saves the coordinates and clicks on check areas, BioTaxGeo will check if there are formatting errors in the fields referring to geographic coordinates, if the coordinates correspond to the informed location (city, state and country), and also if all records of occurrence of species are within the defined area. The records that appear outside the area can be corrected.
 
 <p align="center"><img src="files/images/map-pt4.gif" width="740" height="460"></p>
 
