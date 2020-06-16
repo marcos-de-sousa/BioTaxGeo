@@ -40,10 +40,6 @@ The user will inform the longitude and latitude fields present in the spreadshee
 
 <p align="center"><img src="files/images/map-pt1.gif" width="740" height="460"></p>
 
-> Select the corresponding columns in your spreadsheet file.
-
-<p align="center"><img src="files/images/map-pt2.gif" width="740" height="460"></p>
-
 > Then you will be redirected to plot markers and identify the area you collected the data. The user will be able to inform the geographical coordinates of the plot markers by clicking directly on the map or entering data in the longitude and latitude fields.
 
 <p align="center"><img src="files/images/map-pt3.gif" width="740" height="460"></p>
