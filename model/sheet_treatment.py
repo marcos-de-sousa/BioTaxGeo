@@ -152,6 +152,14 @@ class Sheet:
                 style = xlwt.easyxf(
                     'pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
                 self.formated_sheet.write(change_row, column_index, data_to_change[row][column], style)
+    def Change_Column(self, column, value):
+        row = 1
+        column_index = self.sheet.row_values(0).index(column)
+        for data in value:
+            style = xlwt.easyxf(
+                'pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
+            self.formated_sheet.write(row, column_index, data, style)
+            row += 1
 
     def Save_Formatted_Spreadsheet(self, type):
         if(type == ".csv"):

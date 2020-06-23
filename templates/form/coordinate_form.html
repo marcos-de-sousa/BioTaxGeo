@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Spreadsheet</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading.css') }}"/>
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="loader"> <img src="../static/image/tree-spinner.gif"></div>
+        {% extends "fragments/navbar.html" %}
+        {% block content %}
+        <div class="container" style="justify-content: center; display: grid;">
+         <div class="formCard card">
+            <div class="card-header text-center cardHeader">Form</div>
+            <div style="background-color: rgba(255,255,255,0)" class="card-body">
+               <table class="table table-striped">
+                  <tbody>
+                     <tr align="center">
+                        <td>
+                           <form class="well form-horizontal" action="coordinate_validation" method = "POST" enctype = "multipart/form-data">
+                              <fieldset>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the latitude column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                          <span class="input-group-addon">
+                                             <i class="glyphicon glyphicon-home"></i>
+                                          </span>
+                                          <select class="custom-select" id="latitude" name="latitude" required>
+                                             <option>Select...</option>
+                                             {% for title in titles %}
+                                             <option>{{title}}</option>
+                                             {% endfor%}
+                                          </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the longitude column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                          <span class="input-group-addon">
+                                             <i class="glyphicon glyphicon-home"></i>
+                                          </span>
+                                          <select class="custom-select" id="longitude" name="longitude" required>
+                                             <option>Select...</option>
+                                             {% for title in titles %}
+                                             <option>{{title}}</option>
+                                             {% endfor%}
+                                          </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the type of coordinate</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                          <span class="input-group-addon">
+                                             <i class="glyphicon glyphicon-home"></i>
+                                          </span>
+                                          <select class="custom-select" id="type" name="coordinate_type" required>
+                                             <option>Select...</option>
+                                             <option>Decimal</option>
+                                             <option>MMDDSS</option>
+                                             <option>MMDD</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </fieldset>
+                              <input type="button" data-target="#typeModal" data-toggle="modal" value="Start Verification" class="btn btn-success btn-lg btn-block"/>
+                              <div class="modal fade" id="typeModal" tabindex="-1" role="dialog" aria-labelledby="typeModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog" role="document">
+                                   <div class="modal-content">
+                                     <div class="modal-header">
+                                       <h5 class="modal-title" id="typeModalLabel">Select type file to save</h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                         <span aria-hidden="true">&times;</span>
+                                       </button>
+                                     </div>
+                                     <div class="modal-body" id="type_modal_body">
+                                       <div class="form-check">
+                                         <input class="form-check-input" type="radio" name="type_file" value=".xls" checked>
+                                         <label class="form-check-label" for="exampleRadios1">
+                                           Save in <b>.xls</b> format extension
+                                         </label>
+                                       </div>
+                                       <div class="form-check">
+                                         <input class="form-check-input" type="radio" name="type_file"  value=".xlsx">
+                                         <label class="form-check-label" for="exampleRadios2">
+                                           Save in <b>.xlsx</b> format extension
+                                         </label>
+                                       </div>
+                                       <div class="form-check">
+                                         <input class="form-check-input" type="radio" name="type_file"  value=".csv">
+                                         <label class="form-check-label" for="exampleRadios2">
+                                           Save in <b>.csv</b> format extension
+                                         </label>
+                                       </div>
+                                     </div>
+                                     <div class="modal-footer">
+                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                       <button type="submit" class="btn btn-primary">Confirm</button>
+                                     </div>
+                                   </div>
+                                 </div>
+                               </div>
+                           </form>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div class="card-footer">
+               <!--
+                  <form action="markers_validation" method = "POST" enctype = "multipart/form-data">
+                     <div align="center" class="container">
+                     <input type="text" name = "selection_coordinate" value="" hidden="hidden" id="selection_coordinate"/>
+                     <input type="text" name = "type_coordinate" value="" hidden="hidden" id="type_coordinate"/>
+                     </div>
+                  </form>
+               -->
+            </div>
+         </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="../static/js/events/loading.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!--
+        <script>
+            var titles = "{{titles}}";
+            titles = titles.replace(/&#39;/g,'"');
+            titles = JSON.parse(titles)
+
+            var cookies = "{{cookies}}"
+            cookies = cookies.replace(/&#34;/g,'"');
+            cookies != "None" ? cookies = JSON.parse(cookies) : cookies = null
+            var coordinates = {"latitude": null, "longitude": null}
+
+            var select_latitude = document.getElementById("latitude");
+            var select_longitude = document.getElementById("longitude");
+            var submit_button = document.getElementById("submit")
+
+            AssigningTitles()
+            if(cookies != null){
+               Auto_Selected_Using_Cookie()
+               ActiveSubmit()
+            }
+            function AssigningTitles(){
+                for (title of titles){
+
+                    new_option3 = document.createElement("option");
+                    new_option3.innerHTML = title;
+
+                    new_option4 = document.createElement("option");
+                    new_option4.innerHTML = title;
+
+                    select_latitude.appendChild(new_option3);
+                    select_longitude.appendChild(new_option4);
+                    
+                }
+            }
+            function Selected(){
+               if(this.id in coordinates){
+                  coordinates[this.id] = this.value;
+                  var formated_coordinate = JSON.stringify(coordinates);
+                  var input_text1 = document.getElementById("selection_coordinate");
+                  input_text1.value = formated_coordinate;
+               }
+               ActiveSubmit()
+            }
+            function Auto_Selected_Using_Cookie(){
+               for (value=1; value < select_country.options.length; value++){
+
+                  if(select_latitude[value].label == cookies[0].latitude){
+                     select_latitude.selectedIndex = value
+                     coordinates.latitude = cookies[0].latitude
+                     var formated_coordinate = JSON.stringify(coordinates)
+                     var input_text1 = document.getElementById("selection_coordinate")
+                     input_text1.value = formated_coordinate;
+                  }
+                  if(select_longitude[value].label == cookies[0].longitude){
+                     select_longitude.selectedIndex = value
+                     coordinates.longitude = cookies[0].longitude
+                     var formated_coordinate = JSON.stringify(coordinates)
+                     var input_text1 = document.getElementById("selection_coordinate")
+                     input_text1.value = formated_coordinate;
+                  }                  
+               }
+            }
+            
+            function isAllSelected(){
+               let c = true
+               for (value in coordinates){
+                  if (coordinates[value] === null){
+                     c = false
+                  }
+               }
+               if (c){
+                  return true
+               }
+               else {
+                  return false
+               }
+            }
+            function ActiveSubmit(){
+               if(isAllSelected()){
+                  submit_button.removeAttribute("disabled")
+               }
+            }
+            select_latitude.addEventListener("change", Selected);
+            select_longitude.addEventListener("change", Selected);
+        </script>-->
+        {% endblock %}
+    </body>
+</html>

@@ -520,3 +520,63 @@ class Coordinate:
                 convert_lng_list.append(convert_lng)
 
             return convert_lng_list
+
+    def toDDMMSS (self, coordinate, type):
+        if coordinate == "":
+            return ""
+        value = str(coordinate).split(".")
+        minute = 0
+        degree = 0
+        hemisphere = ""
+        degree = ""
+        if "-" in value[0] and type == "lat":
+            value[0] = float(value[0]) * -1
+            hemisphere = "S"
+        elif type == "lng":
+            value[0] = float(value[0]) * -1
+            hemisphere = "W"
+        else:
+            hemisphere = "N" if type == "lat" else "E"
+        degree = value[0]
+
+        if len(str(int(degree))) < 2:
+            degree = "0"+str(int(degree))
+        else:
+            degree = int(degree)
+        value[1] = "0." + value[1]
+        minute = float(value[1]) * 60
+        value2 = str(minute).split(".")
+        minute = value2[0]
+        value2[1] = "0." + value2[1]
+        second = float(value2[1]) * 60
+        second = round(float(second), 2)
+
+        coord = '''{}° {}' {}" {}'''.format(degree, minute, second, hemisphere)
+
+        return coord
+
+    def toDDMM (self, coordinate, type):
+        if coordinate == "":
+            return ""
+        value = str(coordinate).split(".")
+        hemisphere = ""
+        degree = ""
+        minute = 0
+        if "-" in value[0] and type == "lat":
+            value[0] = float(value[0]) * -1
+            hemisphere = "S"
+        elif type == "lng":
+            value[0] = float(value[0]) * -1
+            hemisphere = "W"
+        else:
+            hemisphere = "N" if type == "lat" else "E"
+        degree = value[0]
+        if len(str(int(degree))) < 2:
+            degree = "0"+str(int(degree))
+        else:
+            degree = int(degree)
+        value[1] = "0." + value[1]
+        minute = float(value[1]) * 60
+        minute = round(float(minute), 3)
+        coord = '''{}° {}' {}'''.format(degree, minute, hemisphere)
+        return coord
