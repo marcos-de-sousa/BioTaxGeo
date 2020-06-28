@@ -3,9 +3,11 @@
 /OficialEnv/
 /.idea/
 /NovaEnv/
-/.__pycache__/
+/controller/__pycache__/
+/model/__pycache__/
 /api marcos/
 /googlemaps_api_key/
 /googlemaps_api_key.txt/
 /api marcos.txt
 /files/
+/TESTE
