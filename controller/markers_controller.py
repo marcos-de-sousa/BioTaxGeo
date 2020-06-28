@@ -11,7 +11,7 @@ file_api.close()
 gmaps = googlemaps.Client(key=google_key)
 used_sheet = home_controller.used_sheet
 
-markers_blueprint = Blueprint('markers', __name__, template_folder='templates')
+markers_blueprint = Blueprint('markers', __name__, template_folder='templates', static_url_path="static")
 
 @markers_blueprint .route("/markers_validation", methods=["GET", "POST"])
 def markers_validation():
