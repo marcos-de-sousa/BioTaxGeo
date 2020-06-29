@@ -53,6 +53,53 @@
                                        <div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span><select class="custom-select" id="county"><option>Select...</option></select></div>
                                    </div>
                                  </div>
+                                    <div class="form-group form-check">
+                                        <input id="exampleCheck1" type="checkbox" class="form-check-input" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <label class="form-check-label" for="exampleCheck1">Do you want to standardize your coordinates (Latitude and Longitude)?</label>
+                                    </div>
+                                    <div class="collapse" id="collapseExample">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input id="Decimal" class="form-check-input" type="radio" name="exampleRadios" value="Decimal" checked>
+                                                        <label class="form-check-label">
+                                                            Decimal Degrees (DD)
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    Example: -1.5468
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input id="DM" class="form-check-input" type="radio" name="exampleRadios" value="DM">
+                                                        <label class="form-check-label" >
+                                                            Degrees, Decimal Minutes (DDM)
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    Example: 01° 5.933' S
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check">
+                                                        <input id="DMS" class="form-check-input" type="radio" name="exampleRadios" value="DMS">
+                                                        <label class="form-check-label">
+                                                            Degrees, Minutes, Decimal Seconds (DMS)
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    Example: 01° 05' 56" S
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
                               </fieldset>
                            </form>
                         </td>
@@ -63,8 +110,9 @@
             <div class="card-footer">
                <form action="markers_validation" method = "POST" enctype = "multipart/form-data">
                   <div align="center" class="container">
-                    <input type="text" name = "selection_coordinate" value="" hidden="hidden" id="selection_coordinate"/>
-                    <input type="text" name = "selection_region" value="" hidden="hidden" id="selection_region"/>
+                      <input type="text" name = "selection_coordinate" value="" hidden="hidden" id="selection_coordinate"/>
+                      <input type="text" name = "selection_region" value="" hidden="hidden" id="selection_region"/>
+                      <input type="text" name="format_coordinate" value="None" id="format_coordinate" hidden/>
                     <input type="submit" id="submit" value="Start Verification" class="btn btn-success btn-lg btn-block" disabled/>
                   </div>
                </form>
@@ -92,6 +140,11 @@
             var select_state = document.getElementById("state")
             var select_county = document.getElementById("county")
             var submit_button = document.getElementById("submit")
+            var check_format_coordinate = document.getElementById("exampleCheck1")
+            var input_format_coordinate = document.getElementById("format_coordinate")
+            var check_Decimal = document.getElementById("Decimal")
+            var check_DM = document.getElementById("DM")
+            var check_DMS = document.getElementById("DMS")
 
             AssigningTitles()
             if(cookies != null){
@@ -181,7 +234,6 @@
                   
                }
             }
-            
             function isAllSelected(){
                let r = true
                let c = true
@@ -207,11 +259,35 @@
                   submit_button.removeAttribute("disabled")
                }
             }
+            function ActiveCoordinateFormating(){
+                radio = document.getElementsByClassName("form-check-input")
+                if (radio.Decimal.checked){
+                    input_format_coordinate.value = radio.Decimal.value
+                }
+                if (radio.DM.checked){
+                    input_format_coordinate.value = radio.DM.value
+                }
+                if (radio.DMS.checked){
+                    input_format_coordinate.value = radio.DMS.value
+                }
+                if (this.checked== false){
+                    input_format_coordinate.value = "None"
+                }
+            }
+            function FormatType(){
+                input_format_coordinate.value = this.value == "longitude"?"Decimal":this.value;
+                console.log("FormatType: "+input_format_coordinate.value)
+            }
+
             select_latitude.addEventListener("change", Selected);
             select_longitude.addEventListener("change", Selected);
             select_country.addEventListener("change", Selected);
             select_state.addEventListener("change", Selected);
             select_county.addEventListener("change", Selected);
+            check_format_coordinate.addEventListener("change", ActiveCoordinateFormating)
+            check_Decimal.addEventListener("change", FormatType)
+            check_DM.addEventListener("change", FormatType)
+            check_DMS.addEventListener("change", FormatType)
         </script>
         {% endblock %}
     </body>

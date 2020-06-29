@@ -23,6 +23,7 @@ def markers_validation():
         region = request.form["selection_region"]
         region = eval(region)
         titles_cookie.append(region)
+        format_coordinate = request.form["format_coordinate"]
         used_sheet.coordinate.set_Latitude_Column_values(coord["latitude"])
         used_sheet.coordinate.set_Longitude_Column_values(coord["longitude"])
 
@@ -39,6 +40,7 @@ def markers_validation():
             response = make_response(redirect(url_for("markers.markers_form_map")))
             titles_cookie = json.dumps(titles_cookie)
             response.set_cookie("titles_marker", titles_cookie)
+            response.set_cookie("format_coordinate", format_coordinate)
             return response
         else:
             return redirect(url_for("markers.markers_form_map"))
@@ -55,17 +57,15 @@ def markers_list_map():
     elif request.method == "POST":
         try:
             polygons = request.form['vertices']
-            print(polygons)
+
             polygons = eval(polygons)
             coord_lat = used_sheet.coordinate.get_Latitude_Column_values()
             coord_lng = used_sheet.coordinate.get_Longitude_Column_values()
             coord_lat = used_sheet.coordinate.Convert_Lat_Decimal(coord_lat)
             coord_lng = used_sheet.coordinate.Convert_Lng_Decimal(coord_lng)
-
             spreadsheet_country = used_sheet.locality.get_Country_Column_values()
             spreadsheet_state = used_sheet.locality.get_State_Column_values()
             spreadsheet_county = used_sheet.locality.get_County_Column_values()
-
             list_empty_values = [i for i, item in enumerate(coord_lat) if item == '']
             count = 0
             list_region = []
@@ -128,7 +128,42 @@ def markers_confirm():
         data = request.form["data"]
         data = eval(data)
         type = request.form["type_file"]
+        titles = request.cookies.get("titles_marker")
+        titles = eval(titles)
+        format_coordinate = request.cookies.get("format_coordinate")
         used_sheet.Change_Data_Spreadsheet2(data)
+        coord_lat = used_sheet.coordinate.get_Latitude_Column_values()
+        coord_lng = used_sheet.coordinate.get_Longitude_Column_values()
+        coord_lat = used_sheet.coordinate.Convert_Lat_Decimal(coord_lat)
+        coord_lng = used_sheet.coordinate.Convert_Lng_Decimal(coord_lng)
+
+        if format_coordinate != "None":
+            if (format_coordinate == "Decimal"):
+                used_sheet.Change_Column(titles[0]["latitude"], coord_lat)
+                used_sheet.Change_Column(titles[0]["longitude"], coord_lng)
+                used_sheet.Save_Formatted_Spreadsheet(type)
+                return redirect(url_for("home.home"))
+            elif (format_coordinate == "DMS"):
+                lat_ddmmss = []
+                lng_ddmmss = []
+                for i in range(len(coord_lat)):
+                    lat_ddmmss.append(used_sheet.coordinate.toDDMMSS(coord_lat[i], "lat"))
+                    lng_ddmmss.append(used_sheet.coordinate.toDDMMSS(coord_lng[i], "lng"))
+                used_sheet.Change_Column(titles[0]["latitude"], lat_ddmmss)
+                used_sheet.Change_Column(titles[0]["longitude"], lng_ddmmss)
+                used_sheet.Save_Formatted_Spreadsheet(type)
+                return redirect(url_for("home.home"))
+            elif (format_coordinate == "DM"):
+                lat_ddmm = []
+                lng_ddmm = []
+                for i in range(len(coord_lat)):
+                    lat_ddmm.append(used_sheet.coordinate.toDDMM(coord_lat[i], "lat"))
+                    lng_ddmm.append(used_sheet.coordinate.toDDMM(coord_lng[i], "lng"))
+                used_sheet.Change_Column(titles[0]["latitude"], lat_ddmm)
+                used_sheet.Change_Column(titles[0]["longitude"], lng_ddmm)
+                used_sheet.Save_Formatted_Spreadsheet(type)
+                return redirect(url_for("home.home"))
+
         used_sheet.Save_Formatted_Spreadsheet(type)
         return redirect(url_for("home.home"))
     else:

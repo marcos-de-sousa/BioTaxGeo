@@ -222,7 +222,7 @@ function plotPolygon() {
                     "featureType": "administrative",
                     "elementType": "geometry.stroke",
                     "stylers": [
-                      { "color": "#FF0000" }
+                      { "color": "#ff0000" }
                     ]
                   }]
                 map_aux = new google.maps.Map(div_aux, {zoom: 12, center: a[0]['geometry']['location'],  gestureHandling: 'greedy', styles: style});
