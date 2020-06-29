@@ -338,51 +338,8 @@ class Coordinate:
         convert_lat_list = []
         if type(lat) == str:
             self.Reset_Values()
-            self.Format_Lat_Lng(lat, "latitude")
-
-            if self.get_Latitude()["decimal"] == None:
-
-                if self.get_Latitude()["second"] == None:
-
-                    convert_lat = self.get_Latitude()["degree"]
-                    helper_value_sec = self.get_Latitude()["minute"] / 60
-
-                    if "-" in str(self.get_Latitude()["degree"]):
-
-                        convert_lat *= -1
-                        convert_lat = convert_lat + helper_value_sec
-                        convert_lat *= -1
-
-                    else:
-
-                        convert_lat += helper_value_sec
-
-                else:
-
-                    convert_lat = self.get_Latitude()["degree"]
-                    helper_value_sec = self.get_Latitude()["second"] / 60
-                    helper_value_min = self.get_Latitude()["minute"] + helper_value_sec
-                    helper_value_min /= 60
-
-                    if "-" in str(convert_lat):
-                        convert_lat *= -1
-                        convert_lat = convert_lat + helper_value_min
-                        convert_lat *= -1
-                    else:
-                        convert_lat += helper_value_min
-            else:
-
-                convert_lat = self.get_Latitude()["decimal"]
-
-            return convert_lat
-        elif type(lat) == list:
-
-            for l in lat:
-                if l=="":
-                    convert_lat_list.append("")
-                    continue
-                self.Reset_Values()
-                self.Format_Lat_Lng(l, "latitude")
+            try:
+                self.Format_Lat_Lng(lat, "latitude")
                 if self.get_Latitude()["decimal"] == None:
 
                     if self.get_Latitude()["second"] == None:
@@ -399,6 +356,7 @@ class Coordinate:
                         else:
 
                             convert_lat += helper_value_sec
+
                     else:
 
                         convert_lat = self.get_Latitude()["degree"]
@@ -407,81 +365,73 @@ class Coordinate:
                         helper_value_min /= 60
 
                         if "-" in str(convert_lat):
-
                             convert_lat *= -1
                             convert_lat = convert_lat + helper_value_min
                             convert_lat *= -1
-
                         else:
-
                             convert_lat += helper_value_min
                 else:
-
                     convert_lat = self.get_Latitude()["decimal"]
-                convert_lat_list.append(convert_lat)
-                if (convert_lat == -72.95):
-                    print(self.get_Latitude())
+                return convert_lat
+            except:
+                return lat
+        elif type(lat) == list:
+
+            for l in lat:
+                if l=="":
+                    convert_lat_list.append("")
+                    continue
+                try:
+                    self.Reset_Values()
+                    self.Format_Lat_Lng(l, "latitude")
+                    if self.get_Latitude()["decimal"] == None:
+
+                        if self.get_Latitude()["second"] == None:
+
+                            convert_lat = self.get_Latitude()["degree"]
+                            helper_value_sec = self.get_Latitude()["minute"] / 60
+
+                            if "-" in str(self.get_Latitude()["degree"]):
+
+                                convert_lat *= -1
+                                convert_lat = convert_lat + helper_value_sec
+                                convert_lat *= -1
+
+                            else:
+
+                                convert_lat += helper_value_sec
+                        else:
+
+                            convert_lat = self.get_Latitude()["degree"]
+                            helper_value_sec = self.get_Latitude()["second"] / 60
+                            helper_value_min = self.get_Latitude()["minute"] + helper_value_sec
+                            helper_value_min /= 60
+
+                            if "-" in str(convert_lat):
+
+                                convert_lat *= -1
+                                convert_lat = convert_lat + helper_value_min
+                                convert_lat *= -1
+
+                            else:
+
+                                convert_lat += helper_value_min
+                    else:
+                        convert_lat = self.get_Latitude()["decimal"]
+                    convert_lat_list.append(convert_lat)
+                except:
+                    convert_lat_list.append(l)
             return convert_lat_list
 
     def Convert_Lng_Decimal(self, lng):
-
         convert_lng = "Nada"
         convert_lng_list = []
-
         if type(lng) == str:
 
             self.Reset_Values()
-            self.Format_Lat_Lng(lng, "longitude")
-
-            if self.get_Longitude()["decimal"] == None:
-
-                if self.get_Longitude()["second"] == None:
-
-                    convert_lng = self.get_Longitude()["degree"]
-                    helper_value_sec = self.get_Longitude()["minute"] / 60
-
-                    if "-" in str(self.get_Longitude()["degree"]):
-
-                        convert_lng *= -1
-                        convert_lng = convert_lng + helper_value_sec
-                        convert_lng *= -1
-
-                    else:
-
-                        convert_lng += helper_value_sec
-
-                else:
-
-                    convert_lng = self.get_Longitude()["degree"]
-                    helper_value_sec = self.get_Longitude()["second"] / 60
-                    helper_value_min = self.get_Longitude()["minute"] + helper_value_sec
-                    helper_value_min /= 60
-
-                    if "-" in str(convert_lng):
-
-                        convert_lng *= -1
-                        convert_lng = convert_lng + helper_value_min
-                        convert_lng *= -1
-
-                    else:
-
-                        convert_lng += helper_value_min
-            else:
-
-                convert_lng = self.get_Longitude()["decimal"]
-
-            return convert_lng
-        elif type(lng) == list:
-
-            for l in lng:
-                if l=="":
-                    convert_lng_list.append("")
-                    continue
-                self.Reset_Values()
-                self.Format_Lat_Lng(l, "longitude")
-
+            try:
+                self.Format_Lat_Lng(lng, "longitude")
                 if self.get_Longitude()["decimal"] == None:
-
                     if self.get_Longitude()["second"] == None:
 
                         convert_lng = self.get_Longitude()["degree"]
@@ -496,9 +446,7 @@ class Coordinate:
                         else:
 
                             convert_lng += helper_value_sec
-
                     else:
-
                         convert_lng = self.get_Longitude()["degree"]
                         helper_value_sec = self.get_Longitude()["second"] / 60
                         helper_value_min = self.get_Longitude()["minute"] + helper_value_sec
@@ -514,69 +462,120 @@ class Coordinate:
 
                             convert_lng += helper_value_min
                 else:
-
                     convert_lng = self.get_Longitude()["decimal"]
+                return convert_lng
+            except:
+                return lng
+        elif type(lng) == list:
 
-                convert_lng_list.append(convert_lng)
+            for l in lng:
+                if l=="":
+                    convert_lng_list.append("")
+                    continue
+                self.Reset_Values()
+                try:
+                    self.Format_Lat_Lng(l, "longitude")
+                    if self.get_Longitude()["decimal"] == None:
+                        if self.get_Longitude()["second"] == None:
 
+                            convert_lng = self.get_Longitude()["degree"]
+                            helper_value_sec = self.get_Longitude()["minute"] / 60
+
+                            if "-" in str(self.get_Longitude()["degree"]):
+
+                                convert_lng *= -1
+                                convert_lng = convert_lng + helper_value_sec
+                                convert_lng *= -1
+
+                            else:
+
+                                convert_lng += helper_value_sec
+
+                        else:
+
+                            convert_lng = self.get_Longitude()["degree"]
+                            helper_value_sec = self.get_Longitude()["second"] / 60
+                            helper_value_min = self.get_Longitude()["minute"] + helper_value_sec
+                            helper_value_min /= 60
+
+                            if "-" in str(convert_lng):
+
+                                convert_lng *= -1
+                                convert_lng = convert_lng + helper_value_min
+                                convert_lng *= -1
+
+                            else:
+
+                                convert_lng += helper_value_min
+                    else:
+                        convert_lng = self.get_Longitude()["decimal"]
+                    convert_lng_list.append(convert_lng)
+                except:
+                    convert_lng_list.append(l)
             return convert_lng_list
 
     def toDDMMSS (self, coordinate, type):
         if coordinate == "":
             return ""
-        value = str(coordinate).split(".")
-        minute = 0
-        degree = 0
-        hemisphere = ""
-        degree = ""
-        if "-" in value[0] and type == "lat":
-            value[0] = float(value[0]) * -1
-            hemisphere = "S"
-        elif type == "lng":
-            value[0] = float(value[0]) * -1
-            hemisphere = "W"
-        else:
-            hemisphere = "N" if type == "lat" else "E"
-        degree = value[0]
+        try:
+            value = str(coordinate).split(".")
+            minute = 0
+            degree = 0
+            hemisphere = ""
+            degree = ""
+            if "-" in value[0] and type == "lat":
+                value[0] = float(value[0]) * -1
+                hemisphere = "S"
+            elif type == "lng":
+                value[0] = float(value[0]) * -1
+                hemisphere = "W"
+            else:
+                hemisphere = "N" if type == "lat" else "E"
+            degree = value[0]
 
-        if len(str(int(degree))) < 2:
-            degree = "0"+str(int(degree))
-        else:
-            degree = int(degree)
-        value[1] = "0." + value[1]
-        minute = float(value[1]) * 60
-        value2 = str(minute).split(".")
-        minute = value2[0]
-        value2[1] = "0." + value2[1]
-        second = float(value2[1]) * 60
-        second = round(float(second), 2)
+            if len(str(int(degree))) < 2:
+                degree = "0"+str(int(degree))
+            else:
+                degree = int(degree)
+            value[1] = "0." + value[1]
+            minute = float(value[1]) * 60
+            value2 = str(minute).split(".")
+            minute = value2[0]
+            value2[1] = "0." + value2[1]
+            second = float(value2[1]) * 60
+            second = round(float(second), 2)
 
-        coord = '''{}° {}' {}" {}'''.format(degree, minute, second, hemisphere)
+            coord = '''{}° {}' {}" {}'''.format(degree, minute, second, hemisphere)
 
-        return coord
+            return coord
+        except:
+            return coordinate
 
     def toDDMM (self, coordinate, type):
         if coordinate == "":
             return ""
-        value = str(coordinate).split(".")
-        hemisphere = ""
-        degree = ""
-        minute = 0
-        if "-" in value[0] and type == "lat":
-            value[0] = float(value[0]) * -1
-            hemisphere = "S"
-        elif type == "lng":
-            value[0] = float(value[0]) * -1
-            hemisphere = "W"
-        else:
-            hemisphere = "N" if type == "lat" else "E"
-        degree = value[0]
-        if len(str(int(degree))) < 2:
-            degree = "0"+str(int(degree))
-        else:
-            degree = int(degree)
-        value[1] = "0." + value[1]
-        minute = float(value[1]) * 60
-        minute = round(float(minute), 3)
-        coord = '''{}° {}' {}'''.format(degree, minute, hemisphere)
-        return coord
+        try:
+            value = str(coordinate).split(".")
+            hemisphere = ""
+            degree = ""
+            minute = 0
+            if "-" in value[0] and type == "lat":
+                value[0] = float(value[0]) * -1
+                hemisphere = "S"
+            elif type == "lng":
+                value[0] = float(value[0]) * -1
+                hemisphere = "W"
+            else:
+                hemisphere = "N" if type == "lat" else "E"
+            degree = value[0]
+            if len(str(int(degree))) < 2:
+                degree = "0"+str(int(degree))
+            else:
+                degree = int(degree)
+            value[1] = "0." + value[1]
+            minute = float(value[1]) * 60
+            minute = round(float(minute), 3)
+            coord = '''{}° {}' {}'''.format(degree, minute, hemisphere)
+            return coord
+        except:
+            return coordinate

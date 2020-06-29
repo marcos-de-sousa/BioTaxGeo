@@ -55,6 +55,7 @@ def markers_list_map():
     elif request.method == "POST":
         try:
             polygons = request.form['vertices']
+            print(polygons)
             polygons = eval(polygons)
             coord_lat = used_sheet.coordinate.get_Latitude_Column_values()
             coord_lng = used_sheet.coordinate.get_Longitude_Column_values()
