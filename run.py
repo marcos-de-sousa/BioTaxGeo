@@ -4,6 +4,7 @@ from controller.home_controller import home_blueprint
 from controller.markers_controller import markers_blueprint
 from controller.taxon_controller import taxon_blueprint
 from controller.coordinate_controller import coordinate_blueprint
+from controller.date_controller import date_blueprint
 app = Flask(__name__)
 
 # home
@@ -20,4 +21,7 @@ app.register_blueprint(taxon_blueprint)
 
 # Coordinate conversor
 app.register_blueprint(coordinate_blueprint)
+
+# Date
+app.register_blueprint(date_blueprint)
 app.run(debug=True, port=8080)

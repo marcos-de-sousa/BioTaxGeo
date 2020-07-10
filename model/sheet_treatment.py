@@ -152,12 +152,19 @@ class Sheet:
                 style = xlwt.easyxf(
                     'pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
                 self.formated_sheet.write(change_row, column_index, data_to_change[row][column], style)
-    def Change_Column(self, column, value):
+    def Change_Column(self, column, value, wrong_cell=None):
         row = 1
         column_index = self.sheet.row_values(0).index(column)
+
         for data in value:
             if (data == self.Value_in_Cell(row, column_index)):
                 style = xlwt.easyxf('pattern: pattern solid, fore_colour red; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
+            elif wrong_cell != None:
+
+                if row in wrong_cell:
+                    style = xlwt.easyxf('pattern: pattern solid, fore_colour red; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
+                else:
+                    style = xlwt.easyxf('pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
             else:
                 style = xlwt.easyxf('pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
             self.formated_sheet.write(row, column_index, data, style)

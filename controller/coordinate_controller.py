@@ -4,11 +4,6 @@ from controller.home_controller import used_sheet
 
 coordinate_blueprint = Blueprint('coordinate', __name__, template_folder='templates')
 
-@coordinate_blueprint.route("/coordinate_form", methods=["GET", "POST"])
-def coordinate_form():
-    if request.method == 'GET':
-        titles_cookie = request.cookies.get("titles_coordinate")
-        return render_template("form/coordinate_form.html", titles=used_sheet.get_Sheet_Header(), cookies=titles_cookie)
 
 @coordinate_blueprint.route("/coordinate_validation", methods=["GET", "POST"])
 def coordinate_validation():

@@ -45,3 +45,15 @@ def markers_form():
     if request.method == 'GET':
         cookies = request.cookies.get("titles_marker")
         return render_template("form/markers_form.html", titles=used_sheet.get_Sheet_Header(), cookies=cookies)
+
+@form_blueprint.route("/coordinate_form", methods=["GET", "POST"])
+def coordinate_form():
+    if request.method == 'GET':
+        titles_cookie = request.cookies.get("titles_coordinate")
+        return render_template("form/coordinate_form.html", titles=used_sheet.get_Sheet_Header(), cookies=titles_cookie)
+
+
+@form_blueprint.route("/date_form")
+def date_form():
+    cookies = request.cookies.get("titles_date")
+    return render_template("form/date_form.html", titles=used_sheet.get_Sheet_Header(), cookies=cookies)
