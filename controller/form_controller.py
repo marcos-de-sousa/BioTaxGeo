@@ -57,3 +57,8 @@ def coordinate_form():
 def date_form():
     cookies = request.cookies.get("titles_date")
     return render_template("form/date_form.html", titles=used_sheet.get_Sheet_Header(), cookies=cookies)
+
+@form_blueprint.route("/dwc_form")
+def dwc_form():
+    cookies = request.cookies.get("titles_dwc")
+    return render_template("form/DwC_form.html", titles=used_sheet.get_Sheet_Header(), cookies=cookies)

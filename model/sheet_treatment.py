@@ -20,8 +20,8 @@ class Sheet:
         self.coordinate = None
         self.locality = None
         self.data_treatment = None
-        self.columns_total = int
-        self.row_total = int
+        self.columns_total = 0
+        self.row_total = 0
         self.cell_value = str
         self.values_column = []
         self.values_row = []
@@ -57,6 +57,17 @@ class Sheet:
     def set_File(self, file):
         self.file = file
 
+    def create_WriteFile(self):
+        self.write_file = xlwt.Workbook()
+
+    def create_SheetWriteFile(self, name):
+        self.formated_sheet = self.write_file.add_sheet(name, cell_overwrite_ok=True)
+
+    def set_HeaderWriteFile(self, values):
+        index = 0
+        for name in values:
+            self.formated_sheet.write(0, index, name)
+            index += 1
     def set_isCSV(self, value):
         self.isCSV = value
 
@@ -84,6 +95,7 @@ class Sheet:
         if (row <= self.get_Row_Total() and columns <= self.get_Columns_Total()):
             self.cell_value = self.sheet.cell(row, columns).value
             return self.cell_value
+        return "Empty"
 
     def Value_in_Column(self, column):
         self.Reset_Values()
@@ -152,15 +164,19 @@ class Sheet:
                 style = xlwt.easyxf(
                     'pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
                 self.formated_sheet.write(change_row, column_index, data_to_change[row][column], style)
-    def Change_Column(self, column, value, wrong_cell=None):
+
+    def Change_Column(self, column, value, wrong_cell=None, index=None):
         row = 1
-        column_index = self.sheet.row_values(0).index(column)
+        column_index = 0
+        if column:
+            column_index = self.sheet.row_values(0).index(column)
+        if index:
+            column_index = index
 
         for data in value:
             if (data == self.Value_in_Cell(row, column_index)):
                 style = xlwt.easyxf('pattern: pattern solid, fore_colour red; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
             elif wrong_cell != None:
-
                 if row in wrong_cell:
                     style = xlwt.easyxf('pattern: pattern solid, fore_colour red; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
                 else:
@@ -176,3 +192,10 @@ class Sheet:
             data_xls = pd.read_excel("files/Planilha_Formatada.xls")
             return data_xls.to_csv("files/Planilha_Formatada.csv", encoding="utf-8", index=False)
         return self.write_file.save("files/Planilha_Formatada{}".format(type))
+
+    def Save_Write_Spreadsheet(self, type, name):
+        if(type == ".csv"):
+            self.write_file.save("files/"+name+".xls")
+            data_xls = pd.read_excel("files/"+name+".xls")
+            return data_xls.to_csv("files/"+name+".csv", encoding="utf-8", index=False)
+        return self.write_file.save("files/"+name+"{}".format(type))

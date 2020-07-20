@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Spreadsheet</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/loading.css') }}"/>
+        <link href="https://fonts.googleapis.com/css?family=Tomorrow&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="loader"> <img src="../static/image/tree-spinner.gif"></div>
+        {% extends "fragments/navbar.html" %}
+        {% block content %}
+        <div class="container" style="justify-content: center; display: grid;">
+         <div class="formCard card">
+            <div class="card-header text-center cardHeader">Form</div>
+            <div style="background-color: rgba(255,255,255,0)" class="card-body">
+               <table class="table table-striped">
+                  <tbody>
+                     <tr align="center">
+                        <td>
+                           <form class="well form-horizontal" action="dwc_validation" method = "POST" enctype = "multipart/form-data">
+                              <fieldset>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the OccurrenceID column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-user"></i>
+                                           </span>
+                                           <select class="custom-select" name="occurrenceid">
+                                               <option>Select...</option>
+                                             {% for title in titles %}
+                                             <option>{{title}}</option>
+                                             {% endfor%}
+                                           </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the basisOfRecord column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-user"></i>
+                                           </span>
+                                           <select class="custom-select" name="basisofrecord">
+                                               <option>Select...</option>
+                                               {% for title in titles %}
+                                                <option>{{title}}</option>
+                                                {% endfor%}
+                                           </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                   <label class="col-md-4 control-label">Select the eventDate column</label>
+                                   <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                           <select class="custom-select" name="eventdate">
+                                               <option>Select...</option>
+                                               {% for title in titles %}
+                                               <option>{{title}}</option>
+                                               {% endfor%}
+                                           </select>
+                                       </div>
+                                   </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the kingdom column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-user"></i>
+                                           </span>
+                                           <select class="custom-select" name="kingdom">
+                                               <option>Select...</option>
+                                               {% for title in titles %}
+                                               <option>{{title}}</option>
+                                               {% endfor%}
+                                           </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Selec the phylum column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                           <select class="custom-select" name="phylum">
+                                               <option>Select...</option>
+                                               {% for title in titles %}
+                                               <option>{{title}}</option>
+                                               {% endfor%}
+                                           </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the class column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                           <select class="custom-select" name="class">
+                                               <option>Select...</option>
+                                               {% for title in titles %}
+                                               <option>{{title}}</option>
+                                               {% endfor%}
+                                           </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the order column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                           <select class="custom-select" name="order">
+                                               <option>Select...</option>
+                                               {% for title in titles %}
+                                               <option>{{title}}</option>
+                                               {% endfor%}
+                                           </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the family column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                           <select class="custom-select" name="family">
+                                               <option>Select...</option>
+                                               {% for title in titles %}
+                                               <option>{{title}}</option>
+                                               {% endfor%}
+                                           </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the genus column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                           <select class="custom-select" name="genus">
+                                               <option>Select...</option>
+                                                {% for title in titles %}
+                                                <option>{{title}}</option>
+                                                {% endfor%}
+                                           </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                   <label class="col-md-4 control-label">Select the species column</label>
+                                   <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                           <select class="custom-select" name="species">
+                                               <option>Select...</option>
+                                               {% for title in titles %}
+                                               <option>{{title}}</option>
+                                               {% endfor%}
+                                           </select>
+                                       </div>
+                                   </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the latitude column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                           <select class="custom-select" name="latitude">
+                                               <option>Select...</option>
+                                               {% for title in titles %}
+                                               <option>{{title}}</option>
+                                               {% endfor%}
+                                           </select>
+                                       </div>
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the longitude column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                            <select class="custom-select" name="longitude">
+                                                <option>Select...</option>
+                                                {% for title in titles %}
+                                                <option>{{title}}</option>
+                                                {% endfor%}
+                                            </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the geodeticDatum column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                            <select class="custom-select" name="geodeticdatum">
+                                                <option>Select...</option>
+                                                {% for title in titles %}
+                                                <option>{{title}}</option>
+                                                {% endfor%}
+                                            </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label">Select the countryCode column</label>
+                                    <div class="col-md-8 inputGroupContainer">
+                                       <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="glyphicon glyphicon-home"></i>
+                                           </span>
+                                            <select class="custom-select" name="countrycode">
+                                                <option>Select...</option>
+                                                {% for title in titles %}
+                                                <option>{{title}}</option>
+                                                {% endfor%}
+                                            </select>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </fieldset>
+                               <div align="center" class="container">
+                                    <!--<input type="text" name="selection" value="" hidden="hidden" id="selection_titles"/>-->
+                                    <input id="submit" type="submit" value="Start Verification" class="col-md-4 btn btn-success btn-lg btn-block"/>
+                                </div>
+                           </form>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div class="card-footer">
+                <!--
+               <form action="taxon_list" method = "POST" enctype = "multipart/form-data">
+                  <div align="center" class="container">
+                     <input type="text" name="selection" value="" hidden="hidden" id="selection_titles"/>
+                     <input id="submit" type="submit" value="Start Verification" class="col-md-4 btn btn-success btn-lg btn-block" disabled/>
+                  </div>
+               </form>
+               -->
+            </div>
+         </div>
+        </div>
+        <script>
+            var cookies = "{{cookies}}"
+            cookies = cookies.replace(/&#34;/g,'"');
+            cookies != "None" ? cookies = JSON.parse(cookies) : cookies = null
+            var list_selects = document.getElementsByClassName("custom-select");
+            if (cookies){
+                for (item=0; item<list_selects.length; item++){
+                    for (item2=0; item2<list_selects[item].childElementCount; item2++){
+                        if(cookies[list_selects[item].name] == list_selects[item][item2].label){
+                            list_selects[item].selectedIndex = item2;
+                        }
+                    }
+
+                }
+            }
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="../static/js/events/loading.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        {% endblock %}
+    </body>
+</html>
