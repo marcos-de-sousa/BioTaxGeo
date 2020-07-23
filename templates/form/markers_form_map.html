@@ -42,8 +42,22 @@
         </div>
         
         <!-- Div referente a configuração do polígono -->
+
         <div class="col" style="justify-content: center; display: flex;">
           <div id="column_right" class="card" style="background-color: rgba(255,255,255,.85); border-radius: 5px;">
+            <label style="text-align: center">Send a geoJson file</label>
+            <form action="markers_form_map" method="POST" enctype="multipart/form-data" style="margin-top: 5px;margin-bottom: 5px;">
+              <input style="width: 100%;" class="input-group-text" id="uploadFile" placeholder="Choose the file" disabled="disabled" />
+              <div style="display: flex; flex-direction: row; justify-content: center;">
+                  <div class="fileUpload btn btn-primary">
+                      <span style="font-size: 15px;">Choose file</span>
+                      <input id="uploadBtn" type="file" name="file" class="upload" />
+                  </div>
+                  <div style="margin-top: 10px;">
+                      <input id="submit_home" type="submit" value="Send file" class="btn btn-success" disabled/>
+                  </div>
+              </div>
+            </form>
             <div class="card-body" >
               <select class="form-control" style="margin-bottom: 10px;" id="select_poly">
                 <option value=-1>Select Polygon</option>
@@ -76,7 +90,17 @@
         </div>
       </div>
     </div>
-      
+      <script>
+          var geojson = "{{geojson}}"
+          console.log(geojson)
+             document.getElementById("uploadBtn").onchange = function () {
+                  document.getElementById("uploadFile").value = this.value;
+                  if(document.getElementById("uploadFile").value != "" || document.getElementById("uploadFile").value != null){
+                      document.getElementById("submit_home").removeAttribute("disabled");
+                  }
+             };
+
+      </script>
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

@@ -3,7 +3,6 @@ function createPolygon() {
     var belem = {lat:-1.44502, lng: -48.4650};
     var map = new google.maps.Map(document.getElementById('first_map'), {zoom: 4, center: belem, gestureHandling: 'greedy'});
     var selected_polygon = new Polygon(map)
-
     var div_component = document.getElementById("insert_inputs")
     var btn_create_poly = document.getElementById("Btn_Create_Poly")
     var select_poly_component = document.getElementById("select_poly")
@@ -12,14 +11,35 @@ function createPolygon() {
     var input_lng = document.getElementById("Longitude")
     var btn_save_coordinate = document.getElementById("btn_save_coord")
     var input_send_polygons = document.getElementById("send_polygons")
-
     var list_componentsHTML = []
     var list_polygons = []
     var polygon_components = {}
     var index_polygon = 0
     list_polygons.push(selected_polygon)
+    if(geojson != "null"){
+        map.data.setStyle({visible: false});
+        map.data.loadGeoJson('static/geojson/'+geojson, "title", function(a){
+            let regioes = a
+            for (i in regioes){
+                let polygon_coord = regioes[i]["i"]["i"][0]["i"]
+                for (coord of polygon_coord){
+                    input_lat.value = coord.lat()
+                    input_lng.value = coord.lng()
+                    addVerticesPolygon(coord)
+                    input_lat.value = ""
+                    input_lng.value = ""
+                }
+                if (i < (regioes.length-1)){
+                    CreatePolygon()
+                }
+
+            }
+
+        });
+    }
 
     function addVerticesPolygon(event){
+
         var new_components = new ComponentHTML()
         event.latLng===undefined ? vertex_lat = input_lat.value : vertex_lat = event.latLng.lat()
         event.latLng===undefined ? vertex_lng = input_lng.value : vertex_lng = event.latLng.lng()

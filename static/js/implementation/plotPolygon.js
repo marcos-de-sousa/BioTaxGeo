@@ -25,7 +25,8 @@ function plotPolygon() {
     var List_Components_HTML/*..............*/ = [];
     var List_Marker/*.......................*/ = [];
     //_____________________________________________________________________________________________________________________
-    
+    console.log(latitudes)
+    console.log(longitudes)
     
     //todos esses for são para verificar se há markers dentro de algum polígono
     for (poly in polygons){
@@ -154,7 +155,7 @@ function plotPolygon() {
         if(region.indexOf(column) > -1){
             BUTTOM_CONFIRM.removeAttribute("disabled");
             if(column == "country"){
-                text.innerHTML = `We have verified that your COUNTRY is incorrect.<br>We noticed that in your spreadsheet your column for the country contains the value: <b style='color: red;'>${country[index]}</b><br>While its coordinate represents the location: <b style='color: green;'>${list_region[index][column]}<b>`
+                text.innerHTML = `We have verified that your COUNTRY is incorrect.<br>We noticed that in your spreadsheet your column for the country contains the value: <b style='color: #ff0000;'>${country[index]}</b><br>While its coordinate represents the location: <b style='color: green;'>${list_region[index][column]}<b>`
                 Values_To_Send[Column_Modify] = list_region[index][column]
             }
             else if(column == "state"){

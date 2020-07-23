@@ -59,6 +59,24 @@ class Date:
             return new_date
         return "Error"
 
+    def toAAAAMMDD(self, date, type_separator, init_format):
+        new_date = {"date": date, "day": False, "month": False}
+        if(self.is_Have_Separator(date)):
+            separator = self.get_Date_Separator(date)
+            split_date = date.split(separator)
+            if init_format == "DDMMAAAA":
+                new_date["day"] = self.checkDay(split_date[0])
+                new_date["month"] = self.checkMonth(split_date[1])
+                new_date["date"] = f"{split_date[2]}{type_separator}{split_date[1]}{type_separator}{split_date[0]}"
+            if init_format == "MMDDAAAA":
+                new_date["day"] = self.checkDay(split_date[1])
+                new_date["month"] = self.checkMonth(split_date[0])
+                new_date["date"] = f"{split_date[2]}{type_separator}{split_date[0]}{type_separator}{split_date[1]}"
+            return new_date
+        else:
+            return new_date
+        return "Error"
+
     def checkDay(self, day):
         new_day = int(day)
         if new_day > 0 and new_day < 31:

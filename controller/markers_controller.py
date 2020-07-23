@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request, Blueprint, make_response
 from controller import home_controller
-from model.hierarchy_taxon import Hierarchy_Taxon
+from werkzeug.utils import secure_filename
 import googlemaps
 import json
 
@@ -43,12 +43,19 @@ def markers_validation():
             response.set_cookie("format_coordinate", format_coordinate)
             return response
         else:
+
             return redirect(url_for("markers.markers_form_map"))
 
 @markers_blueprint .route("/markers_form_map",methods=["GET","POST"])
 def markers_form_map():
     if request.method == "GET":
-        return render_template("form/markers_form_map.html", google_key=google_key)
+        return render_template("form/markers_form_map.html", google_key=google_key, geojson="null")
+    else:
+        f = request.files['file']
+        name_file = f.filename
+        f.save("files/" + secure_filename(name_file))
+
+        return render_template("form/markers_form_map.html", google_key=google_key, geojson=name_file)
 
 @markers_blueprint .route("/markers_list_map",methods=["GET","POST"])
 def markers_list_map():
@@ -57,7 +64,6 @@ def markers_list_map():
     elif request.method == "POST":
         try:
             polygons = request.form['vertices']
-
             polygons = eval(polygons)
             coord_lat = used_sheet.coordinate.get_Latitude_Column_values()
             coord_lng = used_sheet.coordinate.get_Longitude_Column_values()
@@ -78,50 +84,56 @@ def markers_list_map():
                 del(spreadsheet_state[delete])
                 del(spreadsheet_county[delete])
                 count+=1
-            try:
-                for x in range(len(coord_lat)):
-                    region = {"country": "null", "state": "null", "county": "null"}
+            for x in range(len(coord_lat)):
+                region = {"country": "null", "state": "null", "county": "null"}
+                if type(coord_lat[x])==float and type(coord_lng[x])==float:
                     reverse_geocode_result = gmaps.reverse_geocode((coord_lat[x], coord_lng[x]), language="pt-BR")
-                    index = 0
-                    for x in range(len(reverse_geocode_result)):
-                        if reverse_geocode_result[x]['types'][0] == 'administrative_area_level_2':
-                            index = x
-                    try:
-                        region['country'] = reverse_geocode_result[index]['address_components'][2]['long_name']
-                    except:
-                        region['country'] = "null"
-                    try:
-                        region['state'] = reverse_geocode_result[index]['address_components'][1]['long_name']
-                    except:
-                        region['state'] = "null"
-                    try:
-                        region['county'] = reverse_geocode_result[index]['address_components'][0]['long_name']
-                    except:
-                        region['county'] = "null"
-                    list_region.append(region)
+                else:
+                    if type(coord_lat[x]) == str:
+                        coord_lat[x] = 0.0
+                    if type(coord_lng[x]) == str:
+                        coord_lng[x] = 0.0
+                    reverse_geocode_result = []
+                index = 0
+                for x in range(len(reverse_geocode_result)):
+                    if reverse_geocode_result[x]['types'][0] == 'administrative_area_level_2':
+                        index = x
+                try:
+                    region['country'] = reverse_geocode_result[index]['address_components'][2]['long_name']
+                except:
+                    region['country'] = "null"
+                try:
+                    region['state'] = reverse_geocode_result[index]['address_components'][1]['long_name']
+                except:
+                    region['state'] = "null"
+                try:
+                    region['county'] = reverse_geocode_result[index]['address_components'][0]['long_name']
+                except:
+                    region['county'] = "null"
+                list_region.append(region)
 
-                for x in range(len(list_region)):
-                    checked_region = {"country": {'name1': None, 'name2': None, 'score': None}, "state": {'name1': None, 'name2': None, 'score': None}, "county": {'name1': None, 'name2': None, 'score': None}}
-                    checked_region['country']['name1'] = spreadsheet_country[x]
-                    checked_region['country']['name2'] = list_region[x]['country']
-                    checked_region['country']['score'] = used_sheet.data_treatment.Compare_String(spreadsheet_country[x], list_region[x]['country'])
+            for x in range(len(list_region)):
+                checked_region = {"country": {'name1': None, 'name2': None, 'score': None}, "state": {'name1': None, 'name2': None, 'score': None}, "county": {'name1': None, 'name2': None, 'score': None}}
+                checked_region['country']['name1'] = spreadsheet_country[x]
+                checked_region['country']['name2'] = list_region[x]['country']
+                checked_region['country']['score'] = used_sheet.data_treatment.Compare_String(spreadsheet_country[x], list_region[x]['country'])
 
-                    checked_region['state']['name1'] = spreadsheet_state[x]
-                    checked_region['state']['name2'] = list_region[x]['state']
-                    checked_region['state']['score'] = used_sheet.data_treatment.Compare_String(spreadsheet_state[x], list_region[x]['state'])
+                checked_region['state']['name1'] = spreadsheet_state[x]
+                checked_region['state']['name2'] = list_region[x]['state']
+                checked_region['state']['score'] = used_sheet.data_treatment.Compare_String(spreadsheet_state[x], list_region[x]['state'])
 
-                    checked_region['county']['name1'] = spreadsheet_county[x]
-                    checked_region['county']['name2'] = list_region[x]['county']
-                    checked_region['county']['score'] = used_sheet.data_treatment.Compare_String(spreadsheet_county[x], list_region[x]['county'])
+                checked_region['county']['name1'] = spreadsheet_county[x]
+                checked_region['county']['name2'] = list_region[x]['county']
+                checked_region['county']['score'] = used_sheet.data_treatment.Compare_String(spreadsheet_county[x], list_region[x]['county'])
 
-                    list_treatment_region.append(checked_region)
-            except NameError:
-                print("erro: "+NameError)
+                list_treatment_region.append(checked_region)
+
             row_coord_lat = used_sheet.coordinate.get_Index_Row_Lat()
             row_coord_lng = used_sheet.coordinate.get_Index_Row_Lng()
             return render_template("list/markers_list.html", google_key=google_key, polygons=polygons, latitude=coord_lat, longitude=coord_lng, row_coord_lat=row_coord_lat, row_coord_lng=row_coord_lng, list_region=list_region, country=spreadsheet_country, state=spreadsheet_state, county=spreadsheet_county, list_checked_regions=list_treatment_region, spreadsheet_titles=spreadsheet_titles)
         except:
             return render_template("errorscreen/InvalidValue.html")
+
 @markers_blueprint .route("/markers_confirm", methods=["GET", "POST"])
 def markers_confirm():
     if request.method == "POST":

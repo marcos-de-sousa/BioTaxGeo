@@ -29,8 +29,7 @@ class Sheet:
         self.isCSV = False
 
     def set_Path_configure_all(self, path):
-        self.path = str(
-            os.getcwd()) + "/files/" + path if path != None else None  # O comando os.getcwd pega o diretório atual de onde o arquivo python está.
+        self.path = str(os.getcwd()) + "/files/" + path if path != None else None  # O comando os.getcwd pega o diretório atual de onde o arquivo python está.
         try:
             self.file = xlrd.open_workbook(self.path,
                                            formatting_info=True)  # Abre o arquivo com o nome enviado no parâmetro diretorio
@@ -174,15 +173,18 @@ class Sheet:
             column_index = index
 
         for data in value:
-            if (data == self.Value_in_Cell(row, column_index)):
-                style = xlwt.easyxf('pattern: pattern solid, fore_colour red; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
-            elif wrong_cell != None:
-                if row in wrong_cell:
+            if index == None:
+                if (data == self.Value_in_Cell(row, column_index)):
                     style = xlwt.easyxf('pattern: pattern solid, fore_colour red; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
+                elif wrong_cell != None:
+                    if row in wrong_cell:
+                        style = xlwt.easyxf('pattern: pattern solid, fore_colour red; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
+                    else:
+                        style = xlwt.easyxf('pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
                 else:
                     style = xlwt.easyxf('pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
             else:
-                style = xlwt.easyxf('pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
+                style = xlwt.easyxf('pattern: pattern solid, fore_colour white; font: colour black; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
             self.formated_sheet.write(row, column_index, data, style)
             row += 1
 
