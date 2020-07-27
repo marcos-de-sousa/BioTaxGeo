@@ -25,17 +25,24 @@ function plotPolygon() {
     var List_Components_HTML/*..............*/ = [];
     var List_Marker/*.......................*/ = [];
     //_____________________________________________________________________________________________________________________
-    console.log(latitudes)
-    console.log(longitudes)
-    
+
     //todos esses for são para verificar se há markers dentro de algum polígono
     for (poly in polygons){
         let selected_polygon = new Polygon(map)
         let header_table = new ComponentHTML()
+        let name_poly
         selected_polygon.setActive(false)
         selected_polygon.setPath(polygons[poly])
+        index_name = List_Poly.length
         List_Poly.push(selected_polygon)
-        header_table.createHeaderTable("List of Markers within the Polygon "+List_Poly.length, List_Poly.length)
+        console.log(geojson_names.length)
+        if (geojson_names.length > 0){
+            name_poly = geojson_names[index_name]
+        }
+        else{
+            name_poly = "Polygon "+List_Poly.length
+        }
+        header_table.createHeaderTable("List of Markers within the "+name_poly, List_Poly.length)
         header_table.createTitleTable()
         selected_polygon.setTitle("polygon"+List_Poly.length)
         List_Components_HTML.push(header_table)

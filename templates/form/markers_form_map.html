@@ -61,7 +61,6 @@
             <div class="card-body" >
               <select class="form-control" style="margin-bottom: 10px;" id="select_poly">
                 <option value=-1>Select Polygon</option>
-                <option value=0>Polygon 1</option>
               </select>
               
               <div class="input-group mb-3">
@@ -83,6 +82,7 @@
 
                   <input id="submit" type = "submit" value="Verify Areas" class="btn btn-primary btn-lg btn-block"/>
                   <input type="text" name = "vertices" value="{}" hidden="hidden" id="send_polygons"/>
+                  <input type="text" name = "geojson_names" value="" hidden="hidden" id="geojson_names"/>
                 </form>
               </div>
             </div>
@@ -92,7 +92,6 @@
     </div>
       <script>
           var geojson = "{{geojson}}"
-          console.log(geojson)
              document.getElementById("uploadBtn").onchange = function () {
                   document.getElementById("uploadFile").value = this.value;
                   if(document.getElementById("uploadFile").value != "" || document.getElementById("uploadFile").value != null){

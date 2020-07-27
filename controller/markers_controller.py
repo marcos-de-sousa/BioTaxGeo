@@ -65,6 +65,7 @@ def markers_list_map():
         try:
             polygons = request.form['vertices']
             polygons = eval(polygons)
+            geojson = request.form['geojson_names']
             coord_lat = used_sheet.coordinate.get_Latitude_Column_values()
             coord_lng = used_sheet.coordinate.get_Longitude_Column_values()
             coord_lat = used_sheet.coordinate.Convert_Lat_Decimal(coord_lat)
@@ -130,7 +131,7 @@ def markers_list_map():
 
             row_coord_lat = used_sheet.coordinate.get_Index_Row_Lat()
             row_coord_lng = used_sheet.coordinate.get_Index_Row_Lng()
-            return render_template("list/markers_list.html", google_key=google_key, polygons=polygons, latitude=coord_lat, longitude=coord_lng, row_coord_lat=row_coord_lat, row_coord_lng=row_coord_lng, list_region=list_region, country=spreadsheet_country, state=spreadsheet_state, county=spreadsheet_county, list_checked_regions=list_treatment_region, spreadsheet_titles=spreadsheet_titles)
+            return render_template("list/markers_list.html", geojson_names=geojson, google_key=google_key, polygons=polygons, latitude=coord_lat, longitude=coord_lng, row_coord_lat=row_coord_lat, row_coord_lng=row_coord_lng, list_region=list_region, country=spreadsheet_country, state=spreadsheet_state, county=spreadsheet_county, list_checked_regions=list_treatment_region, spreadsheet_titles=spreadsheet_titles)
         except:
             return render_template("errorscreen/InvalidValue.html")
 

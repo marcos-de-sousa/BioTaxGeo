@@ -11,17 +11,29 @@ function createPolygon() {
     var input_lng = document.getElementById("Longitude")
     var btn_save_coordinate = document.getElementById("btn_save_coord")
     var input_send_polygons = document.getElementById("send_polygons")
+    var input_geojson_names = document.getElementById("geojson_names")
     var list_componentsHTML = []
     var list_polygons = []
+    var list_names_geojson = []
     var polygon_components = {}
     var index_polygon = 0
-    list_polygons.push(selected_polygon)
+    //map.data.loadGeoJson('static/geojson/Teste1.json')
+
     if(geojson != "null"){
         map.data.setStyle({visible: false});
         map.data.loadGeoJson('static/geojson/'+geojson, "title", function(a){
             let regioes = a
+            /*
+                A PARTIR DAQUI CRIAR CONDIÇÃO PARA CRIAR OS POLÍGONOS E MULTIPOLÍGONOS
+
+            map.data.toGeoJson(function (a) {
+                console.log(a)
+            })*/
             for (i in regioes){
                 let polygon_coord = regioes[i]["i"]["i"][0]["i"]
+                let name = regioes[i]["j"]["name"]
+                list_names_geojson.push(name)
+                CreatePolygon(name)
                 for (coord of polygon_coord){
                     input_lat.value = coord.lat()
                     input_lng.value = coord.lng()
@@ -29,15 +41,13 @@ function createPolygon() {
                     input_lat.value = ""
                     input_lng.value = ""
                 }
-                if (i < (regioes.length-1)){
-                    CreatePolygon()
-                }
-
             }
 
         });
     }
-
+    else{
+        CreatePolygon()
+    }
     function addVerticesPolygon(event){
 
         var new_components = new ComponentHTML()
@@ -79,22 +89,30 @@ function createPolygon() {
         RenameIDComponentsHTML(index)
         list_componentsHTML.splice(index,1)    
     }
-    function CreatePolygon(){
+    function CreatePolygon(name){
         let create = true
+        let first_polygon = list_polygons.length == 0 ? true : false
         list_polygons.forEach(function(poly){ poly.TotalVertices() < 3 ? create = false:null  })
+        create = create || first_polygon
         if(create){
             var new_polygon = new Polygon(map)
             list_polygons.push(new_polygon)
             selected_polygon.setActive(false)
             selected_polygon = new_polygon
-            index_polygon = list_polygons.length-1
+            index_polygon = parseInt(list_polygons.length)-1
             ClearDivComponent()
             list_componentsHTML = []
             polygon_components[`polygon${index_polygon}`] = {"polygon": selected_polygon, "components": list_componentsHTML}
-            
             var new_components = new ComponentHTML()
             total_polygon = list_polygons.length
-            new_components.createOption(index_polygon, "Polygon "+total_polygon, select_poly_component)
+            let name_polygon;
+            if (typeof name != "string" || name===undefined){
+                name_polygon = "Polygon "+total_polygon
+            }
+            else{
+                name_polygon = name
+            }
+            new_components.createOption(index_polygon, name_polygon, select_poly_component)
         }
         else{
             alert("To create a new polygon it is necessary that the current one has more than 2 vertices!")
@@ -142,8 +160,12 @@ function createPolygon() {
         for (polygon in polygon_components){
             send_polygons[polygon] = polygon_components[polygon]["polygon"].getVertices()
         }
+
         send_polygons = JSON.stringify(send_polygons)
+        let geojson_names = JSON.stringify(list_names_geojson)
         input_send_polygons.value = send_polygons
+        input_geojson_names.value = geojson_names
+
         alert("Coordinates Saved!")
     }
 

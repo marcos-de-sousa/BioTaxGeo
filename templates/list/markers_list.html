@@ -129,6 +129,7 @@
         var county = '{{county}}'
         var list_checked_regions = '{{list_checked_regions}}'
         var spreadsheet_titles = '{{spreadsheet_titles}}'
+        var geojson_names = '{{geojson_names}}'
 
         polygons = polygons.replace(/&#39;/g, '"')
         list_region = list_region.replace(/&#39;/g, '"')
@@ -137,6 +138,8 @@
         county =  county.replace(/&#39;/g, '"')
         list_checked_regions = list_checked_regions.replace(/&#39;/g, '"')
         spreadsheet_titles = spreadsheet_titles.replace(/&#39;/g, '"')
+        geojson_names = geojson_names.replace(/&#34;/g, '"')
+
 
         polygons = JSON.parse(polygons)
         latitudes = JSON.parse(latitudes)
@@ -149,7 +152,9 @@
         county = JSON.parse(county)
         spreadsheet_titles = JSON.parse(spreadsheet_titles)
         list_checked_regions = JSON.parse(list_checked_regions)
-        
+        geojson_names = JSON.parse(geojson_names)
+
+        console.log(geojson_names)
       </script>
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
