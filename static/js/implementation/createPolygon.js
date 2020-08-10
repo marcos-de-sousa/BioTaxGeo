@@ -16,8 +16,8 @@ function createPolygon() {
     var list_polygons = []
     var list_names_geojson = []
     var polygon_components = {}
+    var geojson_polys = {}
     var index_polygon = 0
-    //map.data.loadGeoJson('static/geojson/Teste1.json')
 
     if(geojson != "null"){
         map.data.setStyle({visible: false});
@@ -30,26 +30,28 @@ function createPolygon() {
                 console.log(a)
             })*/
             for (i in regioes){
-                let polygon_coord = regioes[i]["i"]["i"][0]["i"]
-                let name = regioes[i]["j"]["name"]
-                list_names_geojson.push(name)
-                CreatePolygon(name)
+                var polygon_coord = regioes[i]["i"]["i"][0]["i"]
+                var name_c = regioes[i]["j"]["name"]
+                list_names_geojson.push(name_c)
+                geojson_polys[name_c] = polygon_coord
+                CreatePolygon(name_c)
                 for (coord of polygon_coord){
                     input_lat.value = coord.lat()
                     input_lng.value = coord.lng()
                     addVerticesPolygon(coord)
                     input_lat.value = ""
-                    input_lng.value = ""
-                }
+                    input_lng.value = ""            
             }
+        }
 
         });
+
     }
     else{
         CreatePolygon()
     }
-    function addVerticesPolygon(event){
 
+    function addVerticesPolygon(event){
         var new_components = new ComponentHTML()
         event.latLng===undefined ? vertex_lat = input_lat.value : vertex_lat = event.latLng.lat()
         event.latLng===undefined ? vertex_lng = input_lng.value : vertex_lng = event.latLng.lng()

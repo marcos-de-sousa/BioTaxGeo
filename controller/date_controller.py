@@ -32,6 +32,13 @@ def date_validation():
                 list_index_wrong_cell.append(count)
             list_new_date.append(new_date['date'])
             count += 1
+    if new_type == "aaaammdd":
+        for d in list_date:
+            new_date = date.toAAAAMMDD(d, separator, current_format)
+            if new_date["day"] or new_date["month"]:
+                list_index_wrong_cell.append(count)
+            list_new_date.append(new_date['date'])
+            count += 1
     if list_index_wrong_cell == []:
         list_index_wrong_cell = None
     used_sheet.Change_Column(form['column_date'], list_new_date, list_index_wrong_cell)

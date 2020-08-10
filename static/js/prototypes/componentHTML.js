@@ -59,7 +59,7 @@ ComponentHTML.prototype.createInputGroup = function(lat, lng, index, append, eve
     // this.super_div.style = "margin-bottom: 10px;"
     append.appendChild(this.super_div);
 }
-ComponentHTML.prototype.createOption = function(value, text, select){
+ComponentHTML.prototype.createOption = function(value, text, select, visible){
     new_option = document.createElement("option");
     new_option.value = value
     new_option.innerHTML = text
