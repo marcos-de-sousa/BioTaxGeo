@@ -7,8 +7,8 @@ BioTaxGeo is a web-based application to assess the geospatial and taxonomic qual
 ## Sumary
    - [Functionalities](#functionalities)
       - [Taxonomy Check](#taxonomy-check)
-      - [Occurrence Check](#occurrence-check)
-      - [Comparison between Spreadsheets](#comparison-between-spreadsheets)
+      - [Geospatial check](#geospatial-check)
+      - [Compare spreadsheets](#compare-spreadsheets)
    - [Installation Guide](#installation-Guide)
    - [Authors](#authors)
    - [License](#license)
@@ -34,7 +34,7 @@ The user will submit a spreadsheet to check the taxonomy fields of all records o
 
 <p align="center"><img src="files/images/pt3&#32;2.gif" width="740" height="460"></p>
 
-### Occurrence Check
+### Geospatial check
 
 The user will inform the longitude and latitude fields present in the spreadsheet and must also inform the location of the species collection site, inserting markers on a map that will delimit the area forming a polygon. BioTaxGeo will check if there are inconsistencies in the data of the filled geographic coordinates, or if the data of the coordinates of the collected species are within the mapped area. The coordinate verification process is done via Google's Geocoding API.
 
@@ -48,7 +48,7 @@ The user will inform the longitude and latitude fields present in the spreadshee
 
 <p align="center"><img src="files/images/map-pt4.gif" width="740" height="460"></p>
 
-### Comparison between Spreadsheets
+### Compare spreadsheets
 
 This section will ask for you to fill the fields correctly to identify the columns for `two` spreadsheet files.
 
