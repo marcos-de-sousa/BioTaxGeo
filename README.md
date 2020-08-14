@@ -16,7 +16,7 @@ BioTaxGeo is a web-based application to assess the geospatial and taxonomic qual
 ## Functionalities
 
 
-<p align="center"><img src="files/images/ScreenshotIndex.png" width="740" height="460"></p>
+<p align="center"><img src="files/images/ScreenshotIndex.png" width="1339" height="1205"></p>
 
 
 
