@@ -52,8 +52,20 @@ class Data_Treatment:
                 else:
                     gbif_values = requests.get(
                         'http://api.gbif.org/v1/species/match?name=' + Scientific_Name + "&rank=SPECIES&strict=true").json()
-                    if (gbif_values["matchType"] != "NONE"):
 
+                    if (gbif_values["matchType"] != "NONE"):
+                        globalnames_values = requests.get(
+                            "http://resolver.globalnames.org/name_resolvers.json?names=" + gbif_values["species"]).json()
+                        if "results" in globalnames_values["data"][0]:
+                            aux_values = []
+                            for x in range(len(globalnames_values["data"][0]["results"])):
+                                font_name = globalnames_values["data"][0]["results"][x]["data_source_title"]
+                                font_score = globalnames_values["data"][0]["results"][x]["score"]
+                                font_specie = globalnames_values["data"][0]["results"][x]["canonical_form"]
+                                aux_values.append({"font": font_name, "score": font_score, "name": font_specie})
+                            globalnames_values = aux_values
+                        else:
+                            globalnames_values = []
                         self.taxon_validation.set_Hierarchy_Correctness(
                                                                         gbif_values["kingdom"],
                                                                         gbif_values["phylum"] ,
@@ -136,7 +148,8 @@ class Data_Treatment:
                                 "synonym": gbif_values["usageKey"],
                                 "accept": gbif_values["speciesKey"],
                                 "canonicalname": gbif_values["canonicalName"],
-                                "speciesname": gbif_values["species"]
+                                "speciesname": gbif_values["species"],
+                                "list_fonts": globalnames_values
                             }
                         }
                     else:
@@ -199,7 +212,8 @@ class Data_Treatment:
                                 "synonym": "",
                                 "accept": "",
                                 "canonicalname": "",
-                                "speciesname": ""
+                                "speciesname": "",
+                                "list_fonts": []
                             }
                         }
         for wrong_name in self.verified_hierarchy:
@@ -225,6 +239,18 @@ class Data_Treatment:
                                     self.verified_hierarchy[wrong_name][key]["correctness"] = self.verified_hierarchy[correct_name][key]["correctness"]
 
                 else:
+                    globalnames_values = requests.get(
+                        "http://resolver.globalnames.org/name_resolvers.json?names="+wrong_name).json()
+                    if "results" in globalnames_values["data"][0]:
+                        aux_values = []
+                        for x in range(len(globalnames_values["data"][0]["results"])):
+                            font_name = globalnames_values["data"][0]["results"][x]["data_source_title"]
+                            font_score = globalnames_values["data"][0]["results"][x]["score"]
+                            font_specie = globalnames_values["data"][0]["results"][x]["canonical_form"]
+                            aux_values.append({"font": font_name, "score": font_score, "name": font_specie})
+                        globalnames_values = aux_values
+                    else:
+                        globalnames_values = []
                     self.taxon_validation = Taxon_Validation(
                         k=self.verified_hierarchy[wrong_name]["kingdom"]["type"],
                         p=self.verified_hierarchy[wrong_name]["phylum"]["type"],
@@ -263,6 +289,7 @@ class Data_Treatment:
                                                                           )
 
                         except:
+                            print("Error in Suggest with the specie {}".format(wrong_name))
                             print('http://api.gbif.org/v1/species/suggest?q=' + wrong_name + '&rank=SPECIES&strict=true')
                         self.verified_hierarchy[wrong_name]["kingdom"]["suggestion"].append(
                             self.taxon_validation.get_Kingdom_Suggestion()) if self.taxon_validation.get_Kingdom_Suggestion() not in \
@@ -329,6 +356,7 @@ class Data_Treatment:
                         self.verified_hierarchy[wrong_name]["scientific name"]["accept"] = gbif_suggest[index]["speciesKey"]
                         self.verified_hierarchy[wrong_name]["scientific name"]["canonicalname"] = gbif_suggest[index]["canonicalName"]
                         self.verified_hierarchy[wrong_name]["scientific name"]["speciesname"] = gbif_suggest[index]["species"]
+                        self.verified_hierarchy[wrong_name]["scientific name"]["list_fonts"] = globalnames_values
 
     def set_Verified_Hierarchy(self, hierarchy):
         self.verified_hierarchy = hierarchy

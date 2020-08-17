@@ -46,7 +46,6 @@ def taxon_list():
             return render_template("errorscreen/InvalidValue.html")
     else:
         titles_cookie = request.cookies.get("titles_gbif")
-        print(titles_cookie)
         titles = eval(titles_cookie)
         used_sheet.set_Check_Columns(titles)
         used_sheet.data_treatment.Verified_Hierarchy(used_sheet.get_Columns_Checked())
@@ -56,6 +55,10 @@ def taxon_list():
         response.set_cookie("titles_gbif", titles_cookie)
         return response
 
+@taxon_blueprint.route("/taxon_source_list/<scientific_name>")
+def taxon_source_list(scientific_name):
+    list_font = used_sheet.data_treatment.get_Verified_Hierarchy()[scientific_name]["scientific name"]["list_fonts"]
+    return render_template("list/taxon_list_fonts.html", name=scientific_name, list_font=list_font)
 @taxon_blueprint.route("/taxon_validation", methods=["GET", "POST"])
 def taxon_validation():
     if request.method == "POST":

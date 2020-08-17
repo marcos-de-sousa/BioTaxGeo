@@ -99,7 +99,7 @@ function ChangingDataGBIF(){
     wrong_cell        = this;
     count             = 0;
     count2            = 0;
-    super_row          = this.parentElement;
+    super_row         = this.parentElement;
     //________________________________________________________________
     Confirm_Buttom.setAttribute("disabled", "");
 
@@ -111,24 +111,24 @@ function ChangingDataGBIF(){
             let linkGbifAccept = "https://www.gbif.org/species/"+verified_hierarchy[key1]["scientific name"]["accept"]
             let CanonicalName = verified_hierarchy[key1]["scientific name"]["canonicalname"]
             let SpeciesName = verified_hierarchy[key1]["scientific name"]["speciesname"]
-            text.innerHTML = `Source: ${verified_hierarchy[key1]['scientific name']['font']} <br>We verified that your species <a href=${linkGbifSynom} target="_blank">${CanonicalName}</a> is a <b>homotypical synonym</b> of <a href=${linkGbifAccept} target="_blank">${SpeciesName}</a>.<br>Do you want to change the value of <b><label style='color: #FFD700;'>${wrong_value}</label></b> to <b><label style='color: green;'>${correct_value}</label></b>?<br>Below is the amount of values you want to change: <br>`  
+            text.innerHTML = `<a target="_blank" href="http://localhost:8080/taxon_source_list/${verified_hierarchy[key1]["scientific name"]["type"]}">Source list</a><br>We verified that your species <a href=${linkGbifSynom} target="_blank">${CanonicalName}</a> is a <b>homotypical synonym</b> of <a href=${linkGbifAccept} target="_blank">${SpeciesName}</a>.<br>Do you want to change the value of <b><label style='color: #FFD700;'>${wrong_value}</label></b> to <b><label style='color: green;'>${correct_value}</label></b>?<br>Below is the amount of values you want to change: <br>`  
         } 
         else{
             let linkGbif = "https://www.gbif.org/species/"+verified_hierarchy[key1]["scientific name"]["accept"]
             fonte = verified_hierarchy[key1]["scientific name"]["font"] == "GBIF" ? `<a href=${linkGbif} target="_blank">GBIF</a>` : "Planilha"
             SpeciesName = verified_hierarchy[key1]["scientific name"]["speciesname"]
-            text.innerHTML = "Source: "+fonte+"<br>The value "+wrong_value+" regarding your species "+SpeciesName+" might be <b>possibly wrong</b>.<br>Do you want to change the value of <b><label style='color: #f57600;'>"+wrong_value+"</label></b> to <b><label style='color: green;'>"+correct_value+"</label></b>?<br>Below is the amount of values you want to change: <br>" 
+            text.innerHTML = `<a target="_blank" href="http://localhost:8080/taxon_source_list/${verified_hierarchy[key1]["scientific name"]["type"]}">Source list</a><br>The value ${wrong_value} regarding your species ${SpeciesName} might be <b>possibly wrong</b>.<br>Do you want to change the value of <b><label style='color: #f57600;'>${wrong_value}</label></b> to <b><label style='color: green;'>${correct_value}</label></b>?<br>Below is the amount of values you want to change: <br>`
         }
     }
     else if (correct_value.length > 0){
         more_one = true
         if(verified_hierarchy[key1]["scientific name"]["synonymous"]){
             let CanonicalName = verified_hierarchy[key1]["scientific name"]["type"]
-            text.innerHTML = "Source: "+verified_hierarchy[key1]["scientific name"]["font"]+"<br>We verified that your species "+CanonicalName+" is a <b>homotypical synonym</b>.<br>Do you want to change the value of <b><label style='color: #FFD700;'>"+wrong_value+"</b>, to:"
+            text.innerHTML = `<a target="_blank" href="http://localhost:8080/taxon_source_list/${verified_hierarchy[key1]["scientific name"]["type"]}">Source list</a><br>We verified that your species ${CanonicalName} is a <b>homotypical synonym</b>.<br>Do you want to change the value of <b><label style='color: #FFD700;'>${wrong_value}</b>, to:`
         }
         else{
             let CanonicalName = verified_hierarchy[key1]["scientific name"]["type"]
-            text.innerHTML = "Source: "+verified_hierarchy[key1]["scientific name"]["font"]+"<br>We verified that your value "+wrong_value+" of your species "+CanonicalName+"  <b> might be wrong</b>.<br>Do you want to change the value of <b><label style='color: #f57600;'>"+wrong_value+"</b>, to: "
+            text.innerHTML = `<a target="_blank" href="http://localhost:8080/taxon_source_list/${verified_hierarchy[key1]["scientific name"]["type"]}">Source list</a><br>We verified that your value ${wrong_value} of your species ${CanonicalName}  <b> might be wrong</b>.<br>Do you want to change the value of <b><label style='color: #f57600;'>${wrong_value}</b>, to: `
         }
         for (names of correct_value){
             div = document.createElement("div")
