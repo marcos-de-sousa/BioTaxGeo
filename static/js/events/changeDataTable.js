@@ -144,7 +144,7 @@ function ChangingDataGBIF(){
             label = document.createElement("label")
             label.className = "form-check-label"
             label.for = count
-            label.innerHTML = names
+            label.innerHTML = names +" ["+verified_hierarchy[key1][key2]["sources"][names]+"]"
             label.style = "color: green;"
             div.appendChild(input)
             div.appendChild(label)

@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request, Blueprint, make_response
+from flask import render_template, redirect, url_for, request, Blueprint, make_response, jsonify
 from controller import home_controller, form_controller
 from model.data_treatment import Data_Treatment
 import json
@@ -13,37 +13,37 @@ taxon_blueprint = Blueprint("taxon", __name__, template_folder="templates")
 @taxon_blueprint.route("/taxon_list", methods=["GET", "POST"])
 def taxon_list():
     if request.method == "POST":
-        try:
-            if(request.cookies.get("isUseCookie") == "accept"):
-                titles_gbif = request.cookies.get("titles_gbif")
-                if(titles_gbif == "" or titles_gbif=="None"):
-                    titles_gbif = None
-                if(titles_gbif == None):
-                    titles = request.form["selection"]
-                    if ("null" in titles):
-                        titles = titles.replace("null", "None")
-                    titles_cookie = titles
-                    titles = eval(titles)
-                    used_sheet.set_Check_Columns(titles)
-                    used_sheet.data_treatment.Verified_Hierarchy(used_sheet.get_Columns_Checked())
-                    verification = json.dumps(used_sheet.data_treatment.get_Verified_Hierarchy())
-                    response = make_response(render_template("list/taxon_list_gbif.html", verification=verification,
-                                                         total_rows=used_sheet.get_Row_Total()))
-                    response.set_cookie("titles_gbif", titles_cookie)
-                    return response
-            else:
+        #try:
+        if(request.cookies.get("isUseCookie") == "accept"):
+            titles_gbif = request.cookies.get("titles_gbif")
+            if(titles_gbif == "" or titles_gbif=="None"):
+                titles_gbif = None
+            if(titles_gbif == None):
                 titles = request.form["selection"]
                 if ("null" in titles):
                     titles = titles.replace("null", "None")
+                titles_cookie = titles
                 titles = eval(titles)
                 used_sheet.set_Check_Columns(titles)
                 used_sheet.data_treatment.Verified_Hierarchy(used_sheet.get_Columns_Checked())
                 verification = json.dumps(used_sheet.data_treatment.get_Verified_Hierarchy())
-                return render_template("list/taxon_list_gbif.html", verification=verification,
-                                                         total_rows=used_sheet.get_Row_Total())
+                response = make_response(render_template("list/taxon_list_gbif.html", verification=verification,
+                                                     total_rows=used_sheet.get_Row_Total()))
+                response.set_cookie("titles_gbif", titles_cookie)
+                return response
+        else:
+            titles = request.form["selection"]
+            if ("null" in titles):
+                titles = titles.replace("null", "None")
+            titles = eval(titles)
+            used_sheet.set_Check_Columns(titles)
+            used_sheet.data_treatment.Verified_Hierarchy(used_sheet.get_Columns_Checked())
+            verification = json.dumps(used_sheet.data_treatment.get_Verified_Hierarchy())
+            return render_template("list/taxon_list_gbif.html", verification=verification,
+                                                     total_rows=used_sheet.get_Row_Total())
 
-        except:
-            return render_template("errorscreen/InvalidValue.html")
+        #except:
+         #   return render_template("errorscreen/InvalidValue.html")
     else:
         titles_cookie = request.cookies.get("titles_gbif")
         titles = eval(titles_cookie)
@@ -68,7 +68,6 @@ def taxon_validation():
         used_sheet.Change_Data_Spreadsheet(data)
         used_sheet.Save_Formatted_Spreadsheet(type)
         return redirect(url_for("home.home"))
-
 
 @taxon_blueprint.route("/taxon_list2", methods=["GET", "POST"])
 def taxon_list2():
@@ -416,3 +415,8 @@ def taxon_list2():
                                                          total_rows=used_sheet.get_Row_Total())
         except:
             return render_template("errorscreen/InvalidValue.html")
+
+@taxon_blueprint.route("/globalnames/<name>")
+def globalnames(name):
+    valor = used_sheet.data_treatment.get_GlobalNames(name)
+    return valor

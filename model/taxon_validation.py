@@ -33,6 +33,12 @@ class Taxon_Validation(Hierarchy_Taxon):
     def get_Hierarchy (self):
         return self.kingdom, self.phylum, self.order, self.family, self.genus, self.specie, self.Scientific_Name
 
+    def get_Suggestion_Hierarchy (self):
+        return [self.kingdom_suggestion, self.phylum_suggestion,self.classs_suggestion, self.order_suggestion, self.family_suggestion, self.genus_suggestion, self.specie_suggestion, self.scientific_name_suggestion]
+
+    def get_Correctness_Hierarchy(self):
+        return [self.kingdom_correctness, self.phylum_correctness, self.class_correctness, self.order_correctness, self.family_correctness, self.genus_correctness, self.specie_correctness, self.scientific_name_correctness]
+
     def set_Hierarchy_Correctness (self, kingdom, phylum, classs, order, family, genus, specie, Scientific_Name):
         self.kingdom_correctness = "EXACT" if (self.kingdom == kingdom) else "FUZZY"
         self.phylum_correctness = "EXACT" if self.phylum == phylum else "FUZZY"

@@ -38,120 +38,127 @@ class Data_Treatment:
 
                 self.taxon_validation = Taxon_Validation(
                                                          k=check_hrch['kingdom'][index],
-                                                         p=check_hrch['phylum'] [index],
-                                                         c=check_hrch['class'] [index],
-                                                         o=check_hrch['order']  [index],
+                                                         p=check_hrch['phylum'][index],
+                                                         c=check_hrch['class'][index],
+                                                         o=check_hrch['order'][index],
                                                          f=check_hrch['family'][index],
-                                                         g=check_hrch['genus'] [index],
-                                                         e=check_hrch['specie'] [index],
+                                                         g=check_hrch['genus'][index],
+                                                         e=check_hrch['specie'][index],
                                                          sn=Scientific_Name
                                                         )
 
                 if Scientific_Name in self.get_Verified_Hierarchy():
                     continue
                 else:
-                    gbif_values = requests.get(
-                        'http://api.gbif.org/v1/species/match?name=' + Scientific_Name + "&rank=SPECIES&strict=true").json()
+                    globalnames = self.get_GlobalNames(Scientific_Name)
 
-                    if (gbif_values["matchType"] != "NONE"):
-                        globalnames_values = requests.get(
-                            "http://resolver.globalnames.org/name_resolvers.json?names=" + gbif_values["species"]).json()
-                        if "results" in globalnames_values["data"][0]:
-                            aux_values = []
-                            for x in range(len(globalnames_values["data"][0]["results"])):
-                                font_name = globalnames_values["data"][0]["results"][x]["data_source_title"]
-                                font_score = globalnames_values["data"][0]["results"][x]["score"]
-                                font_specie = globalnames_values["data"][0]["results"][x]["canonical_form"]
-                                aux_values.append({"font": font_name, "score": font_score, "name": font_specie})
-                            globalnames_values = aux_values
-                        else:
-                            globalnames_values = []
-                        self.taxon_validation.set_Hierarchy_Correctness(
-                                                                        gbif_values["kingdom"],
-                                                                        gbif_values["phylum"] ,
-                                                                        gbif_values["class"]  ,
-                                                                        gbif_values["order"]  ,
-                                                                        gbif_values["family"] ,
-                                                                        gbif_values["genus"]  ,
-                                                                        gbif_values["species"],
-                                                                        gbif_values["canonicalName"]
-                                                                       )
-
-                        self.taxon_validation.set_Hierarchy_Suggestion(
-                                                                       gbif_values["kingdom"],
-                                                                       gbif_values["phylum"] ,
-                                                                       gbif_values["class"]  ,
-                                                                       gbif_values["order"]  ,
-                                                                       gbif_values["family"] ,
-                                                                       gbif_values["genus"]  ,
-                                                                       gbif_values["species"],
-                                                                       gbif_values["canonicalName"]
-                                                                      )
-
+                    if (globalnames):
                         self.verified_hierarchy[Scientific_Name] = {
                             "kingdom": {
                                 "type": self.taxon_validation.get_Kingdom(),
-                                "correctness": self.taxon_validation.get_Kingdom_Correctness(),
+                                "correctness": None,
                                 "amount": check_hrch['kingdom'].count(self.taxon_validation.get_Kingdom()),
-                                "suggestion": self.taxon_validation.get_Kingdom_Suggestion(),
-                                "title": self.get_Original_Titles()[0]
+                                "suggestion": [],
+                                "title": self.get_Original_Titles()[0],
+                                "sources": {}
 
                             },
                             "phylum": {
                                 "type": self.taxon_validation.get_Phylum(),
-                                "correctness": self.taxon_validation.get_Phylum_Correctness(),
+                                "correctness": None,
                                 "amount": check_hrch['phylum'].count(self.taxon_validation.get_Phylum()),
-                                "suggestion": self.taxon_validation.get_Phylum_Suggestion(),
-                                "title": self.get_Original_Titles()[1]
+                                "suggestion": [],
+                                "title": self.get_Original_Titles()[1],
+                                "sources": {}
                             },
                             "class": {
                                 "type": self.taxon_validation.get_Classs(),
-                                "correctness": self.taxon_validation.get_Classs_Correctness(),
+                                "correctness": None,
                                 "amount": check_hrch['class'].count(self.taxon_validation.get_Classs()),
-                                "suggestion": self.taxon_validation.get_Classs_Suggestion(),
-                                "title": self.get_Original_Titles()[2]
+                                "suggestion": [],
+                                "title": self.get_Original_Titles()[2],
+                                "sources": {}
                             },
                             "order": {
                                 "type": self.taxon_validation.get_Order(),
-                                "correctness": self.taxon_validation.get_Order_Correctness(),
+                                "correctness": None,
                                 "amount": check_hrch['order'].count(self.taxon_validation.get_Order()),
-                                "suggestion": self.taxon_validation.get_Order_Suggestion(),
-                                "title": self.get_Original_Titles()[3]
+                                "suggestion": [],
+                                "title": self.get_Original_Titles()[3],
+                                "sources": {}
                             },
                             "family": {
                                 "type": self.taxon_validation.get_Family(),
-                                "correctness": self.taxon_validation.get_Family_Correctness(),
+                                "correctness": None,
                                 "amount": check_hrch['family'].count(self.taxon_validation.get_Family()),
-                                "suggestion": self.taxon_validation.get_Family_Suggestion(),
-                                "title": self.get_Original_Titles()[4]
+                                "suggestion": [],
+                                "title": self.get_Original_Titles()[4],
+                                "sources": {}
                             },
                             "genus": {
                                 "type": self.taxon_validation.get_Genus(),
-                                "correctness": self.taxon_validation.get_Genus_Correctness(),
+                                "correctness": None,
                                 "amount": check_hrch['genus'].count(self.taxon_validation.get_Genus()),
-                                "suggestion": self.taxon_validation.get_Genus_Suggestion(),
-                                "title": self.get_Original_Titles()[5]
+                                "suggestion": [],
+                                "title": self.get_Original_Titles()[5],
+                                "sources": {}
                             },
                             "specie": {
                                 "type": self.taxon_validation.get_Specie(),
-                                "correctness": self.taxon_validation.get_Specie_Correctness(),
+                                "correctness": None,
                                 "amount": check_hrch['specie'].count(self.taxon_validation.get_Specie()),
-                                "suggestion": self.taxon_validation.get_Specie_Suggestion(),
-                                "title": self.get_Original_Titles()[6]
+                                "suggestion": [],
+                                "title": self.get_Original_Titles()[6],
+                                "sources": {}
                             },
                             "scientific name": {
                                 "type": self.taxon_validation.get_Scientific_Name(),
                                 "correctness": self.taxon_validation.get_Scientific_Name_Correctness(),
-                                "suggestion": self.taxon_validation.get_Scientific_Name_Suggestion(),
-                                "synonymous": gbif_values["synonym"],
-                                "font": "GBIF",
-                                "synonym": gbif_values["usageKey"],
-                                "accept": gbif_values["speciesKey"],
-                                "canonicalname": gbif_values["canonicalName"],
-                                "speciesname": gbif_values["species"],
-                                "list_fonts": globalnames_values
+                                "suggestion": [],
+                                "synonymous": False,
+                                "font": "",
+                                "synonym": False,
+                                "accept": "",
+                                "canonicalname": [],
+                                "speciesname": [],
+                                "list_fonts": None,
+                                "sources": {}
                             }
                         }
+                        for key in globalnames:
+                            self.taxon_validation.set_Hierarchy_Correctness(
+                                                                            globalnames[key]["Rank"]["kingdom"],
+                                                                            globalnames[key]["Rank"]["phylum"],
+                                                                            globalnames[key]["Rank"]["class"],
+                                                                            globalnames[key]["Rank"]["order"],
+                                                                            globalnames[key]["Rank"]["family"],
+                                                                            globalnames[key]["Rank"]["genus"],
+                                                                            globalnames[key]["Rank"]["species"],
+                                                                            globalnames[key]["Canonical_form"]
+                                                                           )
+
+                            self.taxon_validation.set_Hierarchy_Suggestion(
+                                                                            globalnames[key]["Rank"]["kingdom"],
+                                                                            globalnames[key]["Rank"]["phylum"],
+                                                                            globalnames[key]["Rank"]["class"],
+                                                                            globalnames[key]["Rank"]["order"],
+                                                                            globalnames[key]["Rank"]["family"],
+                                                                            globalnames[key]["Rank"]["genus"],
+                                                                            globalnames[key]["Rank"]["species"],
+                                                                            globalnames[key]["Canonical_form"]
+                                                                          )
+                            hierarchy_suggestion = self.taxon_validation.get_Suggestion_Hierarchy()
+                            hierarchy_correctness = self.taxon_validation.get_Correctness_Hierarchy()
+                            hierarchy_keys = list(self.verified_hierarchy[Scientific_Name].keys())
+
+                            for i in range(len(hierarchy_suggestion)):
+                                k = hierarchy_keys[i]
+                                if hierarchy_suggestion[i] != None and hierarchy_suggestion[i] not in self.verified_hierarchy[Scientific_Name][k]["suggestion"]:
+                                    self.verified_hierarchy[Scientific_Name][k]["suggestion"].append(hierarchy_suggestion[i])
+                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]] = [key]
+                                elif hierarchy_suggestion[i] in self.verified_hierarchy[Scientific_Name][k]["suggestion"]:
+                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]].append(key)
+                                self.verified_hierarchy[Scientific_Name][k]["correctness"] = hierarchy_correctness[i]
                     else:
                         self.verified_hierarchy[Scientific_Name] = {
                             "kingdom": {
@@ -160,6 +167,7 @@ class Data_Treatment:
                                 "amount": check_hrch['kingdom'].count(self.taxon_validation.get_Kingdom()),
                                 "suggestion": self.taxon_validation.get_Kingdom_Suggestion(),
                                 "title": self.get_Original_Titles()[0]
+
                             },
                             "phylum": {
                                 "type": self.taxon_validation.get_Phylum(),
@@ -205,7 +213,7 @@ class Data_Treatment:
                             },
                             "scientific name": {
                                 "type": self.taxon_validation.get_Scientific_Name(),
-                                "correctness": self.taxon_validation.get_Scientific_Name_Correctness(),
+                                "correctness": "None",
                                 "suggestion": self.taxon_validation.get_Scientific_Name_Suggestion(),
                                 "synonymous": "",
                                 "font": "Planilha",
@@ -217,9 +225,8 @@ class Data_Treatment:
                             }
                         }
         for wrong_name in self.verified_hierarchy:
-            if self.verified_hierarchy[wrong_name]["scientific name"]["correctness"] == "NONE":
-                gbif_suggest = requests.get('http://api.gbif.org/v1/species/suggest?q=' + wrong_name + '&rank=SPECIES&strict=true').json()
-                if not gbif_suggest:
+            if self.verified_hierarchy[wrong_name]["scientific name"]["correctness"] == "None":
+                if globalnames == False:
                     average_hierarchy_values = {}
                     for correct_name in self.verified_hierarchy:
                         average_hierarchy_values[correct_name] = {}
@@ -229,137 +236,39 @@ class Data_Treatment:
                                 correct = self.verified_hierarchy[correct_name][key]["type"]
                                 wrong = self.verified_hierarchy[wrong_name][key]["type"]
                                 average_hierarchy_values[correct_name][key][correct] = None
-
-                                if (self.Compare_String (wrong, correct) > 60 and wrong != correct):
+                                if (self.Compare_String (wrong, correct) > 40 and wrong != correct):
                                     if correct not in self.verified_hierarchy[wrong_name][key]["suggestion"]:
                                         self.verified_hierarchy[wrong_name][key]["suggestion"].append(correct)
                                     self.verified_hierarchy[wrong_name]["scientific name"]["font"] = "Planilha"
-
                                 if (correct == wrong):
                                     self.verified_hierarchy[wrong_name][key]["correctness"] = self.verified_hierarchy[correct_name][key]["correctness"]
 
-                else:
-                    globalnames_values = requests.get(
-                        "http://resolver.globalnames.org/name_resolvers.json?names="+wrong_name).json()
-                    if "results" in globalnames_values["data"][0]:
-                        aux_values = []
-                        for x in range(len(globalnames_values["data"][0]["results"])):
-                            font_name = globalnames_values["data"][0]["results"][x]["data_source_title"]
-                            font_score = globalnames_values["data"][0]["results"][x]["score"]
-                            font_specie = globalnames_values["data"][0]["results"][x]["canonical_form"]
-                            aux_values.append({"font": font_name, "score": font_score, "name": font_specie})
-                        globalnames_values = aux_values
-                    else:
-                        globalnames_values = []
-                    self.taxon_validation = Taxon_Validation(
-                        k=self.verified_hierarchy[wrong_name]["kingdom"]["type"],
-                        p=self.verified_hierarchy[wrong_name]["phylum"]["type"],
-                        c=self.verified_hierarchy[wrong_name]["class"]["type"],
-                        o=self.verified_hierarchy[wrong_name]["order"]["type"],
-                        f=self.verified_hierarchy[wrong_name]["family"]["type"],
-                        g=self.verified_hierarchy[wrong_name]["genus"]["type"],
-                        e=self.verified_hierarchy[wrong_name]["scientific name"]["type"],
-                        sn=self.verified_hierarchy[wrong_name]["scientific name"]["type"]
-                    )
-                    for key in self.verified_hierarchy[wrong_name]:
-                        self.verified_hierarchy[wrong_name][key]["suggestion"] = []
-                    for index in range(0, len(gbif_suggest)):
-                        try:
 
-                            self.taxon_validation.set_Hierarchy_Correctness(
-                                                                            gbif_suggest[index]["kingdom"],
-                                                                            gbif_suggest[index]["phylum"] ,
-                                                                            gbif_suggest[index]["class"]  ,
-                                                                            gbif_suggest[index]["order"]  ,
-                                                                            gbif_suggest[index]["family"] , 
-                                                                            gbif_suggest[index]["genus"]  ,
-                                                                            gbif_suggest[index]["species"], 
-                                                                            gbif_suggest[index]["canonicalName"]
-                                                                           )
-
-                            self.taxon_validation.set_Hierarchy_Suggestion(
-                                                                           gbif_suggest[index]["kingdom"], 
-                                                                           gbif_suggest[index]["phylum"] ,
-                                                                           gbif_suggest[index]["class"]  , 
-                                                                           gbif_suggest[index]["order"]  ,
-                                                                           gbif_suggest[index]["family"] , 
-                                                                           gbif_suggest[index]["genus"]  ,
-                                                                           gbif_suggest[index]["species"], 
-                                                                           gbif_suggest[index]["canonicalName"]
-                                                                          )
-
-                        except:
-                            print("Error in Suggest with the specie {}".format(wrong_name))
-                            print('http://api.gbif.org/v1/species/suggest?q=' + wrong_name + '&rank=SPECIES&strict=true')
-                        self.verified_hierarchy[wrong_name]["kingdom"]["suggestion"].append(
-                            self.taxon_validation.get_Kingdom_Suggestion()) if self.taxon_validation.get_Kingdom_Suggestion() not in \
-                                                                                 self.verified_hierarchy[
-                                                                                     wrong_name]["kingdom"][
-                                                                                     "suggestion"] else None
-                        self.verified_hierarchy[wrong_name]["phylum"]["suggestion"].append(
-                            self.taxon_validation.get_Phylum_Suggestion()) if self.taxon_validation.get_Phylum_Suggestion() not in \
-                                                                                self.verified_hierarchy[wrong_name][
-                                                                                    "phylum"]["suggestion"] else None
-                        self.verified_hierarchy[wrong_name]["class"]["suggestion"].append(
-                            self.taxon_validation.get_Classs_Suggestion()) if self.taxon_validation.get_Classs_Suggestion() not in \
-                                                                                  self.verified_hierarchy[
-                                                                                      wrong_name]["class"][
-                                                                                      "suggestion"] else None
-                        self.verified_hierarchy[wrong_name]["order"]["suggestion"].append(
-                            self.taxon_validation.get_Order_Suggestion()) if self.taxon_validation.get_Order_Suggestion() not in \
-                                                                                 self.verified_hierarchy[
-                                                                                     wrong_name]["order"][
-                                                                                     "suggestion"] else None
-                        self.verified_hierarchy[wrong_name]["family"]["suggestion"].append(
-                            self.taxon_validation.get_Family_Suggestion()) if self.taxon_validation.get_Family_Suggestion() not in \
-                                                                                   self.verified_hierarchy[
-                                                                                       wrong_name]["family"][
-                                                                                       "suggestion"] else None
-                        self.verified_hierarchy[wrong_name]["genus"]["suggestion"].append(
-                            self.taxon_validation.get_Genus_Suggestion()) if self.taxon_validation.get_Genus_Suggestion() not in \
-                                                                                  self.verified_hierarchy[
-                                                                                      wrong_name]["genus"][
-                                                                                      "suggestion"] else None
-                        self.verified_hierarchy[wrong_name]["specie"]["suggestion"].append(
-                            self.taxon_validation.get_Specie_Suggestion()) if self.taxon_validation.get_Specie_Suggestion() not in \
-                                                                                   self.verified_hierarchy[
-                                                                                       wrong_name]["specie"][
-                                                                                       "suggestion"] else None
-                        self.verified_hierarchy[wrong_name]["scientific name"]["suggestion"].append(
-                            self.taxon_validation.get_Scientific_Name_Suggestion()) if self.taxon_validation.get_Scientific_Name_Suggestion() not in \
-                                                                                           self.verified_hierarchy[
-                                                                                               wrong_name][
-                                                                                               "scientific name"][
-                                                                                               "suggestion"] else None
-
-                        self.verified_hierarchy[wrong_name]["kingdom"][
-                            "correctness"] = self.taxon_validation.get_Kingdom_Correctness()
-                        self.verified_hierarchy[wrong_name]["phylum"][
-                            "correctness"] = self.taxon_validation.get_Phylum_Correctness()
-                        self.verified_hierarchy[wrong_name]["class"][
-                            "correctness"] = self.taxon_validation.get_Classs_Correctness()
-                        self.verified_hierarchy[wrong_name]["order"][
-                            "correctness"] = self.taxon_validation.get_Order_Correctness()
-                        self.verified_hierarchy[wrong_name]["family"][
-                            "correctness"] = self.taxon_validation.get_Family_Correctness()
-                        self.verified_hierarchy[wrong_name]["genus"][
-                            "correctness"] = self.taxon_validation.get_Genus_Correctness()
-                        self.verified_hierarchy[wrong_name]["specie"][
-                            "correctness"] = self.taxon_validation.get_Specie_Correctness()
-                        
-                        self.verified_hierarchy[wrong_name]["scientific name"]["correctness"] = self.taxon_validation.get_Scientific_Name_Correctness()
-                        self.verified_hierarchy[wrong_name]["scientific name"]["font"] = "GBIF"
-                        self.verified_hierarchy[wrong_name]["scientific name"]["synonymous"] = gbif_suggest[index]["synonym"]
-                        if gbif_suggest[index]["synonym"] == "true":
-                            self.verified_hierarchy[wrong_name]["scientific name"]["synonym"] = gbif_suggest[index]["usageKey"]
-                        
-                        self.verified_hierarchy[wrong_name]["scientific name"]["accept"] = gbif_suggest[index]["speciesKey"]
-                        self.verified_hierarchy[wrong_name]["scientific name"]["canonicalname"] = gbif_suggest[index]["canonicalName"]
-                        self.verified_hierarchy[wrong_name]["scientific name"]["speciesname"] = gbif_suggest[index]["species"]
-                        self.verified_hierarchy[wrong_name]["scientific name"]["list_fonts"] = globalnames_values
 
     def set_Verified_Hierarchy(self, hierarchy):
         self.verified_hierarchy = hierarchy
+
+    def get_GlobalNames(self, name):
+        import requests
+        result = requests.get('http://resolver.globalnames.org/name_resolvers.json?names={}'.format(name)).json()
+        if "results" in result["data"][0]:
+            result = result["data"][0]["results"]
+        else:
+            return False
+        Bases = {}
+        lvl_rank = ["kingdom", "phylum", "class", "order", "family", "genus", "species"]
+        for y in result:
+            if y['classification_path'] != "" and y['data_source_title'] not in Bases:
+                rank_list = y['classification_path_ranks'].split("|")
+                classification_list = y['classification_path'].split("|")
+                Bases[y['data_source_title']] = {"Canonical_form": y['canonical_form'], "Rank": {}}
+                for r in range(len(rank_list)):
+                    Bases[y['data_source_title']]["Rank"].update({rank_list[r]: classification_list[r]})
+                lvls = Bases[y['data_source_title']]["Rank"].keys()
+                for r in lvl_rank:
+                    if r not in lvls:
+                        Bases.pop(y['data_source_title'], 10)
+        return Bases
 
     def get_Verified_Hierarchy (self):
         return self.verified_hierarchy
