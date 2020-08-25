@@ -80,6 +80,9 @@ class Sheet:
     def get_Sheet_Header(self):
         return self.sheet.row_values(0)
 
+    def set_Columns_Total(self, value):
+        self.columns_total = value
+
     def get_Columns_Total(self):
         return self.columns_total
 
@@ -137,7 +140,7 @@ class Sheet:
         return self.data_treatment.get_Validate_Columns()
 
     def Change_Data_Spreadsheet(self, data_to_change):
-        column_change_taxon = self.get_Columns_Total()+1
+        column_change_taxon = self.get_Columns_Total()
         rows_changed = []
         self.formated_sheet.write(0, column_change_taxon, "is_taxonomy_changed")
         for values in data_to_change:
@@ -156,7 +159,7 @@ class Sheet:
                     if ((value1 == value2) and (value1_level == value2_level)):
                         style = xlwt.easyxf(
                             'pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
-                        self.formated_sheet.write(row, column_index, data_to_change[key1][data]["suggestion"], style)
+                        self.formated_sheet.write(row, column_index, data_to_change[key1][data]["suggestion"])
                         if row not in rows_changed:
                             rows_changed.append(row)
             for row in range(1, self.get_Row_Total()):
@@ -167,10 +170,10 @@ class Sheet:
 
 
     def Change_Data_Spreadsheet2(self, data_to_change):
-        column_change_taxon = self.get_Columns_Total()+1
+        column_change_taxon = self.get_Columns_Total()
         rows_changed = []
         self.formated_sheet.write(0, column_change_taxon, "is_occurrence_changed")
-        print("entru aqui")
+
         for row in data_to_change:
             for column in data_to_change[row]:
                 column_index = self.sheet.row_values(0).index(column)
@@ -179,16 +182,20 @@ class Sheet:
                     'pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
                 if row not in rows_changed:
                     rows_changed.append(change_row)
-                self.formated_sheet.write(change_row, column_index, data_to_change[row][column], style)
+                self.formated_sheet.write(change_row, column_index, data_to_change[row][column])
         for row in range(1, self.get_Row_Total()):
             if row in rows_changed:
                 self.formated_sheet.write(row, column_change_taxon, "TRUE")
             else:
                 self.formated_sheet.write(row, column_change_taxon, "FALSE")
 
-    def Change_Column(self, column, value, wrong_cell=None, index=None):
+    def Change_Column(self, column, value, wrong_cell=None, index=None, name="None"):
         row = 1
         column_index = 0
+        rows_changed = []
+        if name != "None":
+            column_change_taxon = self.get_Columns_Total()
+            self.formated_sheet.write(0, column_change_taxon, "is_"+name+"_changed")
         if column:
             column_index = self.sheet.row_values(0).index(column)
         if index:
@@ -202,13 +209,23 @@ class Sheet:
                     if row in wrong_cell:
                         style = xlwt.easyxf('pattern: pattern solid, fore_colour red; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
                     else:
+                        if row not in rows_changed:
+                            rows_changed.append(row)
                         style = xlwt.easyxf('pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
                 else:
+                    if row not in rows_changed:
+                        rows_changed.append(row)
                     style = xlwt.easyxf('pattern: pattern solid, fore_colour green; font: colour white; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
             else:
                 style = xlwt.easyxf('pattern: pattern solid, fore_colour white; font: colour black; borders: left 1, right 1, top 1, bottom 1; font: bold 1;')
             self.formated_sheet.write(row, column_index, data)
             row += 1
+        if name != "None":
+            for row in range(1, self.get_Row_Total()):
+                if row in rows_changed:
+                    self.formated_sheet.write(row, column_change_taxon, "TRUE")
+                else:
+                    self.formated_sheet.write(row, column_change_taxon, "FALSE")
 
     def Save_Formatted_Spreadsheet(self, type):
         if(type == ".csv"):

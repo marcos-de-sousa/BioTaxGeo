@@ -30,9 +30,13 @@ def dwc_validation():
         list_decimal_longitude = []
         list_scientificname = []
         list_new_date = []
+        list_geodeticdatum = ["WGS84"]*len(list_longitude)
+
         for i in range(len(list_latitude)):
             list_decimal_latitude.append(coordinate.Convert_Lat_Decimal(list_latitude[i]))
             list_decimal_longitude.append(coordinate.Convert_Lng_Decimal(list_longitude[i]))
+            if list_longitude[i] == "":
+                list_geodeticdatum[i] = ""
         for d in list_date:
             new_date = date.toAAAAMMDD(d, "-", "DDMMAAAA")
             list_new_date.append(new_date["date"])
@@ -45,6 +49,8 @@ def dwc_validation():
                 dwc_sheet.Change_Column(column=None, value=list_scientificname, index=i)
             elif dwc_titles[i] == "taxonRank":
                 dwc_sheet.Change_Column(column=None, value=list_species, index=i)
+            elif dwc_titles[i] == "geodeticDatum":
+                dwc_sheet.Change_Column(column=None, value=list_geodeticdatum, index=i)
             elif form[keys[count]] != "Select...":
                 if keys[count] == "latitude":
                     dwc_sheet.Change_Column(column=None, value=list_decimal_latitude, index=i)

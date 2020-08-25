@@ -59,6 +59,7 @@ def taxon_list():
 def taxon_source_list(scientific_name):
     list_font = used_sheet.data_treatment.get_Verified_Hierarchy()[scientific_name]["scientific name"]["list_fonts"]
     return render_template("list/taxon_list_fonts.html", name=scientific_name, list_font=list_font)
+
 @taxon_blueprint.route("/taxon_validation", methods=["GET", "POST"])
 def taxon_validation():
     if request.method == "POST":
@@ -416,7 +417,3 @@ def taxon_list2():
         except:
             return render_template("errorscreen/InvalidValue.html")
 
-@taxon_blueprint.route("/globalnames/<name>")
-def globalnames(name):
-    valor = used_sheet.data_treatment.get_GlobalNames(name)
-    return valor

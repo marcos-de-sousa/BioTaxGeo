@@ -152,8 +152,9 @@ def markers_confirm():
 
         if format_coordinate != "None":
             if (format_coordinate == "Decimal"):
-                used_sheet.Change_Column(titles[0]["latitude"], coord_lat)
-                used_sheet.Change_Column(titles[0]["longitude"], coord_lng)
+                used_sheet.Change_Column(titles[0]["latitude"], coord_lat, name="decimal_latitude")
+                used_sheet.set_Columns_Total(used_sheet.get_Columns_Total() + 1)
+                used_sheet.Change_Column(titles[0]["longitude"], coord_lng, name="decimal_longitude")
                 used_sheet.Save_Formatted_Spreadsheet(type)
                 return redirect(url_for("home.home"))
             elif (format_coordinate == "DMS"):
@@ -162,8 +163,9 @@ def markers_confirm():
                 for i in range(len(coord_lat)):
                     lat_ddmmss.append(used_sheet.coordinate.toDDMMSS(coord_lat[i], "lat"))
                     lng_ddmmss.append(used_sheet.coordinate.toDDMMSS(coord_lng[i], "lng"))
-                used_sheet.Change_Column(titles[0]["latitude"], lat_ddmmss)
-                used_sheet.Change_Column(titles[0]["longitude"], lng_ddmmss)
+                used_sheet.Change_Column(titles[0]["latitude"], lat_ddmmss, name="DDMMSS_latitude")
+                used_sheet.set_Columns_Total(used_sheet.get_Columns_Total() + 1)
+                used_sheet.Change_Column(titles[0]["longitude"], lng_ddmmss, name="DDMMSS_longitude")
                 used_sheet.Save_Formatted_Spreadsheet(type)
                 return redirect(url_for("home.home"))
             elif (format_coordinate == "DM"):
@@ -172,8 +174,9 @@ def markers_confirm():
                 for i in range(len(coord_lat)):
                     lat_ddmm.append(used_sheet.coordinate.toDDMM(coord_lat[i], "lat"))
                     lng_ddmm.append(used_sheet.coordinate.toDDMM(coord_lng[i], "lng"))
-                used_sheet.Change_Column(titles[0]["latitude"], lat_ddmm)
-                used_sheet.Change_Column(titles[0]["longitude"], lng_ddmm)
+                used_sheet.Change_Column(titles[0]["latitude"], lat_ddmm, name="DDMM_latitude")
+                used_sheet.set_Columns_Total(used_sheet.get_Columns_Total() + 1)
+                used_sheet.Change_Column(titles[0]["longitude"], lng_ddmm, name="DDMM_longitude")
                 used_sheet.Save_Formatted_Spreadsheet(type)
                 return redirect(url_for("home.home"))
 

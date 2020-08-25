@@ -41,7 +41,8 @@ def date_validation():
             count += 1
     if list_index_wrong_cell == []:
         list_index_wrong_cell = None
-    used_sheet.Change_Column(form['column_date'], list_new_date, list_index_wrong_cell)
+    new_type += "_date"
+    used_sheet.Change_Column(form['column_date'], list_new_date, list_index_wrong_cell, name=new_type)
     used_sheet.Save_Formatted_Spreadsheet(".xls")
     return res
 
