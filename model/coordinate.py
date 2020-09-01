@@ -82,12 +82,39 @@ class Coordinate:
     # Precisa ser melhorado o método que os valores são inseridos no dicionario coordinates. Mas por enquanto vai ser feito assim.
     def Format_Lat_Lng (self, coord, coord_name):  # Bem vindo a loucura de Elielson. Ta grande, mas funciona.
         split_value = str(coord).split()
+        if len(split_value) == 1:
+            if (("°" in split_value[0]) or ("º" in split_value[0])) or ("'" in split_value[0]) or ('"' in split_value[0]):
+                split_value = split_value[0]
+                hemisphere_first = list(set(self.hemisphere).intersection(split_value))
+                split_value = split_value.replace("°", "° ").replace("'", "' ").replace('"', '" ')
+                if len(hemisphere_first) > 0:
+                    split_value = split_value.replace(hemisphere_first[0], hemisphere_first[0]+" ")
+                split_value = str(split_value).split()
+
+        elif len(split_value) == 2:
+            if (("°" in split_value[0]) or ("º" in split_value[0])) or ("'" in split_value[0]) or ('"' in split_value[0]):
+                split_aux = split_value[0]
+                split_aux = split_aux.replace("°", "° ").replace("'", "' ").replace('"', '" ')
+                split_aux = str(split_aux).split()
+                split_value.pop(0)
+
+                split_value = split_aux + split_value
+
+            elif (("°" in split_value[1]) or ("º" in split_value[1])) and ("'" in split_value[1]) and ('"' in split_value[1]):
+                split_aux = split_value[1]
+                split_aux = split_aux.replace("°", "° ").replace("'", "' ").replace('"', '" ')
+                split_aux = str(split_aux).split()
+                split_value.pop(1)
+                split_value = split_value+split_aux
+
+
         join_value = " ".join(split_value)
         spaces = join_value.count(" ")
         last_hemisphere = False
         negative_hemisphere = ["w", "W", "s", "S"]
         have_hemisph = True if list(set(self.hemisphere).intersection(split_value)) != [] else False
         emisf_neg = True if list(set(split_value).intersection(negative_hemisphere)) != [] else False
+
         # Caso a coordinate tenha alguma letra, significa que o decimal dela será descrito como positivo ou negativo com base no emisfério descrito
         if have_hemisph:
             for coordinate in split_value:
@@ -97,10 +124,9 @@ class Coordinate:
                     # Referente ao emisfério
                     if (coordinate in self.hemisphere) and (split_value.index(coordinate) != 0):
                         self.coordinate[coord_name]["hemisphere"] = coordinate
-                        if (emisf_neg):
-                            self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"] * -1
                     elif (coordinate in self.hemisphere) and (split_value.index(coordinate) == 0):
                         self.coordinate[coord_name]["hemisphere"] = coordinate
+
 
                     # Referente ao degree
                     if ("°" in coordinate) or ("º" in coordinate):
@@ -110,12 +136,17 @@ class Coordinate:
                         if "-" in self.coordinate[coord_name]["degree"]:
                             self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"].replace("-", "")
                         self.coordinate[coord_name]["degree"] = float(self.coordinate[coord_name]["degree"])
+                        if (emisf_neg):
+                            self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"] * -1
                     elif (coordinate not in self.hemisphere) and (split_value.index(coordinate) == 0):
                         last_hemisphere = True
                         self.coordinate[coord_name]["degree"] = coordinate.replace(",", ".")
                         if "-" in self.coordinate[coord_name]["degree"]:
                             self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"].replace("-", "")
                         self.coordinate[coord_name]["degree"] = float(self.coordinate[coord_name]["degree"])
+                        if (emisf_neg):
+                            self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"] * -1
+
                     elif (coordinate not in self.hemisphere) and (
                             split_value.index(coordinate) == 1) and last_hemisphere == False:
                         self.coordinate[coord_name]["degree"] = coordinate.replace(",", ".")
@@ -164,8 +195,6 @@ class Coordinate:
                     # Referente ao emisfério
                     if (coordinate in self.hemisphere) and (split_value.index(coordinate) != 0):
                         self.coordinate[coord_name]["hemisphere"] = coordinate.replace(",", ".")
-                        if (emisf_neg):
-                            self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"] * -1
                     elif (coordinate in self.hemisphere) and (split_value.index(coordinate) == 0):
                         self.coordinate[coord_name]["hemisphere"] = coordinate.replace(",", ".")
 
@@ -177,12 +206,16 @@ class Coordinate:
                         if "-" in self.coordinate[coord_name]["degree"]:
                             self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"].replace("-", "")
                         self.coordinate[coord_name]["degree"] = float(self.coordinate[coord_name]["degree"])
+                        if (emisf_neg):
+                            self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"] * -1
                     elif (coordinate not in self.hemisphere) and (split_value.index(coordinate) == 0):
                         last_hemisphere = True
                         self.coordinate[coord_name]["degree"] = coordinate.replace(",", ".")
                         if "-" in self.coordinate[coord_name]["degree"]:
                             self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"].replace("-", "")
                         self.coordinate[coord_name]["degree"] = float(self.coordinate[coord_name]["degree"])
+                        if (emisf_neg):
+                            self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"] * -1
                     elif (coordinate not in self.hemisphere) and (
                             split_value.index(coordinate) == 1) and last_hemisphere == False:
                         self.coordinate[coord_name]["degree"] = coordinate.replace(",", ".")
@@ -214,9 +247,7 @@ class Coordinate:
                     # Referente ao emisfério
                     if (coordinate in self.hemisphere) and (split_value.index(coordinate) != 0):
                         self.coordinate[coord_name]["hemisphere"] = coordinate.replace(",", ".")
-                        if (emisf_neg):
-                            self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"] * -1
-                            self.coordinate[coord_name]["decimal"] = self.coordinate[coord_name]["degree"]
+
                     elif (coordinate in self.hemisphere) and (split_value.index(coordinate) == 0):
                         self.coordinate[coord_name]["hemisphere"] = coordinate.replace(",", ".")
 
@@ -228,12 +259,18 @@ class Coordinate:
                                                                                                                 "")
                         self.coordinate[coord_name]["degree"] = float(self.coordinate[coord_name]["degree"])
                         self.coordinate[coord_name]["decimal"] = self.coordinate[coord_name]["degree"]
+                        if (emisf_neg):
+                            self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"] * -1
+                            self.coordinate[coord_name]["decimal"] = self.coordinate[coord_name]["degree"]
                     elif (coordinate not in self.hemisphere) and (split_value.index(coordinate) == 0):
                         self.coordinate[coord_name]["degree"] = coordinate.replace(",", ".")
                         if "-" in self.coordinate[coord_name]["degree"]:
                             self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"].replace("-", "")
                         self.coordinate[coord_name]["degree"] = float(self.coordinate[coord_name]["degree"])
                         self.coordinate[coord_name]["decimal"] = self.coordinate[coord_name]["degree"]
+                        if (emisf_neg):
+                            self.coordinate[coord_name]["degree"] = self.coordinate[coord_name]["degree"] * -1
+                            self.coordinate[coord_name]["decimal"] = self.coordinate[coord_name]["degree"]
                     elif (coordinate not in self.hemisphere) and (split_value.index(coordinate) == 1):
                         self.coordinate[coord_name]["degree"] = coordinate.replace(",", ".")
                         self.coordinate[coord_name]["degree"] = float(self.coordinate[coord_name]["degree"])
