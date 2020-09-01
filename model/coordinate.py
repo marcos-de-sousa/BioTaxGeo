@@ -90,6 +90,13 @@ class Coordinate:
                 if len(hemisphere_first) > 0:
                     split_value = split_value.replace(hemisphere_first[0], hemisphere_first[0]+" ")
                 split_value = str(split_value).split()
+            else:
+                hemisphere_first = list(set(self.hemisphere).intersection(split_value[0]))
+                print(hemisphere_first)
+                if len(hemisphere_first) > 0:
+                    split_value = split_value[0].replace(hemisphere_first[0], " "+hemisphere_first[0]+" ")
+                    print(split_value)
+                    split_value = str(split_value).split()
 
         elif len(split_value) == 2:
             if (("°" in split_value[0]) or ("º" in split_value[0])) or ("'" in split_value[0]) or ('"' in split_value[0]):
