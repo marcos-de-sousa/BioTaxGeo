@@ -60,7 +60,8 @@ class Data_Treatment:
                                 "amount": check_hrch['kingdom'].count(self.taxon_validation.get_Kingdom()),
                                 "suggestion": [],
                                 "title": self.get_Original_Titles()[0],
-                                "sources": {}
+                                "sources": {},
+                                "score": []
 
                             },
                             "phylum": {
@@ -69,7 +70,8 @@ class Data_Treatment:
                                 "amount": check_hrch['phylum'].count(self.taxon_validation.get_Phylum()),
                                 "suggestion": [],
                                 "title": self.get_Original_Titles()[1],
-                                "sources": {}
+                                "sources": {},
+                                "score": []
                             },
                             "class": {
                                 "type": self.taxon_validation.get_Classs(),
@@ -77,7 +79,8 @@ class Data_Treatment:
                                 "amount": check_hrch['class'].count(self.taxon_validation.get_Classs()),
                                 "suggestion": [],
                                 "title": self.get_Original_Titles()[2],
-                                "sources": {}
+                                "sources": {},
+                                "score": []
                             },
                             "order": {
                                 "type": self.taxon_validation.get_Order(),
@@ -85,7 +88,8 @@ class Data_Treatment:
                                 "amount": check_hrch['order'].count(self.taxon_validation.get_Order()),
                                 "suggestion": [],
                                 "title": self.get_Original_Titles()[3],
-                                "sources": {}
+                                "sources": {},
+                                "score": []
                             },
                             "family": {
                                 "type": self.taxon_validation.get_Family(),
@@ -93,7 +97,8 @@ class Data_Treatment:
                                 "amount": check_hrch['family'].count(self.taxon_validation.get_Family()),
                                 "suggestion": [],
                                 "title": self.get_Original_Titles()[4],
-                                "sources": {}
+                                "sources": {},
+                                "score": []
                             },
                             "genus": {
                                 "type": self.taxon_validation.get_Genus(),
@@ -101,7 +106,8 @@ class Data_Treatment:
                                 "amount": check_hrch['genus'].count(self.taxon_validation.get_Genus()),
                                 "suggestion": [],
                                 "title": self.get_Original_Titles()[5],
-                                "sources": {}
+                                "sources": {},
+                                "score": []
                             },
                             "specie": {
                                 "type": self.taxon_validation.get_Specie(),
@@ -109,7 +115,8 @@ class Data_Treatment:
                                 "amount": check_hrch['specie'].count(self.taxon_validation.get_Specie()),
                                 "suggestion": [],
                                 "title": self.get_Original_Titles()[6],
-                                "sources": {}
+                                "sources": {},
+                                "score": []
                             },
                             "scientific name": {
                                 "type": self.taxon_validation.get_Scientific_Name(),
@@ -122,7 +129,8 @@ class Data_Treatment:
                                 "canonicalname": [],
                                 "speciesname": [],
                                 "list_fonts": None,
-                                "sources": {}
+                                "sources": {},
+                                "score": []
                             }
                         }
                         for key in globalnames:
@@ -155,9 +163,11 @@ class Data_Treatment:
                                 k = hierarchy_keys[i]
                                 if hierarchy_suggestion[i] != None and hierarchy_suggestion[i] not in self.verified_hierarchy[Scientific_Name][k]["suggestion"]:
                                     self.verified_hierarchy[Scientific_Name][k]["suggestion"].append(hierarchy_suggestion[i])
-                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]] = [key]
+                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]] = {"source": [key], "score":[globalnames[key]["score"]]}
+
                                 elif hierarchy_suggestion[i] in self.verified_hierarchy[Scientific_Name][k]["suggestion"]:
-                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]].append(key)
+                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]]["source"].append(key)
+                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]]["score"].append(globalnames[key]["score"])
                                 self.verified_hierarchy[Scientific_Name][k]["correctness"] = hierarchy_correctness[i]
                     else:
                         self.verified_hierarchy[Scientific_Name] = {
@@ -261,7 +271,7 @@ class Data_Treatment:
             if y['classification_path'] != "" and y['data_source_title'] not in Bases:
                 rank_list = y['classification_path_ranks'].split("|")
                 classification_list = y['classification_path'].split("|")
-                Bases[y['data_source_title']] = {"Canonical_form": y['canonical_form'], "Rank": {}}
+                Bases[y['data_source_title']] = {"Canonical_form": y['canonical_form'], "Rank": {}, "score": y['score']}
                 for r in range(len(rank_list)):
                     Bases[y['data_source_title']]["Rank"].update({rank_list[r]: classification_list[r]})
                 lvls = Bases[y['data_source_title']]["Rank"].keys()
