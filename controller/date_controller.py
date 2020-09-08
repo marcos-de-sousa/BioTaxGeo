@@ -21,21 +21,21 @@ def date_validation():
     if new_type == "ddmmaaaa":
         for d in list_date:
             new_date = date.toDDMMAAAA(d, separator, current_format)
-            if new_date["day"] or new_date["month"]:
+            if new_date["day"] or new_date["month"] or new_date["year"]:
                 list_index_wrong_cell.append(count)
             list_new_date.append(new_date['date'])
             count+=1
     if new_type == "mmddaaaa":
         for d in list_date:
             new_date = date.toMMDDAAAA(d, separator, current_format)
-            if new_date["day"] or new_date["month"]:
+            if new_date["day"] or new_date["month"] or new_date["year"]:
                 list_index_wrong_cell.append(count)
             list_new_date.append(new_date['date'])
             count += 1
     if new_type == "aaaammdd":
         for d in list_date:
             new_date = date.toAAAAMMDD(d, separator, current_format)
-            if new_date["day"] or new_date["month"]:
+            if new_date["day"] or new_date["month"] or new_date["year"]:
                 list_index_wrong_cell.append(count)
             list_new_date.append(new_date['date'])
             count += 1

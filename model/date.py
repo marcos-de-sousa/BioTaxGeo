@@ -129,4 +129,4 @@ class Date:
         return day
 
     def checkYear(self, year):
-        return year.isdigit()
+        return not year.isdigit()

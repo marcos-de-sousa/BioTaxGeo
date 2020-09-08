@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col routesColDiv" style="margin-bottom: 15px;">
                     <div class="routesCard card">
-                        <div class="card-header text-center routeCardHeader">Compare spreadsheets</div>
+                        <div class="card-header text-center routeCardHeader">Compare taxonomic names spreadsheets</div>
                         <div class="card-body">
                             <p style="text-align: justify;" class="card-text">An analysis will be made of all values ​​referring to the taxonomic hierarchy between the spreadsheet that may be modified and the reference spreadsheet, the incorrect will be alerted and suggestions for corrections will be offered.</p>
                             <input class="form-control" id="uploadFile2" placeholder="Choose reference spreadsheet" disabled="disabled" />
@@ -63,44 +63,11 @@
                 </div>
                 <div class="col routesColDiv" style="margin-bottom: 15px;">
                     <div class="routesCard card">
-                        <div class="card-header text-center routeCardHeader">Send New File</div>
+                        <div class="card-header text-center routeCardHeader">
+                            Date check
+                        </div>
                         <div class="card-body">
-                            <p style="text-align: justify;" class="card-text">If you want to send a new spreadsheet for verification, select it from the buttons below.</p>
-                            <input class="form-control" id="uploadFile" placeholder="Choose File" disabled="disabled" />
-                        </div>
-                        <div class="card-footer">
-                            <form action = "/" method = "POST" enctype = "multipart/form-data">
-                                <div class="spreadsheetFooter">
-                                    <div class="fileUpload btn btn-primary">
-                                        <span>Select File</span>
-                                        <input id="uploadBtn" type="file" name="file" class="upload" />
-                                    </div>
-                                    <div class="text-left text-muted">
-                                        <input id="submit_home" type="submit" value="Send File" class="btn btn-success" disabled />
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col routesColDiv" style="margin-bottom: 15px;">
-                    <div class="routesCard card">
-                        <div class="card-header text-center routeCardHeader">Coordinate conversor</div>
-                        <div class="card-body">
-                            <p style="text-align: justify;" class="card-text">Convert a column of coordinates.</p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="coordinate_form" class="btn btn-primary">Go to Check</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col routesColDiv" style="margin-bottom: 15px;">
-                    <div class="routesCard card">
-                        <div class="card-header text-center routeCardHeader">Date patterner</div>
-                        <div class="card-body">
-                            <p style="text-align: justify;" class="card-text">Standardize your dates in a unique format.</p>
+                                <p style="text-align: justify;" class="card-text">Standardize your dates in a unique format.</p>
                         </div>
                         <div class="card-footer">
                             <a href="date_form" class="btn btn-primary">Go to Check</a>
@@ -108,21 +75,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col routesColDiv" style="margin-bottom: 15px;">
-                    <div class="routesCard card">
-                        <div class="card-header text-center routeCardHeader">Export to Darwin Core</div>
-                        <div class="card-body">
-                            <p style="text-align: justify;" class="card-text">Export your spreadsheet a Darwin Core format.</p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="dwc_form" class="btn btn-primary">Go to Check</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col routesColDiv" style="margin-bottom: 15px;"></div>
-            </div>
-        </div> 
+        </div>
         <script>
            document.getElementById("uploadBtn").onchange = function () {
                 document.getElementById("uploadFile").value = this.value;

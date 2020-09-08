@@ -50,8 +50,10 @@ class Data_Treatment:
                 if Scientific_Name in self.get_Verified_Hierarchy():
                     continue
                 else:
-                    globalnames = self.get_GlobalNames(Scientific_Name)
 
+                    globalnames = self.get_GlobalNames(Scientific_Name)
+                    if Scientific_Name == "Nessaea obrina":
+                        print(globalnames)
                     if (globalnames):
                         self.verified_hierarchy[Scientific_Name] = {
                             "kingdom": {
@@ -133,7 +135,9 @@ class Data_Treatment:
                                 "score": []
                             }
                         }
+
                         for key in globalnames:
+
                             self.taxon_validation.set_Hierarchy_Correctness(
                                                                             globalnames[key]["Rank"]["kingdom"],
                                                                             globalnames[key]["Rank"]["phylum"],
@@ -262,16 +266,18 @@ class Data_Treatment:
         import requests
         result = requests.get('http://resolver.globalnames.org/name_resolvers.json?names={}'.format(name)).json()
         if "results" in result["data"][0]:
+            is_known_name = result["data"][0]["is_known_name"]
             result = result["data"][0]["results"]
+
         else:
             return False
         Bases = {}
         lvl_rank = ["kingdom", "phylum", "class", "order", "family", "genus", "species"]
         for y in result:
-            if y['classification_path'] != "" and y['data_source_title'] not in Bases:
+            if (y['classification_path'] != "") and (y['data_source_title'] not in Bases) and (y['classification_path'] != None):
                 rank_list = y['classification_path_ranks'].split("|")
                 classification_list = y['classification_path'].split("|")
-                Bases[y['data_source_title']] = {"Canonical_form": y['canonical_form'], "Rank": {}, "score": y['score']}
+                Bases[y['data_source_title']] = {"Canonical_form": y['canonical_form'], "Rank": {}, "score": y['score'], "is_known_name": is_known_name}
                 for r in range(len(rank_list)):
                     Bases[y['data_source_title']]["Rank"].update({rank_list[r]: classification_list[r]})
                 lvls = Bases[y['data_source_title']]["Rank"].keys()
