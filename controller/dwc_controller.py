@@ -17,7 +17,7 @@ def dwc_validation():
         titles = json.dumps(form)
         res = make_response(redirect(url_for("home.home")))
         res.set_cookie("titles_dwc", titles)
-        dwc_titles = ["OccurrenceID", "basisOfRecord", "eventDate", "scientificName", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet", "taxonRank", "decimalLatitude", "decimalLongitude", "geodeticDatum", "countryCode"]
+        dwc_titles = ["occurrenceID", "basisOfRecord", "eventDate", "scientificName", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet", "taxonRank", "decimalLatitude", "decimalLongitude", "geodeticDatum", "countryCode"]
         dwc_sheet.create_WriteFile()
         dwc_sheet.create_SheetWriteFile("Occurrence")
         dwc_sheet.set_HeaderWriteFile(dwc_titles)
