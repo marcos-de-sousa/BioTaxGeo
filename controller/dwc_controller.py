@@ -3,12 +3,13 @@ from model.sheet_treatment import Sheet
 from controller.home_controller import used_sheet
 from model.date import Date
 from model.coordinate import Coordinate
-import json
+import json, csv
 
 dwc_blueprint = Blueprint('dwc', __name__, template_folder='templates')
 dwc_sheet = Sheet()
 date = Date()
 coordinate = Coordinate(used_sheet)
+
 
 @dwc_blueprint.route("/dwc_validation", methods=["GET", "POST"])
 def dwc_validation():
@@ -17,7 +18,9 @@ def dwc_validation():
         titles = json.dumps(form)
         res = make_response(redirect(url_for("home.home")))
         res.set_cookie("titles_dwc", titles)
-        dwc_titles = ["occurrenceID", "basisOfRecord", "eventDate", "scientificName", "kingdom", "phylum", "class", "order", "family", "genus", "specificEpithet", "taxonRank", "decimalLatitude", "decimalLongitude", "geodeticDatum", "countryCode"]
+        dwc_titles = ["occurrenceID", "basisOfRecord", "eventDate", "scientificName", "kingdom", "phylum", "class",
+                      "order", "family", "genus", "specificEpithet", "taxonRank", "decimalLatitude", "decimalLongitude",
+                      "geodeticDatum", "countryCode"]
         dwc_sheet.create_WriteFile()
         dwc_sheet.create_SheetWriteFile("Occurrence")
         dwc_sheet.set_HeaderWriteFile(dwc_titles)
@@ -30,7 +33,7 @@ def dwc_validation():
         list_decimal_longitude = []
         list_scientificname = []
         list_new_date = []
-        list_geodeticdatum = ["WGS84"]*len(list_longitude)
+        list_geodeticdatum = ["WGS84"] * len(list_longitude)
 
         for i in range(len(list_latitude)):
             list_decimal_latitude.append(coordinate.Convert_Lat_Decimal(list_latitude[i]))
@@ -42,7 +45,7 @@ def dwc_validation():
             list_new_date.append(new_date["date"])
         keys = list(form.keys())
         for i in range(len(list_genus)):
-            list_scientificname.append(list_genus[i]+" "+list_species[i])
+            list_scientificname.append(list_genus[i] + " " + list_species[i])
         count = 0
         for i in range(len(dwc_titles)):
             if dwc_titles[i] == "scientificName":
@@ -66,5 +69,10 @@ def dwc_validation():
             else:
                 count += 1
 
-        dwc_sheet.Save_Write_Spreadsheet(".xls", "DwC_Occurrence")
-        return res
+        dwc_sheet_saved = dwc_sheet.Save_Write_Spreadsheet(".xls", "DwC_Occurrence")
+    txt_file = "DwC_Occurrence.txt"
+    with open(txt_file, "w") as my_output_file:
+        with open(dwc_sheet_saved, "r") as my_input_file:
+            [my_output_file.write(" ".join(row) + '\n') for row in csv.reader(my_input_file)]
+        my_output_file.close()
+    return res
