@@ -41,8 +41,11 @@ def dwc_validation():
             if list_longitude[i] == "":
                 list_geodeticdatum[i] = ""
         for d in list_date:
-            new_date = date.toAAAAMMDD(d, "-", "DDMMAAAA")
-            list_new_date.append(new_date["date"])
+            new_date = date.toAAAAMMDD(d, ".", "DDMMAAAA")
+            if "date" in new_date:
+                list_new_date.append(new_date["date"])
+            else:
+                list_new_date.append(new_date)
         keys = list(form.keys())
         for i in range(len(list_genus)):
             list_scientificname.append(list_genus[i] + " " + list_species[i])
@@ -69,10 +72,11 @@ def dwc_validation():
             else:
                 count += 1
 
-        dwc_sheet_saved = dwc_sheet.Save_Write_Spreadsheet(".xls", "DwC_Occurrence")
-    txt_file = "DwC_Occurrence.txt"
-    with open(txt_file, "w") as my_output_file:
-        with open(dwc_sheet_saved, "r") as my_input_file:
-            [my_output_file.write(" ".join(row) + '\n') for row in csv.reader(my_input_file)]
-        my_output_file.close()
-    return res
+        dwc_sheet_saved = dwc_sheet.Save_Write_Spreadsheet(".csv", "DwC_Occurrence")
+        dwc_sheet_saved = "files/DwC_Occurrence.csv"
+        txt_file = "DwC_Occurrence.txt"
+        with open(txt_file, "w") as my_output_file:
+            with open(dwc_sheet_saved) as my_input_file:
+                [my_output_file.write(" ".join(row) + '\n') for row in csv.reader(my_input_file)]
+            my_output_file.close()
+        return res

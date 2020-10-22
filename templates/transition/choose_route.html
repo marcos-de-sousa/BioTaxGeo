@@ -14,6 +14,7 @@
         {% extends "fragments/navbar.html" %}
         {% block content %}
         <div class="container">
+
             <div class="row" style="margin-top: 30px;">
                 <div class="col routesColDiv" style=" margin-bottom: 15px;">
                     <div class="routesCard card">
@@ -74,16 +75,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="col routesColDiv" style="margin-bottom: 15px;">
+                    <div class="routesCard card">
+                        <div class="card-header text-center routeCardHeader">
+                            DWC
+                        </div>
+                        <div class="card-body">
+                                <p style="text-align: justify;" class="card-text">DWC.</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="dwc_form" class="btn btn-primary">Go to Check</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <script>
-           document.getElementById("uploadBtn").onchange = function () {
-                document.getElementById("uploadFile").value = this.value;
-                if(document.getElementById("uploadFile").value != "" || document.getElementById("uploadFile").value != null){
-                    document.getElementById("submit_home").removeAttribute("disabled");
-                }
-
-           };
            document.getElementById("uploadBtn2").onchange = function () {
                 document.getElementById("uploadFile2").value = this.value;
                 if(document.getElementById("uploadFile2").value != "" || document.getElementById("uploadFile2").value != null){

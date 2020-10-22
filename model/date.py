@@ -29,7 +29,7 @@ class Date:
         return self.new_date
 
     def toDDMMAAAA(self, date, type_separator, init_format):
-        if(self.is_Have_Separator(date)):
+        if self.is_Have_Separator(date):
             separator = self.get_Date_Separator(date)
             split_date = date.split(separator)
             if init_format == "DDMMAAAA":
@@ -52,8 +52,7 @@ class Date:
                 self.set_New_Date(day, month, year, date_formated)
             return self.get_New_Date()
         else:
-            self.set_New_Date(date=date)
-            return self.get_New_Date()
+            return date
         return "Error"
 
     def toMMDDAAAA(self, date, type_separator, init_format):
@@ -108,8 +107,7 @@ class Date:
                 self.set_New_Date(day, month, year, date_formated)
             return self.get_New_Date()
         else:
-            self.set_New_Date(date=date)
-            return self.get_New_Date()
+            return date
         return "Error"
 
     def checkDay(self, day):
