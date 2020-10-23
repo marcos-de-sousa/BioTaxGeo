@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint, make_response
+from flask import render_template, request, Blueprint, make_response, redirect, url_for
 from model.sheet_treatment import Sheet
 from werkzeug.utils import secure_filename
 import pandas as pd
@@ -32,3 +32,8 @@ def home():
             return res
         except:
             return render_template("errorscreen/InvalidFile.html")
+
+@home_blueprint.route('/logoff')
+def logoff():
+    used_sheet.set_Path(None)
+    return redirect(url_for("home.home"))

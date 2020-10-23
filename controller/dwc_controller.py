@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint, redirect, url_for, make_response
+from flask import request, Blueprint, redirect, url_for, make_response
 from model.sheet_treatment import Sheet
 from controller.home_controller import used_sheet
 from model.date import Date
@@ -35,6 +35,7 @@ def dwc_validation():
         list_scientificname = []
         list_new_date = []
         list_geodeticdatum = ["WGS84"] * len(list_longitude)
+
         #  CREATE CSV DWC FILE
         for i in range(len(list_latitude)):
             list_decimal_latitude.append(coordinate.Convert_Lat_Decimal(list_latitude[i]))
@@ -42,8 +43,11 @@ def dwc_validation():
             if list_longitude[i] == "":
                 list_geodeticdatum[i] = ""
         for d in list_date:
-            new_date = date.toAAAAMMDD(d, "-", "DDMMAAAA")
-            list_new_date.append(new_date["date"])
+            new_date = date.toAAAAMMDD(d, ".", "DDMMAAAA")
+            if "date" in new_date:
+                list_new_date.append(new_date["date"])
+            else:
+                list_new_date.append(new_date)
         keys = list(form.keys())
         for i in range(len(list_genus)):
             list_scientificname.append(list_genus[i] + " " + list_species[i])
@@ -70,36 +74,42 @@ def dwc_validation():
             else:
                 count += 1
 
-        dwc_sheet_saved = dwc_sheet.Save_Write_Spreadsheet(".xls", "DwC_Occurrence")
-    #     CREATE TXT FILE
-    txt_file = "DwC_Occurrence.txt"
-    with open(txt_file, "w") as my_output_file:
-        with open(dwc_sheet_saved, "r") as my_input_file:
-            [my_output_file.write(" ".join(row) + '\n') for row in csv.reader(my_input_file)]
-        my_output_file.close()
+        dwc_sheet_saved = dwc_sheet.Save_Write_Spreadsheet(".csv", "DwC_Occurrence")
+        dwc_sheet_saved = "files/DwC_Occurrence.csv"
+        txt_file = "DwC_Occurrence.txt"
+        with open(txt_file, "w") as my_output_file:
+            with open(dwc_sheet_saved) as my_input_file:
+                [my_output_file.write(" ".join(row) + '\n') for row in csv.reader(my_input_file)]
+            my_output_file.close()
+
     # CREATE XML DWC FILE
     df = pd.read_csv(dwc_sheet_saved, sep='|')
-    index = 0
-    data=[]
+    index = 1
+    data = []
     for row in df:
         data.append(row)
 
     data = data[0]
-
-    print(data)
-    # def createXML(data):
-    #     return
-    #     def convert_row(row):
-    #         return """<movietitle="%s">
-    #     <type>%s</type>
-    #     <format>%s</format>
-    #     <year>%s</year>
-    #     <rating>%s</rating>
-    #     <stars>%s</stars>
-    #     <description>%s</description>
-    #     </movie>""" % (
-    #             row.Title, row.Type, row.Format, row.Year, row.Rating, row.Stars, row.Description)
-    #
-    # print
-    # '\n'.join(df.apply(convert_row, axis=1))
+    dwc_xml = open("meta.xml", "a")
+    dwc_xml.write('<archive xmlns="http://rs.tdwg.org/dwc/text/" metadata="metadata.xml">'
+                  '\n'
+                  '<core encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" fieldsEnclosedBy="" ignoreHeaderLines="1" rowType="http://rs.tdwg.org/dwc/terms/Occurrence">'
+                  '\n'
+                  '<file>'
+                  '\n'
+                  '<location>DwC_Occurrence.txt</location>'
+                  '\n'
+                  f'<id index="{index}" />'
+                  '\n'
+                  '<field default="WGS84" term="http://rs.tdwg.org/dwc/terms/geodeticDatum"/>'
+                  '\n'
+                  )
+    for title in titles:
+        if title in data:
+            dwc_xml.write(f'<field index="{index}" term="http://rs.tdwg.org/dwc/terms/{title}"/>\n')
+            index += 1
+    dwc_xml.write('</core>'
+                  '\n'
+                  '</archive>')
+    dwc_xml.close()
     return res

@@ -32,6 +32,7 @@ class Data_Treatment:
 
     def Verified_Hierarchy (self, hierarchy):
         check_hrch = hierarchy
+
         for index in range(0, len(check_hrch["specie"])):
             if (check_hrch["genus"][index] != ""):
                 Scientific_Name = check_hrch["genus"][index] + " " + check_hrch["specie"][index]
@@ -46,16 +47,15 @@ class Data_Treatment:
                                                          e=check_hrch['specie'][index],
                                                          sn=Scientific_Name
                                                         )
-
-                if Scientific_Name in self.get_Verified_Hierarchy():
+                taxon = f"{check_hrch['kingdom'][index]}_{check_hrch['phylum'][index]}_{check_hrch['class'][index]}_{check_hrch['order'][index]}_{check_hrch['family'][index]}_{check_hrch['genus'][index]}_{check_hrch['specie'][index]}"
+                if taxon in self.get_Verified_Hierarchy():
                     continue
                 else:
-
                     globalnames = self.get_GlobalNames(Scientific_Name)
-                    if Scientific_Name == "Nessaea obrina":
-                        print(globalnames)
+
                     if (globalnames):
-                        self.verified_hierarchy[Scientific_Name] = {
+
+                        self.verified_hierarchy[taxon] = {
                             "kingdom": {
                                 "type": self.taxon_validation.get_Kingdom(),
                                 "correctness": None,
@@ -161,20 +161,24 @@ class Data_Treatment:
                                                                           )
                             hierarchy_suggestion = self.taxon_validation.get_Suggestion_Hierarchy()
                             hierarchy_correctness = self.taxon_validation.get_Correctness_Hierarchy()
-                            hierarchy_keys = list(self.verified_hierarchy[Scientific_Name].keys())
+                            hierarchy_keys = list(self.verified_hierarchy[taxon].keys())
 
                             for i in range(len(hierarchy_suggestion)):
                                 k = hierarchy_keys[i]
-                                if hierarchy_suggestion[i] != None and hierarchy_suggestion[i] not in self.verified_hierarchy[Scientific_Name][k]["suggestion"]:
-                                    self.verified_hierarchy[Scientific_Name][k]["suggestion"].append(hierarchy_suggestion[i])
-                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]] = {"source": [key], "score":[globalnames[key]["score"]]}
+                                if hierarchy_suggestion[i] != None and hierarchy_suggestion[i] not in self.verified_hierarchy[taxon][k]["suggestion"]:
+                                    self.verified_hierarchy[taxon][k]["suggestion"].append(hierarchy_suggestion[i])
+                                    self.verified_hierarchy[taxon][k]["sources"][hierarchy_suggestion[i]] = {"source": [key], "score":[globalnames[key]["score"]]}
 
-                                elif hierarchy_suggestion[i] in self.verified_hierarchy[Scientific_Name][k]["suggestion"]:
-                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]]["source"].append(key)
-                                    self.verified_hierarchy[Scientific_Name][k]["sources"][hierarchy_suggestion[i]]["score"].append(globalnames[key]["score"])
-                                self.verified_hierarchy[Scientific_Name][k]["correctness"] = hierarchy_correctness[i]
+                                elif hierarchy_suggestion[i] in self.verified_hierarchy[taxon][k]["suggestion"]:
+                                    self.verified_hierarchy[taxon][k]["sources"][hierarchy_suggestion[i]]["source"].append(key)
+                                    self.verified_hierarchy[taxon][k]["sources"][hierarchy_suggestion[i]]["score"].append(globalnames[key]["score"])
+                                if self.verified_hierarchy[taxon][k]["correctness"] == None:
+                                    self.verified_hierarchy[taxon][k]["correctness"] = hierarchy_correctness[i]
+                                elif hierarchy_correctness[i] != "EXACT":
+                                    self.verified_hierarchy[taxon][k]["correctness"] = hierarchy_correctness[i]
+
                     else:
-                        self.verified_hierarchy[Scientific_Name] = {
+                        self.verified_hierarchy[taxon] = {
                             "kingdom": {
                                 "type": self.taxon_validation.get_Kingdom(),
                                 "correctness": self.taxon_validation.get_Kingdom_Correctness(),
