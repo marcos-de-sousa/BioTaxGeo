@@ -1,9 +1,10 @@
-from flask import render_template, request, Blueprint, redirect, url_for, make_response
+from flask import request, Blueprint, redirect, url_for, make_response
 from model.sheet_treatment import Sheet
 from controller.home_controller import used_sheet
 from model.date import Date
 from model.coordinate import Coordinate
 import json, csv
+import pandas as pd
 
 dwc_blueprint = Blueprint('dwc', __name__, template_folder='templates')
 dwc_sheet = Sheet()
@@ -35,6 +36,7 @@ def dwc_validation():
         list_new_date = []
         list_geodeticdatum = ["WGS84"] * len(list_longitude)
 
+        #  CREATE CSV DWC FILE
         for i in range(len(list_latitude)):
             list_decimal_latitude.append(coordinate.Convert_Lat_Decimal(list_latitude[i]))
             list_decimal_longitude.append(coordinate.Convert_Lng_Decimal(list_longitude[i]))
@@ -79,4 +81,35 @@ def dwc_validation():
             with open(dwc_sheet_saved) as my_input_file:
                 [my_output_file.write(" ".join(row) + '\n') for row in csv.reader(my_input_file)]
             my_output_file.close()
-        return res
+
+    # CREATE XML DWC FILE
+    df = pd.read_csv(dwc_sheet_saved, sep='|')
+    index = 1
+    data = []
+    for row in df:
+        data.append(row)
+
+    data = data[0]
+    dwc_xml = open("meta.xml", "a")
+    dwc_xml.write('<archive xmlns="http://rs.tdwg.org/dwc/text/" metadata="metadata.xml">'
+                  '\n'
+                  '<core encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" fieldsEnclosedBy="" ignoreHeaderLines="1" rowType="http://rs.tdwg.org/dwc/terms/Occurrence">'
+                  '\n'
+                  '<file>'
+                  '\n'
+                  '<location>DwC_Occurrence.txt</location>'
+                  '\n'
+                  f'<id index="{index}" />'
+                  '\n'
+                  '<field default="WGS84" term="http://rs.tdwg.org/dwc/terms/geodeticDatum"/>'
+                  '\n'
+                  )
+    for title in titles:
+        if title in data:
+            dwc_xml.write(f'<field index="{index}" term="http://rs.tdwg.org/dwc/terms/{title}"/>\n')
+            index += 1
+    dwc_xml.write('</core>'
+                  '\n'
+                  '</archive>')
+    dwc_xml.close()
+    return res
