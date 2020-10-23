@@ -4,6 +4,7 @@ from controller.home_controller import used_sheet
 from model.date import Date
 from model.coordinate import Coordinate
 import json, csv
+import pandas as pd
 
 dwc_blueprint = Blueprint('dwc', __name__, template_folder='templates')
 dwc_sheet = Sheet()
@@ -34,7 +35,7 @@ def dwc_validation():
         list_scientificname = []
         list_new_date = []
         list_geodeticdatum = ["WGS84"] * len(list_longitude)
-
+        #  CREATE CSV DWC FILE
         for i in range(len(list_latitude)):
             list_decimal_latitude.append(coordinate.Convert_Lat_Decimal(list_latitude[i]))
             list_decimal_longitude.append(coordinate.Convert_Lng_Decimal(list_longitude[i]))
@@ -70,9 +71,35 @@ def dwc_validation():
                 count += 1
 
         dwc_sheet_saved = dwc_sheet.Save_Write_Spreadsheet(".xls", "DwC_Occurrence")
+    #     CREATE TXT FILE
     txt_file = "DwC_Occurrence.txt"
     with open(txt_file, "w") as my_output_file:
         with open(dwc_sheet_saved, "r") as my_input_file:
             [my_output_file.write(" ".join(row) + '\n') for row in csv.reader(my_input_file)]
         my_output_file.close()
+    # CREATE XML DWC FILE
+    df = pd.read_csv(dwc_sheet_saved, sep='|')
+    index = 0
+    data=[]
+    for row in df:
+        data.append(row)
+
+    data = data[0]
+
+    print(data)
+    # def createXML(data):
+    #     return
+    #     def convert_row(row):
+    #         return """<movietitle="%s">
+    #     <type>%s</type>
+    #     <format>%s</format>
+    #     <year>%s</year>
+    #     <rating>%s</rating>
+    #     <stars>%s</stars>
+    #     <description>%s</description>
+    #     </movie>""" % (
+    #             row.Title, row.Type, row.Format, row.Year, row.Rating, row.Stars, row.Description)
+    #
+    # print
+    # '\n'.join(df.apply(convert_row, axis=1))
     return res
