@@ -73,8 +73,7 @@ def dwc_validation():
                 count += 1
             else:
                 count += 1
-
-        dwc_sheet_saved = dwc_sheet.Save_Write_Spreadsheet(".csv", "DwC_Occurrence")
+        dwc_sheet.Save_Write_Spreadsheet(".csv", "DwC_Occurrence")
         dwc_sheet_saved = "files/DwC_Occurrence.csv"
         txt_file = "DwC_Occurrence.txt"
         with open(txt_file, "w") as my_output_file:
@@ -82,34 +81,36 @@ def dwc_validation():
                 [my_output_file.write(" ".join(row) + '\n') for row in csv.reader(my_input_file)]
             my_output_file.close()
 
-    # CREATE XML DWC FILE
-    df = pd.read_csv(dwc_sheet_saved, sep='|')
-    index = 1
-    data = []
-    for row in df:
-        data.append(row)
-
-    data = data[0]
-    dwc_xml = open("meta.xml", "a")
-    dwc_xml.write('<archive xmlns="http://rs.tdwg.org/dwc/text/" metadata="metadata.xml">'
-                  '\n'
-                  '<core encoding="UTF-8" fieldsTerminatedBy="\t" linesTerminatedBy="\n" fieldsEnclosedBy="" ignoreHeaderLines="1" rowType="http://rs.tdwg.org/dwc/terms/Occurrence">'
-                  '\n'
-                  '<file>'
-                  '\n'
-                  '<location>DwC_Occurrence.txt</location>'
-                  '\n'
-                  f'<id index="{index}" />'
-                  '\n'
-                  '<field default="WGS84" term="http://rs.tdwg.org/dwc/terms/geodeticDatum"/>'
-                  '\n'
-                  )
-    for title in titles:
-        if title in data:
-            dwc_xml.write(f'<field index="{index}" term="http://rs.tdwg.org/dwc/terms/{title}"/>\n')
-            index += 1
-    dwc_xml.write('</core>'
-                  '\n'
-                  '</archive>')
-    dwc_xml.close()
-    return res
+        # CREATE XML DWC FILE
+        df = pd.read_csv(dwc_sheet_saved, sep='|')
+        index = 1
+        data = []
+        for row in df:
+            data.append(row)
+        print(data)
+        data = data[0]
+        dwc_xml = open("meta.xml", "w")
+        dwc_xml.write('<archive xmlns="http://rs.tdwg.org/dwc/text/" metadata="metadata.xml">'
+                      '\n'
+                      '<core encoding="UTF-8" fieldsTerminatedBy="\\t" linesTerminatedBy="\\n" fieldsEnclosedBy="" ignoreHeaderLines="1" rowType="http://rs.tdwg.org/dwc/terms/Occurrence">'
+                      '\n'
+                      '<file>'
+                      '\n'
+                      '<location>DwC_Occurrence.txt</location>'
+                      '\n'
+                      f'<id index="{index}" />'
+                      '\n'
+                      '<field default="WGS84" term="http://rs.tdwg.org/dwc/terms/geodeticDatum"/>'
+                      '\n'
+                      )
+        for title in dwc_titles:
+            if title in data:
+                dwc_xml.write(f'<field index="{index}" term="http://rs.tdwg.org/dwc/terms/{title}"/>\n')
+                index += 1
+        dwc_xml.write('</file>'
+                      '\n'
+                      '</core>'
+                      '\n'
+                      '</archive>')
+        dwc_xml.close()
+        return res
