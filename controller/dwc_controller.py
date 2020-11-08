@@ -5,6 +5,7 @@ from model.date import Date
 from model.coordinate import Coordinate
 import json, csv
 import pandas as pd
+import pycountry
 
 dwc_blueprint = Blueprint('dwc', __name__, template_folder='templates')
 dwc_sheet = Sheet()
@@ -30,13 +31,23 @@ def dwc_validation():
         list_latitude = used_sheet.Value_in_Column(form["latitude"])
         list_longitude = used_sheet.Value_in_Column(form["longitude"])
         list_date = used_sheet.Value_in_Column(form["eventdate"])
+        list_country = used_sheet.Value_in_Column(form["countrycode"])
         list_decimal_latitude = []
         list_decimal_longitude = []
         list_scientificname = []
         list_new_date = []
+        list_formated_country = []
         list_geodeticdatum = ["WGS84"] * len(list_longitude)
 
         #  CREATE CSV DWC FILE
+        for country in list_country:
+            if str(country).lower() != "brasil":
+                formated_country = pycountry.countries.get(name=country).alpha_2
+                list_formated_country.append(formated_country)
+            else:
+                formated_country = "BR"
+                list_formated_country.append(formated_country)
+
         for i in range(len(list_latitude)):
             list_decimal_latitude.append(coordinate.Convert_Lat_Decimal(list_latitude[i]))
             list_decimal_longitude.append(coordinate.Convert_Lng_Decimal(list_longitude[i]))
@@ -57,6 +68,8 @@ def dwc_validation():
                 dwc_sheet.Change_Column(column=None, value=list_scientificname, index=i)
             elif dwc_titles[i] == "taxonRank":
                 dwc_sheet.Change_Column(column=None, value=list_species, index=i)
+            elif dwc_titles[i] == "countryCode":
+                dwc_sheet.Change_Column(column=None, value=list_formated_country, index=i)
             elif dwc_titles[i] == "geodeticDatum":
                 dwc_sheet.Change_Column(column=None, value=list_geodeticdatum, index=i)
             elif form[keys[count]] != "Select...":
@@ -74,6 +87,8 @@ def dwc_validation():
             else:
                 count += 1
         dwc_sheet.Save_Write_Spreadsheet(".csv", "DwC_Occurrence")
+
+        # CREATE TXT FILE
         dwc_sheet_saved = "files/DwC_Occurrence.csv"
         txt_file = "DwC_Occurrence.txt"
         with open(txt_file, "w") as my_output_file:
@@ -87,30 +102,41 @@ def dwc_validation():
         data = []
         for row in df:
             data.append(row)
-        print(data)
         data = data[0]
         dwc_xml = open("meta.xml", "w")
-        dwc_xml.write('<archive xmlns="http://rs.tdwg.org/dwc/text/" metadata="metadata.xml">'
+        dwc_xml.write('<?xml version="1.0" encoding="UTF-8"?>'
                       '\n'
-                      '<core encoding="UTF-8" fieldsTerminatedBy="\\t" linesTerminatedBy="\\n" fieldsEnclosedBy="" ignoreHeaderLines="1" rowType="http://rs.tdwg.org/dwc/terms/Occurrence">'
+                      '<SimpleDarwinRecordSet>'
                       '\n'
-                      '<file>'
+                      '  xmlns="http://rs.tdwg.org/dwc/xsd/simpledarwincore/"'
                       '\n'
-                      '<location>DwC_Occurrence.txt</location>'
+                      '  xmlns:dc="http://purl.org/dc/terms/"'
                       '\n'
-                      f'<id index="{index}" />'
+                      '  xmlns:dwc="http://rs.tdwg.org/dwc/terms/"'
                       '\n'
-                      '<field default="WGS84" term="http://rs.tdwg.org/dwc/terms/geodeticDatum"/>'
+                      '  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
+                      '\n'
+                      '  xsi:schemaLocation="http://rs.tdwg.org/dwc/xsd/simpledarwincore/ http://rs.tdwg.org/dwc/xsd/tdwg_dwc_simple.xsd">'
                       '\n'
                       )
-        for title in dwc_titles:
-            if title in data:
-                dwc_xml.write(f'<field index="{index}" term="http://rs.tdwg.org/dwc/terms/{title}"/>\n')
-                index += 1
-        dwc_xml.write('</file>'
-                      '\n'
-                      '</core>'
-                      '\n'
-                      '</archive>')
-        dwc_xml.close()
-        return res
+
+        with open(dwc_sheet_saved, "r") as my_input_file:
+            row_count = sum(1 for row in my_input_file)
+            dwc_xml.write('  <SimpleDarwinRecord>'
+                          '\n')
+            while i <= row_count:
+                for title in dwc_titles:
+                    i = 0
+                    aux = 0
+                if title in data:
+                    cell = my_input_file.readline([i + 1][aux])
+                dwc_xml.write(f'    <dwc:{title}>{cell}<dwc:{title}>\n')
+                aux += 1
+            i += 1
+
+    my_input_file.close()
+    dwc_xml.write('  </SimpleDarwinRecord>'
+                  '\n'
+                  '</SimpleDarwinRecordSet>')
+    dwc_xml.close()
+    return res
