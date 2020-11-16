@@ -122,21 +122,23 @@ def dwc_validation():
 
         with open(dwc_sheet_saved, "r") as my_input_file:
             row_count = sum(1 for row in my_input_file)
-            dwc_xml.write('  <SimpleDarwinRecord>'
-                          '\n')
+
             while i <= row_count:
+                dwc_xml.write('  <SimpleDarwinRecord>'
+                              '\n')
                 for title in dwc_titles:
                     i = 0
                     aux = 0
-                if title in data:
-                    cell = my_input_file.readline([i + 1][aux])
-                dwc_xml.write(f'    <dwc:{title}>{cell}<dwc:{title}>\n')
-                aux += 1
-            i += 1
+                    if title in data:
+                        cell = my_input_file.readline([i + 1][aux])
+                    dwc_xml.write(f'    <dwc:{title}>{cell}<dwc:{title}>\n')
+                    aux += 1
+                i += 1
+                dwc_xml.write('  </SimpleDarwinRecord>'
+                              '\n')
 
     my_input_file.close()
-    dwc_xml.write('  </SimpleDarwinRecord>'
-                  '\n'
-                  '</SimpleDarwinRecordSet>')
+
+    dwc_xml.write('</SimpleDarwinRecordSet>')
     dwc_xml.close()
     return res
