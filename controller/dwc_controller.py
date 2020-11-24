@@ -7,6 +7,7 @@ import json, csv
 import pandas as pd
 import pycountry
 from zipfile import ZipFile
+import os
 
 dwc_blueprint = Blueprint('dwc', __name__, template_folder='templates')
 dwc_sheet = Sheet()
