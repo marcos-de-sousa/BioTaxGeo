@@ -6,6 +6,7 @@ from model.coordinate import Coordinate
 import json, csv
 import pandas as pd
 import pycountry
+from zipfile import ZipFile
 
 dwc_blueprint = Blueprint('dwc', __name__, template_folder='templates')
 dwc_sheet = Sheet()
@@ -122,17 +123,17 @@ def dwc_validation():
 
         with open(dwc_sheet_saved, "r") as my_input_file:
             row_count = sum(1 for row in my_input_file)
-
-            while i <= row_count:
+            cell_value = pd.read_csv(dwc_sheet_saved)
+            i = 0
+            while i < row_count - 1:
+                aux = 0
                 dwc_xml.write('  <SimpleDarwinRecord>'
                               '\n')
                 for title in dwc_titles:
-                    i = 0
-                    aux = 0
                     if title in data:
-                        cell = my_input_file.readline([i + 1][aux])
-                    dwc_xml.write(f'    <dwc:{title}>{cell}<dwc:{title}>\n')
-                    aux += 1
+                        cell = cell_value.values[i][aux]
+                        dwc_xml.write(f'    <dwc:{title}>{cell}<dwc:{title}>\n')
+                        aux += 1
                 i += 1
                 dwc_xml.write('  </SimpleDarwinRecord>'
                               '\n')
@@ -141,4 +142,12 @@ def dwc_validation():
 
     dwc_xml.write('</SimpleDarwinRecordSet>')
     dwc_xml.close()
+    zip = ZipFile('dwc.zip', 'w')
+    zip.write(dwc_sheet_saved)
+    zip.write("meta.xml")
+    zip.write(txt_file)
+    zip.close()
+    os.remove(dwc_sheet_saved)
+    os.remove("meta.xml")
+    os.remove(txt_file)
     return res
