@@ -36,19 +36,19 @@ class Date:
                 day = self.checkDay(split_date[0])
                 month = self.checkMonth(split_date[1])
                 year = self.checkYear(split_date[2])
-                date_formated = f"{split_date[0]}{type_separator}{split_date[1]}{type_separator}{split_date[2]}"
+                date_formated = f"{split_date[0]}-{split_date[1]}-{split_date[2]}"
                 self.set_New_Date(day, month, year, date_formated)
             if init_format == "MMDDAAAA":
                 day = self.checkDay(split_date[1])
                 month = self.checkMonth(split_date[0])
                 year = self.checkYear(split_date[2])
-                date_formated = f"{split_date[1]}{type_separator}{split_date[0]}{type_separator}{split_date[2]}"
+                date_formated = f"{split_date[1]}-{split_date[0]}-{split_date[2]}"
                 self.set_New_Date(day, month, year, date_formated)
             if init_format == "AAAAMMDD":
                 day = self.checkDay(split_date[2])
                 month = self.checkMonth(split_date[1])
                 year = self.checkYear(split_date[0])
-                date_formated = f"{split_date[2]}{type_separator}{split_date[1]}{type_separator}{split_date[0]}"
+                date_formated = f"{split_date[2]}-{split_date[1]}-{split_date[0]}"
                 self.set_New_Date(day, month, year, date_formated)
             return self.get_New_Date()
         else:
@@ -63,19 +63,19 @@ class Date:
                 day = self.checkDay(split_date[0])
                 month = self.checkMonth(split_date[1])
                 year = self.checkYear(split_date[2])
-                date_formated = f"{split_date[1]}{type_separator}{split_date[0]}{type_separator}{split_date[2]}"
+                date_formated = f"{split_date[1]}-{split_date[0]}-{split_date[2]}"
                 self.set_New_Date(day, month, year, date_formated)
             if init_format == "MMDDAAAA":
                 day = self.checkDay(split_date[1])
                 month = self.checkMonth(split_date[0])
                 year = self.checkYear(split_date[2])
-                date_formated = f"{split_date[0]}{type_separator}{split_date[1]}{type_separator}{split_date[2]}"
+                date_formated = f"{split_date[0]}-{split_date[1]}-{split_date[2]}"
                 self.set_New_Date(day, month, year, date_formated)
             if init_format == "AAAAMMDD":
                 day = self.checkDay(split_date[2])
                 month = self.checkMonth(split_date[1])
                 year = self.checkYear(split_date[0])
-                date_formated = f"{split_date[1]}{type_separator}{split_date[2]}{type_separator}{split_date[0]}"
+                date_formated = f"{split_date[1]}-{split_date[2]}-{split_date[0]}"
                 self.set_New_Date(day, month, year, date_formated)
             return self.get_New_Date()
         else:
@@ -91,19 +91,19 @@ class Date:
                 day = self.checkDay(split_date[0])
                 month = self.checkMonth(split_date[1])
                 year = self.checkYear(split_date[2])
-                date_formated = f"{split_date[2]}{type_separator}{split_date[1]}{type_separator}{split_date[0]}"
+                date_formated = f"{split_date[2]}-{split_date[1]}-{split_date[0]}"
                 self.set_New_Date(day, month, year, date_formated)
             if init_format == "MMDDAAAA":
                 day = self.checkDay(split_date[1])
                 month = self.checkMonth(split_date[0])
                 year = self.checkYear(split_date[2])
-                date_formated = f"{split_date[2]}{type_separator}{split_date[0]}{type_separator}{split_date[1]}"
+                date_formated = f"{split_date[2]}-{split_date[0]}-{split_date[1]}"
                 self.set_New_Date(day, month, year, date_formated)
             if init_format == "AAAAMMDD":
                 day = self.checkDay(split_date[2])
                 month = self.checkMonth(split_date[1])
                 year = self.checkYear(split_date[0])
-                date_formated = f"{split_date[2]}{type_separator}{split_date[1]}{type_separator}{split_date[0]}"
+                date_formated = f"{split_date[2]}-{split_date[1]}-{split_date[0]}"
                 self.set_New_Date(day, month, year, date_formated)
             return self.get_New_Date()
         else:

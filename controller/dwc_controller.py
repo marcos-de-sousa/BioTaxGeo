@@ -56,7 +56,7 @@ def dwc_validation():
             if list_longitude[i] == "":
                 list_geodeticdatum[i] = ""
         for d in list_date:
-            new_date = date.toAAAAMMDD(d, ".", "DDMMAAAA")
+            new_date = date.toAAAAMMDD(d, form["eventdate_separator"], form["eventdate_format"])
             if "date" in new_date:
                 list_new_date.append(new_date["date"])
             else:
