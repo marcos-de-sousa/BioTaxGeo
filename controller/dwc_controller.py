@@ -28,6 +28,11 @@ def dwc_validation():
         dwc_sheet.create_WriteFile()
         dwc_sheet.create_SheetWriteFile("Occurrence")
         dwc_sheet.set_HeaderWriteFile(dwc_titles)
+        list_kingdom = used_sheet.Value_in_Column(form["kingdom"])
+        list_phylum = used_sheet.Value_in_Column(form["phylum"])
+        list_class = used_sheet.Value_in_Column(form["class"])
+        list_family = used_sheet.Value_in_Column(form["family"])
+        list_order = used_sheet.Value_in_Column(form["order"])
         list_genus = used_sheet.Value_in_Column(form["genus"])
         list_species = used_sheet.Value_in_Column(form["species"])
         list_latitude = used_sheet.Value_in_Column(form["latitude"])
@@ -70,24 +75,36 @@ def dwc_validation():
                 dwc_sheet.Change_Column(column=None, value=list_scientificname, index=i)
             elif dwc_titles[i] == "taxonRank":
                 dwc_sheet.Change_Column(column=None, value=list_species, index=i)
+            elif dwc_titles[i] == "kingdom":
+                dwc_sheet.Change_Column(column=None, value=list_kingdom, index=i)
+            elif dwc_titles[i] == "phylum":
+                dwc_sheet.Change_Column(column=None, value=list_phylum, index=i)
+            elif dwc_titles[i] == "family":
+                dwc_sheet.Change_Column(column=None, value=list_family, index=i)
+            elif dwc_titles[i] == "order":
+                dwc_sheet.Change_Column(column=None, value=list_order, index=i)
+            elif dwc_titles[i] == "class":
+                dwc_sheet.Change_Column(column=None, value=list_class, index=i)
+            elif dwc_titles[i] == "genus":
+                dwc_sheet.Change_Column(column=None, value=list_genus, index=i)
             elif dwc_titles[i] == "countryCode":
                 dwc_sheet.Change_Column(column=None, value=list_formated_country, index=i)
             elif dwc_titles[i] == "geodeticDatum":
                 dwc_sheet.Change_Column(column=None, value=list_geodeticdatum, index=i)
-            elif form[keys[count]] != "Select...":
-                if keys[count] == "latitude":
-                    dwc_sheet.Change_Column(column=None, value=list_decimal_latitude, index=i)
-                elif keys[count] == "longitude":
-                    dwc_sheet.Change_Column(column=None, value=list_decimal_longitude, index=i)
-                elif keys[count] == "eventdate":
-                    dwc_sheet.Change_Column(column=None, value=list_new_date, index=i)
-                else:
-                    value = used_sheet.Value_in_Column(form[keys[count]])
-                    if value != "Not found.":
-                        dwc_sheet.Change_Column(column=None, value=value, index=i)
-                count += 1
+            # elif form[keys[count]] != "Select...":
+            elif keys[count] == "latitude":
+                dwc_sheet.Change_Column(column=None, value=list_decimal_latitude, index=i)
+            elif keys[count] == "longitude":
+                dwc_sheet.Change_Column(column=None, value=list_decimal_longitude, index=i)
+            elif keys[count] == "eventdate":
+                dwc_sheet.Change_Column(column=None, value=list_new_date, index=i)
             else:
-                count += 1
+                value = used_sheet.Value_in_Column(form[keys[count]])
+                if value != "Not found.":
+                    dwc_sheet.Change_Column(column=None, value=value, index=i)
+            count += 1
+            # else:
+            #     count += 1
         dwc_sheet.Save_Write_Spreadsheet(".csv", "DwC_Occurrence")
 
         # CREATE TXT FILE
